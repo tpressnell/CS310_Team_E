@@ -12,6 +12,7 @@ public class TASDatabase {
         yeah.getBadge(badgeID);
         System.out.println();
         yeah.getPunch(147);
+        yeah.getShiftByBadge(badgeID);
         
     }
     
@@ -97,17 +98,53 @@ public class TASDatabase {
         catch(Exception e){
             System.err.println(e.toString());
         }
+
         return null;
     }
-    /*
-    public Shift getShift(int shift_num){
+    
+    public String getShiftByID(int shift_num){
+        
+
+        try{
+            query = "SELECT * FROM shift WHERE id = '" + shift_num + "'";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+        
+            resultset.first();
+            for(int i = 1; i < 11; i++){
+            System.out.println(resultset.getString(i));
+            }
+        }
+        
+        catch(Exception e){
+            System.err.println(e.toString());
+        }
+
         return null;
     }
-    public Shift getShift(Badge b){
+    
+    public String getShiftByBadge(String b){
+        
+        try{
+            query = "SELECT * FROM employee WHERE badgeid = '" + b + "'";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+        
+            resultset.first();
+             
+            int shift_id = Integer.parseInt(resultset.getString("shiftid"));
+            this.getShiftByID(shift_id);
+            
+            
+        }
+        
+        catch(Exception e){
+            System.err.println(e.toString());
+        }
+        
         return null;
     } 
-*/
 
-
-
-    }
+}
