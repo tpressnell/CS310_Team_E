@@ -5,7 +5,7 @@ import src.Badge;
 
 public class Punch {
     
-    private int year, month, day, hour, minute, second, mSecond;
+    private int idNum, year, month, day, hour, minute, second, mSecond;
     private Badge id;
     private String name;
     
@@ -13,5 +13,14 @@ public class Punch {
         this.id = inBadge;
         this.year = yr;
         this.month = mth;
+        this.day = inDay;
+        this.hour = hr;
+        this.minute = min;
+        this.second = sec;
+        this.mSecond = ms;
+        
+        this.name = inBadge.getName();
+        this.idNum = inBadge.getId();
+        
     }
 }
