@@ -6,27 +6,37 @@ import java.util.GregorianCalendar;
 import src.Badge;
 import java.util.Date;
 
+
 public class Punch{
     
-    private int idNum, year, month, day, hour, minute, second, mSecond;
+    private int idNum, year, month, day, hour, minute, second;
+    long mSecond;
     private Badge id;
     private String name;
-    private GregorianCalendar date;
+    private Date date;
+    public GregorianCalendar
     
-    public Punch(Badge inBadge, int yr, int mth, int inDay, int hr, int min, int sec, int ms){
-        this.id = inBadge;
-        this.year = yr;
-        this.month = mth;
-        this.day = inDay;
-        this.hour = hr;
-        this.minute = min;
-        this.second = sec;
-        this.mSecond = ms;
+    
+    
+    public Punch(Badge inBadge, long ms){
         
+        this.mSecond = ms;
         this.name = inBadge.getName();
         this.idNum = inBadge.getId();
         
+        // Create Date Object
+        this.date = msToDate(ms);
+        
+        //Parse Date Object 
+        
+        gregCal = makeCalendar(this.date);
+        
+        
+        
     }
+    
+    
+    
     // Make Greg Calendar Object 
     
     public GregorianCalendar makeCalndar(int calYear, int calMonth, int calDay, int calHour, int calMinute, int calSecond) {
@@ -35,11 +45,15 @@ public class Punch{
         
       return date;
     }
+    // Make a Date Object
+    
     public Date makeDate(int calYear, int calMonth, int calDay, int calHour, int calMinute, int calSecond) {
         Date dateObj;
         dateObj = new Date (calYear, calMonth, calDay, calHour, calMinute, calSecond);
         return dateObj;
     }
+    
+    // Convert Date Obj to ms
     
     public long convertToMs (Date time) {
         
@@ -49,6 +63,8 @@ public class Punch{
        
         return dateInMs;
     }
+    
+    //Convert ms to Date Object
     
     public Date msToDate (long ms){
         Date d = new Date(ms);
