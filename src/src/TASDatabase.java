@@ -7,9 +7,9 @@ import java.sql.*;
 public class TASDatabase {
     public static void main(String [] args){
        
-        String badgeID = "12565C60";
+        String badgeID = "B6902696";
         TASDatabase yeah = new TASDatabase();
-        yeah.getBadge(badgeID);
+        yeah.getShiftByBadge(badgeID);
         
     }
     
@@ -71,28 +71,53 @@ public class TASDatabase {
         return null;
     }
 
-    /*public Punch getPunch(int punchID){
+    public String getPunch(int punchID){
+        return null;
+    }
+    
+    public String getShiftByID(int shift_num){
+        
         try{
+            query = "SELECT * FROM shift WHERE id = '" + shift_num + "'";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+        
+            resultset.first();
+            for(int i = 1; i < 11; i++){
+            System.out.println(resultset.getString(i));
+            }
             
-        
-        query = "SELECT * FROM tas.punch WHERE is = '" + punchID + "'";
-        pstSelect = conn.prepareStatement(query);
-        resultset = pstSelect.getResultSet();
-        
-        System.out.println(resultset.toString());
+            
         }
         
         catch(Exception e){
             System.err.println(e.toString());
         }
-    }
-    
-    public Shift getShift(int shift_num){
         return null;
     }
-    public Shift getShift(Badge b){
+    public String getShiftByBadge(String b){
+        
+        try{
+            query = "SELECT * FROM employee WHERE badgeid = '" + b + "'";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+        
+            resultset.first();
+             
+            int shift_id = Integer.parseInt(resultset.getString("shiftid"));
+            this.getShiftByID(shift_id);
+            
+            
+        }
+        
+        catch(Exception e){
+            System.err.println(e.toString());
+        }
+        
         return null;
-    } */
+    } 
 
 
 
