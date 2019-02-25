@@ -71,13 +71,15 @@ public class TASDatabase {
         return null;
     }
 
-    /*public Punch getPunch(int punchID){
+    public String getPunch(int punchID){
         try{
             
         
-        query = "SELECT * FROM tas.punch WHERE is = '" + punchID + "'";
+        query = "SELECT * FROM punch WHERE id = '" + punchID + "'";
         pstSelect = conn.prepareStatement(query);
+        pstSelect.execute();
         resultset = pstSelect.getResultSet();
+        resultset.first();
         
         System.out.println(resultset.toString());
         }
@@ -85,6 +87,7 @@ public class TASDatabase {
         catch(Exception e){
             System.err.println(e.toString());
         }
+        return null;
     }
     
     public Shift getShift(int shift_num){
@@ -92,7 +95,7 @@ public class TASDatabase {
     }
     public Shift getShift(Badge b){
         return null;
-    } */
+    } 
 
 
 
