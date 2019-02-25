@@ -33,11 +33,6 @@ public class TASDatabase {
             resultset = null;
             metadata = null;
            }
-<<<<<<< HEAD
-           catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
-                System.err.println(e.toString());
-           } 
-=======
            
             catch (Exception e) {
                 System.err.println(e.toString());
@@ -46,20 +41,20 @@ public class TASDatabase {
         
     }
     
-    public Badge getBadge(){
-        
+    public Badge getBadge(String badgeID){
+        return null;
     }
     
-    public Punch getPunch(){
-        
+    public Punch getPunch(int punchID){
+        return null;
     }
-    public Shift getShift(){
-        
+    public Shift getShift(int shift_num){
+        return null;
     }
-    public Shift getShift(){
-        
->>>>>>> 2abd37da0fa5ae96c59ed62aeb742b36f0a22483
+    public Shift getShift(Badge b){
+        return null;
     }
+    
     
     
 }
