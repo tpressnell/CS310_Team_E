@@ -9,6 +9,10 @@ import java.util.Date;
 
 public class Punch{
     
+    private enum PunchTypes{
+        CLOCK_IN, CLOCK_OUT, TIME_OUT
+    }
+    private PunchTypes type;
     private int idNum, year, month, day, hour, minute, second;
     long mSecond;
     private Badge id;
