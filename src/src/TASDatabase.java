@@ -33,9 +33,32 @@ public class TASDatabase {
             resultset = null;
             metadata = null;
            }
+<<<<<<< HEAD
            catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
                 System.err.println(e.toString());
            } 
+=======
+           
+            catch (Exception e) {
+                System.err.println(e.toString());
+            }
+        
+        
+    }
+    
+    public Badge getBadge(){
+        
+    }
+    
+    public Punch getPunch(){
+        
+    }
+    public Shift getShift(){
+        
+    }
+    public Shift getShift(){
+        
+>>>>>>> 2abd37da0fa5ae96c59ed62aeb742b36f0a22483
     }
     
     
