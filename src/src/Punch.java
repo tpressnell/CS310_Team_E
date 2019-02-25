@@ -14,7 +14,7 @@ public class Punch{
     private Badge id;
     private String name;
     private Date date;
-    public GregorianCalendar
+    public GregorianCalendar greg;
     
     
     
@@ -29,10 +29,16 @@ public class Punch{
         
         //Parse Date Object 
         
-        gregCal = makeCalendar(this.date);
+        greg.setTimeInMillis(this.mSecond);
         
+        this.year = greg.get(year);
+        this.month = greg.get(month);
+        this.day = greg.get(day);
+        this.hour = greg.get(hour);
+        this.minute = greg.get(minute);
+        this.second = greg.get(second);
         
-        
+         
     }
     
     
