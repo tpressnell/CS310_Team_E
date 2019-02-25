@@ -10,6 +10,8 @@ public class TASDatabase {
         String badgeID = "12565C60";
         TASDatabase yeah = new TASDatabase();
         yeah.getBadge(badgeID);
+        System.out.println();
+        yeah.getPunch(147);
         
     }
     
@@ -81,7 +83,15 @@ public class TASDatabase {
         resultset = pstSelect.getResultSet();
         resultset.first();
         
-        System.out.println(resultset.toString());
+        int dbPunchID = resultset.getInt(1);
+        int termID = resultset.getInt(2);
+        String badgeID = resultset.getString(3);
+        Timestamp ts = resultset.getTimestamp(4);
+        long longTS = ts.getTime();
+        int punchType = resultset.getInt(5);
+        
+        
+        System.out.println(dbPunchID + " " + termID + " " + badgeID + " " + longTS + " " + punchType);
         }
         
         catch(Exception e){
@@ -89,13 +99,14 @@ public class TASDatabase {
         }
         return null;
     }
-    
+    /*
     public Shift getShift(int shift_num){
         return null;
     }
     public Shift getShift(Badge b){
         return null;
     } 
+*/
 
 
 
