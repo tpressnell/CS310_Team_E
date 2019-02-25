@@ -5,13 +5,19 @@ import java.sql.*;
 
 
 public class TASDatabase {
+    PreparedStatement pstSelect, pstUpdate;
+    ResultSet resultset;
+    ResultSetMetaData metadata;
+    String query;
+    Connection conn;
+  
+    
     public static void main(String [] args){
         
-    
-        Connection conn;
-        PreparedStatement pstSelect, pstUpdate;
-        ResultSet resultset;
-        ResultSetMetaData metadata;
+    }
+    public TASDatabase(){
+        
+        
         
            try{
                
@@ -27,21 +33,21 @@ public class TASDatabase {
             
             if(conn.isValid(0))
                 System.out.println("Connection Successful");
-            
-            pstSelect = null;
-            pstUpdate = null;
-            resultset = null;
-            metadata = null;
+           
            }
            
             catch (Exception e) {
                 System.err.println(e.toString());
             }
-        
-        
     }
+        
+        
     
-    public Badge getBadge(String badgeID){
+    
+    public Badge getBadge(String badgeID) throws SQLException{
+        query = "SELECT * FROM tas.badge WHERE id = '" + badgeID + "'";
+        pstSelect = conn.prepareStatement(query);
+        resultset = pstSelect.getResultSet();
         return null;
     }
     
