@@ -5,13 +5,13 @@ import java.sql.*;
 
 
 public class TASDatabase {
+    public static void main(String [] args){
+        
     
-    Connection conn;
-    PreparedStatement pstSelect, pstUpdate;
-    ResultSet resultset;
-    ResultSetMetaData metadata;
-    
-    public TASDatabase(){
+        Connection conn;
+        PreparedStatement pstSelect, pstUpdate;
+        ResultSet resultset;
+        ResultSetMetaData metadata;
         
            try{
                
@@ -35,10 +35,8 @@ public class TASDatabase {
            }
            catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
                 System.err.println(e.toString());
-           }
-          
-           
-        
-        
+           } 
     }
+    
+    
 }
