@@ -49,6 +49,12 @@ public class Punch{
        
         return dateInMs;
     }
+    
+    public Date msToDate (long ms){
+        Date d = new Date(ms);
+        d.setTime(ms);
+        return d;
+    }
 // Getters 
     
     public int getIdNum() {
