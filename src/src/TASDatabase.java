@@ -62,6 +62,7 @@ public class TASDatabase {
         resultset.first();
         String idNum = resultset.getString(1);
         String name = resultset.getString(2);
+        
         Badge b = new Badge(idNum, name);
         
         
@@ -103,7 +104,7 @@ public class TASDatabase {
         return p;
     }
     
-    public String getShiftByID(int shift_num){
+    public String getShift(int shift_num){
         
 
         try{
@@ -113,9 +114,15 @@ public class TASDatabase {
             resultset = pstSelect.getResultSet();
         
             resultset.first();
-            for(int i = 1; i < 11; i++){
-            System.out.println(resultset.getString(i));
-            }
+            Timestamp ts = resultset.getTimestamp(3);
+            long startTime = ts.getTime();
+            
+            ts = resultset.getTimestamp(4);
+            long endTIme = ts.getTime();
+            
+            Shift returnShift = new Shift(startTime, endTime);
+            
+            return returnShift;
         }
         
         catch(Exception e){
@@ -125,7 +132,7 @@ public class TASDatabase {
         return null;
     }
     
-    public String getShiftByBadge(String b){
+    public String getShift(String badgeID){
         
         try{
             query = "SELECT * FROM employee WHERE badgeid = '" + b + "'";
@@ -136,8 +143,23 @@ public class TASDatabase {
             resultset.first();
              
             int shift_id = Integer.parseInt(resultset.getString("shiftid"));
-            this.getShiftByID(shift_id);
             
+            query = "SELECT * FROM shift WHERE id = '" + shift_id + "'";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+        
+            resultset.first();
+            
+            Timestamp ts = resultset.getTimestamp(3);
+            long startTime = ts.getTime();
+            
+            ts = resultset.getTimestamp(4);
+            long endTime = ts.getTime();
+            
+            Shift returnShift = new Shift(startTime, endTime);
+            
+            return returnShift;
             
         }
         
