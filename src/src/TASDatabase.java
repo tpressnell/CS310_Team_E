@@ -125,10 +125,10 @@ public class TASDatabase {
         return null;
     }
     
-    public Shift getShift(String badgeID){
+    public Shift getShift(Badge badge){
         
         try{
-            query = "SELECT * FROM employee WHERE badgeid = '" + b + "'";
+            query = "SELECT * FROM employee WHERE badgeid = '" + badge.getId() + "'";
             pstSelect = conn.prepareStatement(query);
             pstSelect.execute();
             resultset = pstSelect.getResultSet();
