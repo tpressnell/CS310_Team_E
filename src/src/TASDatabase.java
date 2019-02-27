@@ -82,9 +82,10 @@ public class TASDatabase {
         Timestamp ts = resultset.getTimestamp(4);
         long longTS = ts.getTime();
         int punchType = resultset.getInt(5);
+        Badge b = this.getBadge(badgeID);
         
         
-        Punch p = new Punch(dbPunchID, termID, badgeID, longTS, punchType);
+        Punch p = new Punch(b, longTS, punchType);
         }
         
         catch(Exception e){
