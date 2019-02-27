@@ -137,6 +137,24 @@ public class Punch{
         this.greg = greg;
     }
     
+    public String printOriginalTimestamp(){
+        
+        String badgeID = this.getIdNum();
+        String type = "";
+        if(this.getType() == 0){
+            type = "CLOCKED OUT:"; 
+        }
+        else if(this.getType() == 1){
+            type = "CLOCKED IN:";
+        }
+        else{
+            type = "TIMEED OUT:";
+        }
+        
+        
+        return null;
+    }
+    
     
     
 }
