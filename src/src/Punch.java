@@ -52,6 +52,9 @@ public class Punch{
     public int getDay() {
         return greg.DAY_OF_MONTH;
     }
+    public int getDayOfWeek() {
+        return greg.DAY_OF_WEEK;
+    }
 
     public int getHour() {
         return greg.HOUR_OF_DAY;
@@ -103,6 +106,9 @@ public class Punch{
 
     public void setDay(int day) {
         greg.set(Calendar.DAY_OF_YEAR, day);
+    }
+    public void sedDayOfWeek(int dayOfWeek){
+        greg.set(Calendar.DAY_OF_WEEK, dayOfWeek);
     }
 
     public void setHour(int hour) {
