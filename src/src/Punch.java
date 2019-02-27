@@ -37,7 +37,7 @@ public class Punch{
   
 // Getters 
     
-    public int getIdNum() {
+    public String getIdNum() {
         return idNum;
     }
 
