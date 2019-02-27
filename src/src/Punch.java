@@ -9,11 +9,11 @@ import java.util.Date;
 
 public class Punch{
     
-    public enum PunchTypes{
-       CLOCK_OUT, CLOCK_IN, TIME_OUT
-    }
-    public PunchTypes type;
-    private int year, month, day, hour, minute, second;
+   
+    final int CLOCK_OUT = 0;
+    final int CLOCK_IN = 1;
+    final int TIME_OUT = 2;
+    private int year, month, day, hour, minute, second, type;
     long mSecond;
     private Badge id;
     private String name, idNum;
@@ -21,7 +21,7 @@ public class Punch{
     
     
     
-    public Punch(Badge inBadge, long ms, PunchTypes type){
+    public Punch(Badge inBadge, long ms, int type){
         
         this.type = type;
         this.mSecond = ms;
@@ -77,7 +77,7 @@ public class Punch{
         return name;
     }
 
-    public PunchTypes getType() {
+    public int getType() {
         return type;
     }
 
@@ -129,7 +129,7 @@ public class Punch{
         this.name = name;
     }
 
-    public void setType(PunchTypes type) {
+    public void setType(int type) {
         this.type = type;
     }
 
