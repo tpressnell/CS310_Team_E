@@ -17,70 +17,24 @@ public class Punch{
     long mSecond;
     private Badge id;
     private String name;
-    private Date date;
     public GregorianCalendar greg;
     
     
     
-    public Punch(Badge inBadge, long ms){
+    public Punch(Badge inBadge, long ms, PunchTypes type){
         
+        this.type = type;
         this.mSecond = ms;
         this.name = inBadge.getName();
         this.idNum = inBadge.getId();
         
-        // Create Date Object
-        this.date = msToDate(ms);
+        // Create Gregorian Calendar Object and name him Greg
+        GregorianCalendar greg = new GregorianCalendar();
+        greg.setTimeInMillis(ms);
         
-        //Parse Date Object 
-        
-        greg.setTimeInMillis(this.mSecond);
-        
-        this.year = greg.get(year);
-        this.month = greg.get(month);
-        this.day = greg.get(day);
-        this.hour = greg.get(hour);
-        this.minute = greg.get(minute);
-        this.second = greg.get(second);
-        
-         
     }
     
-    
-    
-    // Make Greg Calendar Object 
-    
-    public GregorianCalendar makeCalndar(int calYear, int calMonth, int calDay, int calHour, int calMinute, int calSecond) {
-        
-        GregorianCalendar date = new GregorianCalendar(calYear, calMonth, calDay,calHour, calMinute, calSecond);
-        
-      return date;
-    }
-    // Make a Date Object
-    
-    public Date makeDate(int calYear, int calMonth, int calDay, int calHour, int calMinute, int calSecond) {
-        Date dateObj;
-        dateObj = new Date (calYear, calMonth, calDay, calHour, calMinute, calSecond);
-        return dateObj;
-    }
-    
-    // Convert Date Obj to ms
-    
-    public long convertToMs (Date time) {
-        
-        long dateInMs = 0;
-        
-        dateInMs = time.getTime();
-       
-        return dateInMs;
-    }
-    
-    //Convert ms to Date Object
-    
-    public Date msToDate (long ms){
-        Date d = new Date(ms);
-        d.setTime(ms);
-        return d;
-    }
+  
 // Getters 
     
     public int getIdNum() {
@@ -88,31 +42,31 @@ public class Punch{
     }
 
     public int getYear() {
-        return year;
+        return greg.YEAR;
     }
 
     public int getMonth() {
-        return month;
+        return greg.MONTH;
     }
 
     public int getDay() {
-        return day;
+        return greg.DAY_OF_MONTH;
     }
 
     public int getHour() {
-        return hour;
+        return greg.HOUR_OF_DAY;
     }
 
     public int getMinute() {
-        return minute;
+        return greg.MINUTE;
     }
 
     public int getSecond() {
-        return second;
+        return greg.SECOND;
     }
 
     public int getmSecond() {
-        return mSecond;
+        return greg.MILLISECOND;
     }
 
     public Badge getId() {
@@ -122,6 +76,16 @@ public class Punch{
     public String getName() {
         return name;
     }
+
+    public PunchTypes getType() {
+        return type;
+    }
+
+    public GregorianCalendar getGreg() {
+        return greg;
+    }
+    
+    
     
     // Setters
 
@@ -130,31 +94,31 @@ public class Punch{
     }
 
     public void setYear(int year) {
-        this.year = year;
+        greg.set(Calendar.YEAR, year);
     }
 
     public void setMonth(int month) {
-        this.month = month;
+        greg.set(Calendar.MONTH, month);
     }
 
     public void setDay(int day) {
-        this.day = day;
+        greg.set(Calendar.DAY_OF_YEAR, day);
     }
 
     public void setHour(int hour) {
-        this.hour = hour;
+        greg.set(Calendar.HOUR_OF_DAY, hour);
     }
 
     public void setMinute(int minute) {
-        this.minute = minute;
+        greg.set(Calendar.MINUTE, minute);
     }
 
     public void setSecond(int second) {
-        this.second = second;
+        greg.set(Calendar.SECOND, second);
     }
 
     public void setmSecond(int mSecond) {
-        this.mSecond = mSecond;
+        greg.set(Calendar.MILLISECOND, mSecond);
     }
 
     public void setId(Badge id) {
@@ -164,6 +128,15 @@ public class Punch{
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setType(PunchTypes type) {
+        this.type = type;
+    }
+
+    public void setGreg(GregorianCalendar greg) {
+        this.greg = greg;
+    }
+    
     
     
 }
