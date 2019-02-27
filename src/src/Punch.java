@@ -89,7 +89,7 @@ public class Punch{
     
     // Setters
 
-    public void setIdNum(int idNum) {
+    public void setIdNum(String idNum) {
         this.idNum = idNum;
     }
 
