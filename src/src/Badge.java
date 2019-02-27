@@ -3,9 +3,9 @@ package src;
 public class Badge {
     
     private String name;
-    private int id;
+    private String id;
     
-    public Badge(String n, int id){
+    public Badge(String n, String id){
         this.name = n;
         this.id = id;
     }
@@ -14,7 +14,7 @@ public class Badge {
         return name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
     

@@ -13,10 +13,10 @@ public class Punch{
         CLOCK_IN, CLOCK_OUT, TIME_OUT
     }
     private PunchTypes type;
-    private int idNum, year, month, day, hour, minute, second;
+    private int year, month, day, hour, minute, second;
     long mSecond;
     private Badge id;
-    private String name;
+    private String name, idNum;
     public GregorianCalendar greg;
     
     
@@ -37,7 +37,7 @@ public class Punch{
   
 // Getters 
     
-    public int getIdNum() {
+    public String getIdNum() {
         return idNum;
     }
 
@@ -89,7 +89,7 @@ public class Punch{
     
     // Setters
 
-    public void setIdNum(int idNum) {
+    public void setIdNum(String idNum) {
         this.idNum = idNum;
     }
 
