@@ -5,7 +5,7 @@ public class Shift {
     private long start_time; //Start Time in ms
     private long end_time;  // End Time in ms
     
-    public Shift(int st, int et){
+    public Shift(long st, long et){
         this.start_time = st;
         this.end_time = et;
     }

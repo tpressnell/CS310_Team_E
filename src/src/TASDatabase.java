@@ -95,7 +95,7 @@ public class TASDatabase {
         return p;
     }
     
-    public String getShift(int shift_num){
+    public Shift getShift(int shift_num){
         
 
         try{
@@ -109,7 +109,7 @@ public class TASDatabase {
             long startTime = ts.getTime();
             
             ts = resultset.getTimestamp(4);
-            long endTIme = ts.getTime();
+            long endTime = ts.getTime();
             
             Shift returnShift = new Shift(startTime, endTime);
             
@@ -123,7 +123,7 @@ public class TASDatabase {
         return null;
     }
     
-    public String getShift(String badgeID){
+    public Shift getShift(String badgeID){
         
         try{
             query = "SELECT * FROM employee WHERE badgeid = '" + b + "'";
