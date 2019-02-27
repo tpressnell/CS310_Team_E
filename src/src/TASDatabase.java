@@ -50,7 +50,7 @@ public class TASDatabase {
         }
    }
 
-    public String getBadge(String badgeID){
+    public Badge getBadge(String badgeID){
         try{
             
         
@@ -60,9 +60,10 @@ public class TASDatabase {
         resultset = pstSelect.getResultSet();
         
         resultset.first();
-        String name = resultset.getString(2);
         String idNum = resultset.getString(1);
-        System.out.println(name + " "  + idNum);
+        String name = resultset.getString(2);
+        Badge b = new Badge(idNum, name);
+        
         
         }
         
@@ -70,8 +71,8 @@ public class TASDatabase {
             System.err.println(e.toString());
         }
 
+        return b;
         
-        return null;
     }
 
     public String getPunch(int punchID){
@@ -92,14 +93,14 @@ public class TASDatabase {
         int punchType = resultset.getInt(5);
         
         
-        System.out.println(dbPunchID + " " + termID + " " + badgeID + " " + longTS + " " + punchType);
+        Punch p = new Punch(dbPunchID, termID, badgeID, longTS, punchType);
         }
         
         catch(Exception e){
             System.err.println(e.toString());
         }
 
-        return null;
+        return p;
     }
     
     public String getShiftByID(int shift_num){
