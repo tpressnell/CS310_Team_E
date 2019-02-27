@@ -139,22 +139,19 @@ public class Punch{
     
     public String printOriginalTimestamp(){
         
-        String badgeID = this.getIdNum();
-        String type = "";
-        if(this.getType() == 0){
-            type = "CLOCKED OUT:"; 
-        }
-        else if(this.getType() == 1){
-            type = "CLOCKED IN:";
-        }
-        else{
-            type = "TIMEED OUT:";
-        }
+        StringBuilder output = new StringBuilder("");
+        
+        output.append(this.getIdNum());
+        
+        if(this.getType() == 0)
+            output.append(" CLOCKED OUT: ");
+        else if(this.getType() == 2)
+            output.append(" CLOCKED IN: ");
+        else if(this.getType() == 3)
+            output.append(" TIMED OUT: ");
         
         
         return null;
     }
-    
-    
-    
+ 
 }
