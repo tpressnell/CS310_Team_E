@@ -5,16 +5,6 @@ import java.sql.*;
 
 
 public class TASDatabase {
-    public static void main(String [] args){
-       
-        String badgeID = "12565C60";
-        TASDatabase yeah = new TASDatabase();
-        yeah.getBadge(badgeID);
-        System.out.println();
-        yeah.getPunch(147);
-        yeah.getShiftByBadge(badgeID);
-        
-    }
     
     Connection conn;
     PreparedStatement pstSelect, pstUpdate;
