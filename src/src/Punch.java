@@ -156,8 +156,38 @@ public class Punch{
         else if(this.getType() == 3)
             output.append(" TIMED OUT: ");
         
+        switch(this.getDayOfWeek()){
+            case 0:
+                output.append("SUN ");
+                break;
+            case 1:
+                output.append("MON ");
+                break;
+            case 2:
+                output.append("TUE ");
+                break;
+            case 3:
+                output.append("WED ");
+                break;
+            case 4:
+                output.append("THU ");
+                break;
+            case 5:
+                output.append("FRI ");
+                break;
+            case 6:
+                output.append("SAT ");
+                break;
+                
+        }
         
-        return null;
+        output.append(this.getMonth() + "/" + this.getDay() + "/" + this.getYear() + " ");
+        output.append(this.getHour() + ":" + this.getMinute() + ":" + this.getSecond());
+        
+        System.out.println(output.toString());
+        
+        
+        return output.toString();
     }
  
 }
