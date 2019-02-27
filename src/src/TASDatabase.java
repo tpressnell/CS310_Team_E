@@ -66,7 +66,7 @@ public class TASDatabase {
         
     }
 
-    public String getPunch(int punchID){
+    public Punch getPunch(int punchID){
         try{
             
         
