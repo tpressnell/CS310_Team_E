@@ -1,9 +1,6 @@
 package test;
 
-import src.Shift;
-import src.TASDatabase;
-import src.Punch;
-import src.Badge;
+import src.*;
 
 import org.junit.*;
 import static org.junit.Assert.*;
