@@ -55,14 +55,14 @@ public class TASDatabase {
         
         Badge b = new Badge(idNum, name);
         
-        
+        return b;
         }
         
         catch(Exception e){
             System.err.println(e.toString());
         }
 
-        return b;
+        return null;
         
     }
 
@@ -86,13 +86,15 @@ public class TASDatabase {
         
         
         Punch p = new Punch(b, longTS, punchType);
+        
+        return p;
         }
         
         catch(Exception e){
             System.err.println(e.toString());
         }
 
-        return p;
+        return null;
     }
     
     public String getShift(int shift_num){
