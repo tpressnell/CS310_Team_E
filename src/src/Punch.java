@@ -41,30 +41,6 @@ public class Punch{
         return idNum;
     }
     
-    public String getDayOfWeek(){
-        String day = "";
-        int numDay = greg.DAY_OF_WEEK;
-        switch(numDay){
-            case 1: day = "SUN";
-                break;
-            case 2: day = "MON";
-                break;
-            case 3: day = "TUE";
-                break;
-            case 4: day = "WED";
-                break;
-            case 5: day = "THU";
-                break;
-            case 6: day = "FRI";
-                    break;
-            case 7: day = "SAT";
-                break;
-            default:
-                break;
-        }
-        return day;
-    }
-    
     public int getYear() {
         return greg.YEAR;
     }
@@ -75,6 +51,9 @@ public class Punch{
 
     public int getDay() {
         return greg.DAY_OF_MONTH;
+    }
+    public int getDayOfWeek() {
+        return greg.DAY_OF_WEEK;
     }
 
     public int getHour() {
@@ -128,6 +107,9 @@ public class Punch{
     public void setDay(int day) {
         greg.set(Calendar.DAY_OF_YEAR, day);
     }
+    public void sedDayOfWeek(int dayOfWeek){
+        greg.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+    }
 
     public void setHour(int hour) {
         greg.set(Calendar.HOUR_OF_DAY, hour);
@@ -163,48 +145,49 @@ public class Punch{
     
     public String printOriginalTimestamp(){
         
-        String badgeID = this.getIdNum();
-        String type = "";
-        if(this.getType() == CLOCK_OUT){
-            type = "CLOCKED OUT:"; 
+        StringBuilder output = new StringBuilder("");
+        
+        output.append(this.getIdNum());
+        
+        if(this.getType() == 0)
+            output.append(" CLOCKED OUT: ");
+        else if(this.getType() == 2)
+            output.append(" CLOCKED IN: ");
+        else if(this.getType() == 3)
+            output.append(" TIMED OUT: ");
+        
+        switch(this.getDayOfWeek()){
+            case 0:
+                output.append("SUN ");
+                break;
+            case 1:
+                output.append("MON ");
+                break;
+            case 2:
+                output.append("TUE ");
+                break;
+            case 3:
+                output.append("WED ");
+                break;
+            case 4:
+                output.append("THU ");
+                break;
+            case 5:
+                output.append("FRI ");
+                break;
+            case 6:
+                output.append("SAT ");
+                break;
+                
         }
-        else if(this.getType() == CLOCK_IN){
-            type = "CLOCKED IN:";
-        }
-        else{
-            type = "TIMED OUT:";
-        }
-        String dayOfWeek = this.getDayOfWeek();
-        int month = this.getMonth();
-        int numDay = this.getDay();
-        int year = this.getYear();
-        int hour = this.getHour();
-        int min = this.getMinute();
-        int sec = this.getSecond();
         
-        StringBuilder string = new StringBuilder();
-        string.append("#");
-        string.append(badgeID);
-        string.append(" ");
-        string.append(type);
-        string.append(" ");
-        string.append(dayOfWeek);
-        string.append(" ");
-        string.append(month + "/");
-        string.append(numDay + "/");
-        string.append(year);
-        string.append(" ");
-        string.append(hour + ":");
-        string.append(min + ":");
-        string.append(sec);
+        output.append(this.getMonth() + "/" + this.getDay() + "/" + this.getYear() + " ");
+        output.append(this.getHour() + ":" + this.getMinute() + ":" + this.getSecond());
+        
+        System.out.println(output.toString());
         
         
-        
-        
-        
-        return string.toString();
+        return output.toString();
     }
-    
-    
-    
+ 
 }
