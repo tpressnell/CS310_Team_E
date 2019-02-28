@@ -40,7 +40,31 @@ public class Punch{
     public String getIdNum() {
         return idNum;
     }
-
+    
+    public String getDayOfWeek(){
+        String day = "";
+        int numDay = greg.DAY_OF_WEEK;
+        switch(numDay){
+            case 1: day = "SUN";
+                break;
+            case 2: day = "MON";
+                break;
+            case 3: day = "TUE";
+                break;
+            case 4: day = "WED";
+                break;
+            case 5: day = "THU";
+                break;
+            case 6: day = "FRI";
+                    break;
+            case 7: day = "SAT";
+                break;
+            default:
+                break;
+        }
+        return day;
+    }
+    
     public int getYear() {
         return greg.YEAR;
     }
@@ -141,18 +165,44 @@ public class Punch{
         
         String badgeID = this.getIdNum();
         String type = "";
-        if(this.getType() == 0){
+        if(this.getType() == CLOCK_OUT){
             type = "CLOCKED OUT:"; 
         }
-        else if(this.getType() == 1){
+        else if(this.getType() == CLOCK_IN){
             type = "CLOCKED IN:";
         }
         else{
-            type = "TIMEED OUT:";
+            type = "TIMED OUT:";
         }
+        String dayOfWeek = this.getDayOfWeek();
+        int month = this.getMonth();
+        int numDay = this.getDay();
+        int year = this.getYear();
+        int hour = this.getHour();
+        int min = this.getMinute();
+        int sec = this.getSecond();
+        
+        StringBuilder string = new StringBuilder();
+        string.append("#");
+        string.append(badgeID);
+        string.append(" ");
+        string.append(type);
+        string.append(" ");
+        string.append(dayOfWeek);
+        string.append(" ");
+        string.append(month + "/");
+        string.append(numDay + "/");
+        string.append(year);
+        string.append(" ");
+        string.append(hour + ":");
+        string.append(min + ":");
+        string.append(sec);
         
         
-        return null;
+        
+        
+        
+        return string.toString();
     }
     
     
