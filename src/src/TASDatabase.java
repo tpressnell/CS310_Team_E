@@ -1,6 +1,7 @@
 package src;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 
 
@@ -188,5 +189,9 @@ public class TASDatabase {
         
         
         return punchId;
+    }
+    
+    public ArrayList getDailyPunchList(Badge b, long ts){
+        
     }
 }
