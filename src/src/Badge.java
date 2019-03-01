@@ -18,6 +18,17 @@ public class Badge {
         return id;
     }
     
+    public String toString(){
+        String string = "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("#");
+        sb.append(this.getId() + " " + "(");
+        sb.append(this.getName() + ")");
+        string = sb.toString();
+        
+        return string;
+    }
+    
     
     
 }

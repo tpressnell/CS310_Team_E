@@ -54,7 +54,7 @@ public class TASDatabase {
         String idNum = resultset.getString(1);
         String name = resultset.getString(2);
         
-        Badge b = new Badge(idNum, name);
+        Badge b = new Badge(name, idNum);
         
         return b;
         }
@@ -84,9 +84,9 @@ public class TASDatabase {
         long longTS = ts.getTime();
         int punchType = resultset.getInt(5);
         Badge b = this.getBadge(badgeID);
+        String otStamp = ts.toString();
         
-        
-        Punch p = new Punch(b, longTS, punchType);
+        Punch p = new Punch(b, longTS, punchType, otStamp);
         
         return p;
         }
@@ -108,13 +108,14 @@ public class TASDatabase {
             resultset = pstSelect.getResultSet();
         
             resultset.first();
+            int shiftID = resultset.getInt(1);
             Timestamp ts = resultset.getTimestamp(3);
             long startTime = ts.getTime();
             
             ts = resultset.getTimestamp(4);
             long endTime = ts.getTime();
             
-            Shift returnShift = new Shift(startTime, endTime);
+            Shift returnShift = new Shift(startTime, endTime, shiftID);
             
             return returnShift;
         }
@@ -151,7 +152,7 @@ public class TASDatabase {
             ts = resultset.getTimestamp(4);
             long endTime = ts.getTime();
             
-            Shift returnShift = new Shift(startTime, endTime);
+            Shift returnShift = new Shift(startTime, endTime, shift_id);
             
             return returnShift;
             
