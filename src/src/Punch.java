@@ -31,6 +31,7 @@ public class Punch{
         // Create Gregorian Calendar Object and name him Greg
         GregorianCalendar greg = new GregorianCalendar();
         greg.setTimeInMillis(ms);
+        System.out.println(greg.toString());
         
     }
     
@@ -107,7 +108,7 @@ public class Punch{
     public void setDay(int day) {
         greg.set(Calendar.DAY_OF_YEAR, day);
     }
-    public void sedDayOfWeek(int dayOfWeek){
+    public void setDayOfWeek(int dayOfWeek){
         greg.set(Calendar.DAY_OF_WEEK, dayOfWeek);
     }
 
