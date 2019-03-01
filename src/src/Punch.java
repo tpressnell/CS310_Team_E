@@ -21,12 +21,14 @@ public class Punch{
     
     
     
-    public Punch(Badge inBadge, long ms, int type){
+    public Punch(Badge inBadge, long ms, int type, int punchId){
         
         this.type = type;
         this.mSecond = ms;
         this.name = inBadge.getName();
         this.idNum = inBadge.getId();
+        this.terminalId = punchId;
+        
         
         // Create Gregorian Calendar Object and name him Greg
         GregorianCalendar greg = new GregorianCalendar();
