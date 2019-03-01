@@ -162,5 +162,25 @@ public class TASDatabase {
         
         return null;
     } 
-
+    public int insertPunch(Punch p){
+        
+        int year, month, day, hourOfDay, minute, second, millisecond;
+        String name, punchId;
+        // Time Paramterers
+        year = p.getYear();
+        month = p.getMonth();
+        day = p.getDay();
+        hourOfDay = p.getHour();
+        minute = p.getMinute();
+        second = p.getSecond();
+        millisecond = p.getmSecond();
+        // Badge Parameters
+        
+        
+        
+        
+        
+        
+        return punchId;
+    }
 }
