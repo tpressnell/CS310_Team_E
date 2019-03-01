@@ -32,7 +32,6 @@ public class Punch{
         // Create Gregorian Calendar Object and name him Greg
         greg = new GregorianCalendar();
         greg.setTimeInMillis(ms);
-        System.out.println(greg.toString());
         
     }
     
@@ -149,35 +148,35 @@ public class Punch{
         
         StringBuilder output = new StringBuilder("");
         
-        output.append(this.getIdNum());
+        output.append( "#"+ this.getIdNum());
         
         if(this.getType() == 0)
             output.append(" CLOCKED OUT: ");
-        else if(this.getType() == 2)
+        else if(this.getType() == 1)
             output.append(" CLOCKED IN: ");
-        else if(this.getType() == 3)
+        else if(this.getType() == 2)
             output.append(" TIMED OUT: ");
         
         switch(this.getDayOfWeek()){
-            case 0:
+            case 1:
                 output.append("SUN ");
                 break;
-            case 1:
+            case 2:
                 output.append("MON ");
                 break;
-            case 2:
+            case 3:
                 output.append("TUE ");
                 break;
-            case 3:
+            case 4:
                 output.append("WED ");
                 break;
-            case 4:
+            case 5:
                 output.append("THU ");
                 break;
-            case 5:
+            case 6:
                 output.append("FRI ");
                 break;
-            case 6:
+            case 7:
                 output.append("SAT ");
                 break;
                 

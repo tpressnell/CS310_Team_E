@@ -53,7 +53,7 @@ public class TASDatabase {
         String idNum = resultset.getString(1);
         String name = resultset.getString(2);
         
-        Badge b = new Badge(idNum, name);
+        Badge b = new Badge(name, idNum);
         
         return b;
         }

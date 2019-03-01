@@ -22,8 +22,8 @@ public class Badge {
         String string = "";
         StringBuilder sb = new StringBuilder();
         sb.append("#");
-        sb.append(this.getId() + " ");
-        sb.append(this.getName());
+        sb.append(this.getId() + " " + "(");
+        sb.append(this.getName() + ")");
         string = sb.toString();
         
         return string;
