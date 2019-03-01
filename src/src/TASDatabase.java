@@ -164,8 +164,9 @@ public class TASDatabase {
     } 
     public int insertPunch(Punch p){
         
-        int year, month, day, hourOfDay, minute, second, millisecond;
-        String name, punchId;
+        int year, month, day, hourOfDay, minute, second, millisecond, punchId;
+        String name, id;
+        
         // Time Paramterers
         year = p.getYear();
         month = p.getMonth();
@@ -174,7 +175,12 @@ public class TASDatabase {
         minute = p.getMinute();
         second = p.getSecond();
         millisecond = p.getmSecond();
+        
         // Badge Parameters
+        name = p.getName();
+        id = p.getIdNum();
+        punchId = Integer.parseInt(id);
+        
         
         
         
