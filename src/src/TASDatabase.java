@@ -107,13 +107,14 @@ public class TASDatabase {
             resultset = pstSelect.getResultSet();
         
             resultset.first();
+            int shiftID = resultset.getInt(1);
             Timestamp ts = resultset.getTimestamp(3);
             long startTime = ts.getTime();
             
             ts = resultset.getTimestamp(4);
             long endTime = ts.getTime();
             
-            Shift returnShift = new Shift(startTime, endTime);
+            Shift returnShift = new Shift(startTime, endTime, shiftID);
             
             return returnShift;
         }
@@ -150,7 +151,7 @@ public class TASDatabase {
             ts = resultset.getTimestamp(4);
             long endTime = ts.getTime();
             
-            Shift returnShift = new Shift(startTime, endTime);
+            Shift returnShift = new Shift(startTime, endTime, shift_id);
             
             return returnShift;
             
