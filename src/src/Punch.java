@@ -15,9 +15,9 @@ public class Punch{
     final int CLOCK_OUT = 0;
     final int CLOCK_IN = 1;
     final int TIME_OUT = 2;
-    private int year, month, day, hour, minute, second, type;
+    private int type;
     long mSecond, longTimestamp;
-    private Badge id;
+    private Badge BadgeID;
     private String name, idNum, otStamp;
     public GregorianCalendar greg;
     private int punchID;
@@ -25,16 +25,16 @@ public class Punch{
     
     
     
-    public Punch(Badge inBadge, long ms, int type, String otStamp, int punchId, int tID){
+    public Punch(Badge inBadge, long ms, int typeID, String otStamp, int punchId, int tID){
         
-        this.type = type;
+        this.type = typeID;
         this.mSecond = ms;
         this.name = inBadge.getName();
         this.idNum = inBadge.getId();
         this.otStamp = otStamp;
         this.punchID = punchId;
         this.termId = tID;
-        this.id = inBadge;
+        this.BadgeID = inBadge;
         
         // Create Gregorian Calendar Object and name him Greg
         greg = new GregorianCalendar();
@@ -43,7 +43,7 @@ public class Punch{
     }
     
     public Punch(Badge b, int newTermID, int newPunchID){
-        this.id = b;
+        this.BadgeID = b;
         this.idNum = b.getId();
         this.termId = newTermID;
         this.punchID = newPunchID;
@@ -60,24 +60,20 @@ public class Punch{
         return termId;
     }
     
-    public int getID() {
+    public int getPunchID() {
         return punchID;
     }
 
-    public int getPunchtypeid() {
+    public int getPunchtypeID() {
         return punchID;
     }
 
     public String getotStamp() {
         return this.otStamp;
     }
-    
-    public long getOriginaltimestamp(){
-        return this.longTimestamp;
-    }
-    
-    public String getBadgeid() {
-        return id.getId();
+      
+    public String getBadgeID() {
+        return BadgeID.getId();
     }
     
     public int getYear() {
@@ -111,15 +107,11 @@ public class Punch{
         return greg.MILLISECOND;
     }
 
-    public Badge getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public int getType() {
+    public int getPunchType() {
         return type;
     }
 
@@ -132,7 +124,7 @@ public class Punch{
     // Setters
     
 
-    public void setTermId(int termId) {
+    public void setTermID(int termId) {
         this.termId = termId;
     }
 
@@ -144,7 +136,7 @@ public class Punch{
         this.otStamp = otStamp;
     }
 
-    public void setIdNum(String idNum) {
+    public void setIDNum(String idNum) {
         this.idNum = idNum;
     }
 
@@ -180,7 +172,7 @@ public class Punch{
     }
 
     public void setId(Badge id) {
-        this.id = id;
+        this.BadgeID = id;
     }
 
     public void setName(String name) {
@@ -199,13 +191,13 @@ public class Punch{
         
         StringBuilder output = new StringBuilder("");
         
-        output.append( "#"+ this.getBadgeid());
+        output.append( "#"+ this.getBadgeID());
         
-        if(this.getType() == 0)
+        if(this.getPunchType() == 0)
             output.append(" CLOCKED OUT: ");
-        else if(this.getType() == 1)
+        else if(this.getPunchType() == 1)
             output.append(" CLOCKED IN: ");
-        else if(this.getType() == 2)
+        else if(this.getPunchType() == 2)
             output.append(" TIMED OUT: ");
         
         switch(this.getDayOfWeek()){
