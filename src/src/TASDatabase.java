@@ -1,6 +1,7 @@
 package src;
 
 import java.sql.*;
+import java.
 
 
 
@@ -164,29 +165,30 @@ public class TASDatabase {
     } 
     public int insertPunch(Punch p){
         
-        int year, month, day, hourOfDay, minute, second, millisecond, punchId;
-        String name, id;
+        try {
+            int year, month, day, hourOfDay, minute, second, millisecond, punchId, type;
+            String name, id;
+
+            // Time Paramterers
+            String timeStamp = p.printOriginalTimestamp();
+
+            // Badge Parameters
+            name = p.getName();
+            id = p.getIdNum();
+            punchId = Integer.parseInt(id);
+            type = p.getType();
+            
+
+            // Put in in the database thingy
+
+            query = INSERT INTO punch (id, terminalid, badgeid, originaltimestamp, 
+            punchtypeid) VALUES ('0', '0', id, timeStamp, type);
+            
+             return punchId;
         
-        // Time Paramterers
-        year = p.getYear();
-        month = p.getMonth();
-        day = p.getDay();
-        hourOfDay = p.getHour();
-        minute = p.getMinute();
-        second = p.getSecond();
-        millisecond = p.getmSecond();
-        
-        // Badge Parameters
-        name = p.getName();
-        id = p.getIdNum();
-        punchId = Integer.parseInt(id);
-        
-        
-        
-        
-        
-        
-        
-        return punchId;
+        }
+        catch(Exception e){
+            System.err.println(e.toString());
+        }
     }
 }
