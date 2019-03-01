@@ -218,7 +218,7 @@ public class TASDatabase {
             int punchType = resultset.getInt(5);
             String otStamp = dbTS.toString();
         
-            Punch p = new Punch(b, longTS, punchType, otStamp, termID);
+            Punch p = new Punch(b, longTS, punchType, otStamp, dbPunchID, termID);
             
             punches.add(p);
           
