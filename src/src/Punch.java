@@ -34,6 +34,7 @@ public class Punch{
         this.otStamp = otStamp;
         this.punchID = punchId;
         this.termId = tID;
+        this.id = inBadge;
         
         // Create Gregorian Calendar Object and name him Greg
         greg = new GregorianCalendar();
@@ -42,6 +43,7 @@ public class Punch{
     }
     
     public Punch(Badge b, int newTermID, int newPunchID){
+        this.id = b;
         this.idNum = b.getId();
         this.termId = newTermID;
         this.punchID = newPunchID;
@@ -57,6 +59,10 @@ public class Punch{
     public int getTerminalid() {
         return termId;
     }
+    
+    public int getID() {
+        return punchID;
+    }
 
     public int getPunchtypeid() {
         return punchID;
@@ -71,7 +77,7 @@ public class Punch{
     }
     
     public String getBadgeid() {
-        return idNum;
+        return id.getId();
     }
     
     public int getYear() {
@@ -238,7 +244,7 @@ public class Punch{
         output.append(date_pieces[1] + "/" + date_pieces[2] + "/" + date_pieces[0]+ " ");
         output.append(time_pieces[0] + ":" + time_pieces[1] + ":" + time_pieces[2].substring(0, 2));
         
-        System.out.println(output.toString());
+        //System.out.println(output.toString());
         
         
         return output.toString();

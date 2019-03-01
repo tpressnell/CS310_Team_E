@@ -46,6 +46,9 @@ public class Feature2 {
         /* Retrieve New Punch */
         
         Punch p2 = db.getPunch(punchid);
+        
+        System.out.println("TEST badgeid: " +badgeid);
+        System.out.println("TEST badgeid: " +p2.getBadgeid());
 		
         /* Compare Punches */
 

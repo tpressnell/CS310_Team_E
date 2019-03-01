@@ -56,12 +56,13 @@ public class TASDatabase {
         String name = resultset.getString(2);
         
         Badge b = new Badge(name, idNum);
+        System.out.println(name + "  " + idNum);
         
         return b;
         }
         
         catch(Exception e){
-            System.err.println(e.toString());
+            System.err.println("** getBadge: " + e.toString());
         }
 
         return null;
@@ -93,7 +94,7 @@ public class TASDatabase {
         }
         
         catch(Exception e){
-            System.err.println(e.toString());
+            System.err.println("** getPunch: " + e.toString());
         }
 
         return null;
@@ -177,7 +178,7 @@ public class TASDatabase {
             // Badge Parameters
             name = p.getName();
             id = p.getBadgeid();
-            punchId = Integer.parseInt(id);
+            punchId = p.getID();
             type = p.getType();
             
             // Punch/Terminal  Parameters 
@@ -206,7 +207,7 @@ public class TASDatabase {
         
         }
         catch(Exception e){
-            System.err.println(e.toString());
+            System.err.println("** insertPunch: " + e.toString());
         }
         return 0;
     }
@@ -242,7 +243,7 @@ public class TASDatabase {
         }
         
         catch(Exception e){
-            System.err.println(e.toString());
+            System.err.println("** getDailyPunchList: " + e.toString());
         }
         
         
