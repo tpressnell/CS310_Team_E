@@ -16,20 +16,21 @@ public class Punch{
     private int year, month, day, hour, minute, second, type;
     long mSecond;
     private Badge id;
-    private String name, idNum;
+    private String name, idNum, otStamp;
     public GregorianCalendar greg;
     
     
     
-    public Punch(Badge inBadge, long ms, int type){
+    public Punch(Badge inBadge, long ms, int type, String otStamp){
         
         this.type = type;
         this.mSecond = ms;
         this.name = inBadge.getName();
         this.idNum = inBadge.getId();
+        this.otStamp = otStamp;
         
         // Create Gregorian Calendar Object and name him Greg
-        GregorianCalendar greg = new GregorianCalendar();
+        greg = new GregorianCalendar();
         greg.setTimeInMillis(ms);
         System.out.println(greg.toString());
         
@@ -54,7 +55,7 @@ public class Punch{
         return greg.DAY_OF_MONTH;
     }
     public int getDayOfWeek() {
-        return greg.DAY_OF_WEEK;
+        return greg.get(Calendar.DAY_OF_WEEK);
     }
 
     public int getHour() {
@@ -182,8 +183,16 @@ public class Punch{
                 
         }
         
-        output.append(this.getMonth() + "/" + this.getDay() + "/" + this.getYear() + " ");
-        output.append(this.getHour() + ":" + this.getMinute() + ":" + this.getSecond());
+        String[] timestamp = otStamp.split(" ");
+        
+        String date = timestamp[0];
+        String[] date_pieces = date.split("-");
+        
+        String time = timestamp[1];
+        String[] time_pieces = time.split(":");
+        
+        output.append(date_pieces[1] + "/" + date_pieces[2] + "/" + date_pieces[0]+ " ");
+        output.append(time_pieces[0] + ":" + time_pieces[1] + ":" + time_pieces[2].substring(0, 2));
         
         System.out.println(output.toString());
         
