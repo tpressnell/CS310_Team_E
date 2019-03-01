@@ -87,7 +87,7 @@ public class TASDatabase {
         Badge b = this.getBadge(badgeID);
         String otStamp = ts.toString();
         
-        Punch p = new Punch(b, longTS, punchType, otStamp);
+        Punch p = new Punch(b, longTS, punchType, otStamp, dbPunchID, termID);
         
         return p;
         }
@@ -197,6 +197,7 @@ public class TASDatabase {
         catch(Exception e){
             System.err.println(e.toString());
         }
+        return 0;
     }
     
     public ArrayList getDailyPunchList(Badge b, long ts){
