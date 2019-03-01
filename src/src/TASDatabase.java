@@ -167,11 +167,11 @@ public class TASDatabase {
     public int insertPunch(Punch p){
         
         try {
-            int year, month, day, hourOfDay, minute, second, millisecond, punchId, type;
+            int year, month, day, hourOfDay, minute, second, millisecond, punchId, type, punchID, termId;
             String name, id;
 
             // Time Paramterers
-            String timeStamp = p.printOriginalTimestamp();
+            String timeStamp = p.getOtStamp();
 
             // Badge Parameters
             name = p.getName();
@@ -179,11 +179,16 @@ public class TASDatabase {
             punchId = Integer.parseInt(id);
             type = p.getType();
             
+            // Punch/Terminal  Parameters 
+            punchID = p.getPunchID();
+            termId = p.getTermId();
+            
+            
 
             // Put in in the database thingy
             query = "INSERT INTO punch (id, terminalid, badgeid, "
                     + "originaltimestamp, punchtypeid) "
-                    + "VALUES ('0', '0', id, timeStamp, type)";
+                    + "VALUES (punchID, termId, id, timeStamp, type)";
             
              return punchId;
         
