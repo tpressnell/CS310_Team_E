@@ -1,7 +1,7 @@
 package src;
 
 import java.sql.*;
-import java.
+
 
 
 
@@ -180,9 +180,9 @@ public class TASDatabase {
             
 
             // Put in in the database thingy
-
-            query = INSERT INTO punch (id, terminalid, badgeid, originaltimestamp, 
-            punchtypeid) VALUES ('0', '0', id, timeStamp, type);
+            query = "INSERT INTO punch (id, terminalid, badgeid, "
+                    + "originaltimestamp, punchtypeid) "
+                    + "VALUES ('0', '0', id, timeStamp, type)";
             
              return punchId;
         
