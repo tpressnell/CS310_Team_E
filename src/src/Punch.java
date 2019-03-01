@@ -1,5 +1,7 @@
 package src;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -14,7 +16,7 @@ public class Punch{
     final int CLOCK_IN = 1;
     final int TIME_OUT = 2;
     private int year, month, day, hour, minute, second, type;
-    long mSecond;
+    long mSecond, longTimestamp;
     private Badge id;
     private String name, idNum, otStamp;
     public GregorianCalendar greg;
@@ -39,23 +41,36 @@ public class Punch{
         
     }
     
+    public Punch(Badge b, int newTermID, int newPunchID){
+        this.idNum = b.getId();
+        this.termId = newTermID;
+        this.punchID = newPunchID;
+        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        long longTS = ts.getTime();
+        this.longTimestamp= longTS;
+    }
+    
   
 // Getters
     
 
-    public int getTermId() {
+    public int getTerminalid() {
         return termId;
     }
 
-    public int getPunchID() {
+    public int getPunchtypeid() {
         return punchID;
     }
 
-    public String getOtStamp() {
-        return otStamp;
+    public String getotStamp() {
+        return this.otStamp;
     }
     
-    public String getIdNum() {
+    public long getOriginaltimestamp(){
+        return this.longTimestamp;
+    }
+    
+    public String getBadgeid() {
         return idNum;
     }
     
@@ -178,7 +193,7 @@ public class Punch{
         
         StringBuilder output = new StringBuilder("");
         
-        output.append( "#"+ this.getIdNum());
+        output.append( "#"+ this.getBadgeid());
         
         if(this.getType() == 0)
             output.append(" CLOCKED OUT: ");
