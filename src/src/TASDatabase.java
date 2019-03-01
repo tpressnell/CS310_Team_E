@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 
 
+
 public class TASDatabase {
     
     Connection conn;
@@ -166,30 +167,36 @@ public class TASDatabase {
     } 
     public int insertPunch(Punch p){
         
-        int year, month, day, hourOfDay, minute, second, millisecond, punchId;
-        String name, id;
+        try {
+            int year, month, day, hourOfDay, minute, second, millisecond, punchId, type, punchID, termId;
+            String name, id;
+
+            // Time Paramterers
+            String timeStamp = p.getOtStamp();
+
+            // Badge Parameters
+            name = p.getName();
+            id = p.getIdNum();
+            punchId = Integer.parseInt(id);
+            type = p.getType();
+            
+            // Punch/Terminal  Parameters 
+            punchID = p.getPunchID();
+            termId = p.getTermId();
+            
+            
+
+            // Put in in the database thingy
+            query = "INSERT INTO punch (id, terminalid, badgeid, "
+                    + "originaltimestamp, punchtypeid) "
+                    + "VALUES (punchID, termId, id, timeStamp, type)";
+            
+             return punchId;
         
-        // Time Paramterers
-        year = p.getYear();
-        month = p.getMonth();
-        day = p.getDay();
-        hourOfDay = p.getHour();
-        minute = p.getMinute();
-        second = p.getSecond();
-        millisecond = p.getmSecond();
-        
-        // Badge Parameters
-        name = p.getName();
-        id = p.getIdNum();
-        punchId = Integer.parseInt(id);
-        
-        
-        
-        
-        
-        
-        
-        return punchId;
+        }
+        catch(Exception e){
+            System.err.println(e.toString());
+        }
     }
     
     public ArrayList getDailyPunchList(Badge b, long ts){
