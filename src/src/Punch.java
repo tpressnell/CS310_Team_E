@@ -15,10 +15,10 @@ public class Punch{
     final int CLOCK_OUT = 0;
     final int CLOCK_IN = 1;
     final int TIME_OUT = 2;
-    private int type;
+    private int punchType;
     long mSecond, longTimestamp;
-    private Badge BadgeID;
-    private String name, idNum, otStamp;
+    private Badge Badge;
+    private String otStamp;
     public GregorianCalendar greg;
     private int punchID;
     private int termId; 
@@ -27,14 +27,12 @@ public class Punch{
     
     public Punch(Badge inBadge, long ms, int typeID, String otStamp, int punchId, int tID){
         
-        this.type = typeID;
+        this.punchType = typeID;
         this.mSecond = ms;
-        this.name = inBadge.getName();
-        this.idNum = inBadge.getId();
         this.otStamp = otStamp;
         this.punchID = punchId;
         this.termId = tID;
-        this.BadgeID = inBadge;
+        this.Badge = inBadge;
         
         // Create Gregorian Calendar Object and name him Greg
         greg = new GregorianCalendar();
@@ -43,8 +41,7 @@ public class Punch{
     }
     
     public Punch(Badge b, int newTermID, int newPunchID){
-        this.BadgeID = b;
-        this.idNum = b.getId();
+        this.Badge = b;
         this.termId = newTermID;
         this.punchID = newPunchID;
         Timestamp ts = new Timestamp(System.currentTimeMillis());
@@ -60,12 +57,16 @@ public class Punch{
         return termId;
     }
     
+    public long getLongTS(){
+        return this.longTimestamp;
+    }
+    
     public int getPunchID() {
         return punchID;
     }
 
-    public int getPunchtypeID() {
-        return punchID;
+    public int getPunchType() {
+        return this.punchType;
     }
 
     public String getotStamp() {
@@ -73,7 +74,7 @@ public class Punch{
     }
       
     public String getBadgeID() {
-        return BadgeID.getId();
+        return Badge.getId();
     }
     
     public int getYear() {
@@ -108,11 +109,7 @@ public class Punch{
     }
 
     public String getName() {
-        return name;
-    }
-
-    public int getPunchType() {
-        return type;
+        return Badge.getName();
     }
 
     public GregorianCalendar getGreg() {
@@ -134,10 +131,6 @@ public class Punch{
 
     public void setOtStamp(String otStamp) {
         this.otStamp = otStamp;
-    }
-
-    public void setIDNum(String idNum) {
-        this.idNum = idNum;
     }
 
     public void setYear(int year) {
@@ -171,16 +164,8 @@ public class Punch{
         greg.set(Calendar.MILLISECOND, mSecond);
     }
 
-    public void setId(Badge id) {
-        this.BadgeID = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setType(int type) {
-        this.type = type;
+    public void setPunchType(int type) {
+        this.punchType = type;
     }
 
     public void setGreg(GregorianCalendar greg) {
