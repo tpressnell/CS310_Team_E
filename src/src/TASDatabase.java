@@ -169,20 +169,20 @@ public class TASDatabase {
     public int insertPunch(Punch p){
         
         try {
-            int year, month, day, hourOfDay, minute, second, millisecond, punchId, type, punchID, termId;
-            String name, id;
+            int punchId, type, punchTypeID, termId;
+            String badgeName, id;
 
             // Time Paramterers
-            long timeStamp = p.getOriginaltimestamp();
+            String timeStamp = p.getotStamp();
 
             // Badge Parameters
-            name = p.getName();
+            badgeName = p.getName();
             id = p.getBadgeid();
             punchId = p.getID();
             type = p.getType();
             
             // Punch/Terminal  Parameters 
-            punchID = p.getPunchtypeid();
+            punchTypeID = p.getPunchtypeid();
             termId = p.getTerminalid();
             
             
@@ -193,10 +193,10 @@ public class TASDatabase {
                     + "VALUES (?, ?, ?, ?, ?)";
             
             pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            pstUpdate.setInt(1, punchID);
+            pstUpdate.setInt(1, punchId);
             pstUpdate.setInt(2, termId);
             pstUpdate.setString(3, id);
-            pstUpdate.setLong(4, timeStamp);
+            pstUpdate.setString(4, timeStamp);
             pstUpdate.setInt(5, type);
                 
                 // Execute Update Query
