@@ -12,11 +12,11 @@ import java.util.Date;
 public class Punch{
     
    
-    final int CLOCK_OUT = 0;
-    final int CLOCK_IN = 1;
-    final int TIME_OUT = 2;
+    public static final int CLOCK_OUT = 0;
+    public static final int CLOCK_IN = 1;
+    public static final int TIME_OUT = 2;
     private int punchType;
-    long mSecond, longTimestamp;
+    private long originalTimestamp;
     private Badge Badge;
     private String otStamp;
     public GregorianCalendar greg;
