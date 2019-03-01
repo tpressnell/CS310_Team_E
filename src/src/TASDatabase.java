@@ -192,6 +192,12 @@ public class TASDatabase {
     }
     
     public ArrayList getDailyPunchList(Badge b, long ts){
+        //create ArrayList to hold punches for a given day
+        ArrayList<Punch> punches = new ArrayList<>();
         
+        
+        
+        
+        return punches;
     }
 }
