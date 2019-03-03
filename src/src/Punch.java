@@ -226,19 +226,9 @@ public class Punch{
                 
         }
         
-        String[] timestamp = stringTimestamp.split(" ");
+        String OTStamp = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(ots);
         
-        String date = timestamp[0];
-        String[] date_pieces = date.split("-");
-        
-        String time = timestamp[1];
-        String[] time_pieces = time.split(":");
-        
-        output.append(date_pieces[1] + "/" + date_pieces[2] + "/" + date_pieces[0]+ " ");
-        output.append(time_pieces[0] + ":" + time_pieces[1] + ":" + time_pieces[2].substring(0, 2));
-        
-        //System.out.println(output.toString());
-        
+        output.append(OTStamp);
         
         return output.toString();
     }

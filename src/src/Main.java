@@ -11,7 +11,7 @@ public class Main {
         Punch p1 = db.getPunch(3433);
         //System.out.println(p1.getDayOfWeek());
         
-        //System.out.println(p1.printOriginalTimestamp());
+        System.out.println(p1.printOriginalTimestamp());
     
     }
     
