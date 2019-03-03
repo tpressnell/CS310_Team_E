@@ -1,6 +1,7 @@
 package src;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -212,7 +213,8 @@ public class TASDatabase {
         //create ArrayList to hold punches for a given day
         try{
         ArrayList<Punch> punches = new ArrayList<>();
-        query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "'";
+        String originalTimeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ts);
+        query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "' AND WHERE originaltimestamp = '" + originalTimeStamp + "'" ;
         pstSelect = conn.prepareStatement(query);
         pstSelect.execute();
         resultset = pstSelect.getResultSet();
