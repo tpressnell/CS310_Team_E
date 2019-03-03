@@ -195,9 +195,11 @@ public class TASDatabase {
                 
                 // Execute Update Query
                 
-            pstUpdate.executeUpdate();
+            pstUpdate.executeUpdate(); 
+            resultset = pstUpdate.getGeneratedKeys();
+            resultset.first();
             
-             return p.getPunchID();
+             return resultset.getInt(1);
         
         }
         catch(Exception e){
