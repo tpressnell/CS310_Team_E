@@ -51,6 +51,7 @@ public class Punch{
         System.out.println(date);
         this.originalTimestamp = date;
         this.ots = date.getTime();
+        this.stringTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.ots);
         greg = new GregorianCalendar();
         greg.setTimeInMillis(this.ots);
         

@@ -169,7 +169,7 @@ public class TASDatabase {
     public int insertPunch(Punch p){
         
         try {
-            int punchId, punchTypeID, termId;
+            int punchTypeID, termId;
             String badgeID;
 
             // Time Paramterers
@@ -177,7 +177,6 @@ public class TASDatabase {
 
             // Badge Parameters
             badgeID = p.getBadgeID();
-            punchId = p.getPunchID();
             
             // Punch/Terminal  Parameters 
             punchTypeID = p.getPunchType();
@@ -186,20 +185,19 @@ public class TASDatabase {
             
 
             // Put in in the database thingy
-            query = "INSERT INTO punch (id, terminalid, badgeid, originaltimestamp, punchtypeid) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = " + punchId;
+            query = "INSERT INTO punch (terminalid, badgeid, originaltimestamp, punchtypeid) VALUES (?, ?, ?, ?)";
             
             pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            pstUpdate.setInt(1, punchId);
-            pstUpdate.setInt(2, termId);
-            pstUpdate.setString(3, badgeID);
-            pstUpdate.setString(4, timeStamp);
-            pstUpdate.setInt(5, punchTypeID);
+            pstUpdate.setInt(1, termId);
+            pstUpdate.setString(2, badgeID);
+            pstUpdate.setString(3, timeStamp);
+            pstUpdate.setInt(4, punchTypeID);
                 
                 // Execute Update Query
                 
             pstUpdate.executeUpdate();
             
-             return punchId;
+             return p.getPunchID();
         
         }
         catch(Exception e){
