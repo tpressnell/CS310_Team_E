@@ -46,9 +46,6 @@ public class Feature2 {
         /* Retrieve New Punch */
         
         Punch p2 = db.getPunch(punchid);
-        
-        System.out.println("TEST badgeid: " +badgeid);
-        System.out.println("TEST badgeid: " +p2.getBadgeID());
 		
         /* Compare Punches */
 
@@ -113,7 +110,7 @@ public class Feature2 {
         }
         
         /* Compare Output Strings */
-        
+        System.out.println("S1: " + s1.toString() + " " + "S2:" + s2.toString());
         assertEquals( s1.toString(), s2.toString() );
         
     }

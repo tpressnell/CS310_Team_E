@@ -57,7 +57,6 @@ public class TASDatabase {
         String name = resultset.getString(2);
         
         Badge b = new Badge(name, idNum);
-        System.out.println(name + "  " + idNum);
         
         return b;
         }
@@ -213,8 +212,8 @@ public class TASDatabase {
         //create ArrayList to hold punches for a given day
         try{
         ArrayList<Punch> punches = new ArrayList<>();
-        String originalTimeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ts);
-        query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "' AND WHERE originaltimestamp = '" + originalTimeStamp + "'" ;
+        String originalTimeStamp = new SimpleDateFormat("yyyy-MM-dd").format(ts);
+        query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "' AND originaltimestamp LIKE '%" + originalTimeStamp + "%'" ;
         pstSelect = conn.prepareStatement(query);
         pstSelect.execute();
         resultset = pstSelect.getResultSet();
