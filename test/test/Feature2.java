@@ -110,7 +110,6 @@ public class Feature2 {
         }
         
         /* Compare Output Strings */
-        System.out.println("S1: " + s1.toString() + " " + "S2:" + s2.toString());
         assertEquals( s1.toString(), s2.toString() );
         
     }

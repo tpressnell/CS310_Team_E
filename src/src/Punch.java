@@ -48,7 +48,6 @@ public class Punch{
         this.termId = newTermID;
         this.punchID = newPunchID;
         Date date = new Date();
-        System.out.println(date);
         this.originalTimestamp = date;
         this.ots = date.getTime();
         this.stringTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.ots);
