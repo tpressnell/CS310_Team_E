@@ -1,6 +1,7 @@
 package src;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,20 +17,22 @@ public class Punch{
     public static final int CLOCK_IN = 1;
     public static final int TIME_OUT = 2;
     private int punchType;
-    private long originalTimestamp;
+    private Date originalTimestamp;
     private Badge Badge;
-    private String otStamp;
+    private String stringTimestamp;
     public GregorianCalendar greg;
     private int punchID;
     private int termId; 
+    private long ots;
+    private long ats;
     
     
     
-    public Punch(Badge inBadge, long ms, int typeID, String otStamp, int punchId, int tID){
+    public Punch(Badge inBadge, long ms, int typeID, String stringTimestamp, int punchId, int tID){
         
         this.punchType = typeID;
-        this.mSecond = ms;
-        this.otStamp = otStamp;
+        this.ots= ms;
+        this.stringTimestamp = stringTimestamp;
         this.punchID = punchId;
         this.termId = tID;
         this.Badge = inBadge;
@@ -44,9 +47,13 @@ public class Punch{
         this.Badge = b;
         this.termId = newTermID;
         this.punchID = newPunchID;
-        Timestamp ts = new Timestamp(System.currentTimeMillis());
-        long longTS = ts.getTime();
-        this.longTimestamp= longTS;
+        Date date = new Date();
+        System.out.println(date);
+        this.originalTimestamp = date;
+        this.ots = date.getTime();
+        greg = new GregorianCalendar();
+        greg.setTimeInMillis(this.ots);
+        
     }
     
   
@@ -57,8 +64,16 @@ public class Punch{
         return termId;
     }
     
-    public long getLongTS(){
-        return this.longTimestamp;
+    public Date getOriginalTimestamp(){
+        return this.originalTimestamp;
+    }
+    
+    public long getOTS(){
+        return this.ots;
+    }
+    
+    public long getATS(){
+        return this.ats;
     }
     
     public int getPunchID() {
@@ -69,8 +84,8 @@ public class Punch{
         return this.punchType;
     }
 
-    public String getotStamp() {
-        return this.otStamp;
+    public String getStringTimestamp() {
+        return this.stringTimestamp;
     }
       
     public String getBadgeID() {
@@ -129,8 +144,8 @@ public class Punch{
         this.punchID = punchID;
     }
 
-    public void setOtStamp(String otStamp) {
-        this.otStamp = otStamp;
+    public void setStringTimestamp(String stringTimestamp) {
+        this.stringTimestamp = stringTimestamp;
     }
 
     public void setYear(int year) {
@@ -210,7 +225,7 @@ public class Punch{
                 
         }
         
-        String[] timestamp = otStamp.split(" ");
+        String[] timestamp = stringTimestamp.split(" ");
         
         String date = timestamp[0];
         String[] date_pieces = date.split("-");

@@ -33,7 +33,7 @@ public class Feature2 {
         
         String badgeid = p1.getBadgeID();
         
-        ots.setTimeInMillis(p1.getLongTS());
+        ots.setTimeInMillis(p1.getOTS());
         String originaltimestamp = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(ots.getTime());
         
         int terminalid = p1.getTerminalid();
@@ -54,7 +54,7 @@ public class Feature2 {
 
         assertEquals(badgeid, p2.getBadgeID());
 
-        rts.setTimeInMillis(p2.getLongTS());
+        rts.setTimeInMillis(p2.getOTS());
         
         assertEquals(originaltimestamp, (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(rts.getTime()));
         assertEquals(terminalid, p2.getTerminalid());
