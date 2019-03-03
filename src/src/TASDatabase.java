@@ -213,25 +213,27 @@ public class TASDatabase {
         try{
         ArrayList<Punch> punches = new ArrayList<>();
         String originalTimeStamp = new SimpleDateFormat("yyyy-MM-dd").format(ts);
-        query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "' AND originaltimestamp LIKE '%" + originalTimeStamp + "%'" ;
+        query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "'" ;
         pstSelect = conn.prepareStatement(query);
         pstSelect.execute();
         resultset = pstSelect.getResultSet();
         resultset.first();
         
         while(resultset.next()){
-            int dbPunchID = resultset.getInt(1);
-            int termID = resultset.getInt(2);
-            String badgeID = resultset.getString(3);
-            Timestamp dbTS = resultset.getTimestamp(4);
-            long longTS = dbTS.getTime();
-            int punchType = resultset.getInt(5);
-            String otStamp = dbTS.toString();
-        
-            Punch p = new Punch(b, longTS, punchType, otStamp, dbPunchID, termID);
-            
-            punches.add(p);
-          
+            String timestamp = resultset.getString(4);
+            if(timestamp.contains(originalTimeStamp)){
+                int dbPunchID = resultset.getInt(1);
+                int termID = resultset.getInt(2);
+                String badgeID = resultset.getString(3);
+                Timestamp dbTS = resultset.getTimestamp(4);
+                long longTS = dbTS.getTime();
+                int punchType = resultset.getInt(5);
+                String otStamp = dbTS.toString();
+
+                Punch p = new Punch(b, longTS, punchType, otStamp, dbPunchID, termID);
+
+                punches.add(p);
+                }
         }
         
         
