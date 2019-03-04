@@ -16,19 +16,19 @@ public class Shift {
         this.lunch_end = lunch_end;
     }
 
-    public long getStart_time() {
+    public long getStart_Time() {
         return start_time;
     }
 
-    public void setStart_time(long start_time) {
+    public void setStart_Time(long start_time) {
         this.start_time = start_time;
     }
 
-    public long getEnd_time() {
+    public long getEnd_Time() {
         return end_time;
     }
 
-    public void setEnd_time(long end_time) {
+    public void setEnd_Time(long end_time) {
         this.end_time = end_time;
     }
     
@@ -40,19 +40,19 @@ public class Shift {
         this.shiftID = newID;
     }
     
-    public long getLunch_start(){
+    public long getLunch_Start(){
         return this.lunch_start;
     }
     
-    public void setLunch_start(long newLunch_start){
+    public void setLunch_Start(long newLunch_start){
         this.lunch_start = newLunch_start;
     }
     
-    public long getLunch_end(){
+    public long getLunch_End(){
         return this.lunch_end;
     }
     
-    public void setLunc_end(long newLunch_end){
+    public void setLunc_End(long newLunch_end){
         this.lunch_end = newLunch_end;
     }
     @Override

@@ -234,6 +234,41 @@ public class Punch{
     
     public void adjust(Shift s){
         
+        long shiftStart = s.getStart_Time();
+        long shiftEnd = s.getEnd_Time();
+        
+        long lunchstart = s.getLunch_Start();
+        long lunchend = s.getLunch_End();
+        long interval = 15000;
+        
+        long timeDifference;
+        
+        GregorianCalendar punchTime = new GregorianCalendar();
+        punchTime.setTimeInMillis(ots);
+        
+        GregorianCalendar adjustedTime = new GregorianCalendar();
+        adjustedTime.setTimeInMillis(ots);
+        
+        
+        
+        if(this.punchType == 1){
+            
+            if(ots < (shiftStart + interval) && ots > (shiftStart - interval)){
+                
+                if(punchTime.before(shiftStart))
+                    adjustedTime.setTimeInMillis(shift_Start);
+                    
+                
+            }
+                
+                
+        }
+        
+        else if(this.punchType == 0){
+            
+            compareTime.setTimeInMillis(end_time);
+        }
+        
     }
  
 }
