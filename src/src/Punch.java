@@ -231,5 +231,9 @@ public class Punch{
         
         return output.toString();
     }
+    
+    public void adjust(Shift s){
+        
+    }
  
 }
