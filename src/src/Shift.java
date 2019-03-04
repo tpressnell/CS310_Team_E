@@ -3,13 +3,17 @@ package src;
 public class Shift {
     
     private long start_time; //Start Time in ms
-    private long end_time;  // End Time in ms
+    private long end_time;
+    private long lunch_start;
+    private long lunch_end;// End Time in ms
     private int shiftID;
     
-    public Shift(long st, long et, int id){
+    public Shift(long st, long et, int id, long lunch_start, long lunch_end){
         this.start_time = st;
         this.end_time = et;
         this.shiftID = id;
+        this.lunch_end = lunch_start;
+        this.lunch_end = lunch_end;
     }
 
     public long getStart_time() {
@@ -34,6 +38,22 @@ public class Shift {
     
     public void setID(int newID){
         this.shiftID = newID;
+    }
+    
+    public long getLunch_start(){
+        return this.lunch_start;
+    }
+    
+    public void setLunch_start(long newLunch_start){
+        this.lunch_start = newLunch_start;
+    }
+    
+    public long getLunch_end(){
+        return this.lunch_end;
+    }
+    
+    public void setLunc_end(long newLunch_end){
+        this.lunch_end = newLunch_end;
     }
     @Override
     public String toString(){
