@@ -11,8 +11,8 @@ import java.util.Date;
 
 
 public class Punch{
-    
-   
+    public static final long INTERVAL = 15000;
+    public static final long GRACE_PERIOD = 5000;
     public static final int CLOCK_OUT = 0;
     public static final int CLOCK_IN = 1;
     public static final int TIME_OUT = 2;
@@ -110,7 +110,7 @@ public class Punch{
         
         long lunchStart = s.getLunch_Start();
         long lunchEnd = s.getLunch_End();
-        final long INTERVAL = 15000;
+        
         
         long timeDifference;
         
