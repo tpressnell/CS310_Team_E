@@ -147,7 +147,7 @@ public class Punch{
             }
             else if( ots > lunchStart && ots < lunchEnd) {
                 
-                ats = ots + (ots - lunchStart);
+                ats = ots - (ots - lunchStart);
                 
             }
             
