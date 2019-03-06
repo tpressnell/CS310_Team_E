@@ -108,8 +108,8 @@ public class Punch{
         long shiftStart = s.getStart_Time();
         long shiftEnd = s.getEnd_Time();
         
-        long lunchstart = s.getLunch_Start();
-        long lunchend = s.getLunch_End();
+        long lunchStart = s.getLunch_Start();
+        long lunchEnd = s.getLunch_End();
         final long INTERVAL = 15000;
         
         long timeDifference;
@@ -127,16 +127,33 @@ public class Punch{
             if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){
                 
                 timeDifference = shiftStart - ots;
-                long adjustedTS = this.getOTS() + timeDifference;
-                adjustedTime.setTimeInMillis(adjustedTS);
-                ats = adjustedTime.getTimeInMillis();
+                ats = ots + timeDifference;
                 
             }
+            
+            else if( ots < lunchEnd && ots > lunchStart) {
                 
-                
+                ats = ots + (lunchEnd - ots);
+                 
+            } 
         }
-     
-    }
+        else if ( this.punchType == 0) {
+            
+            if ( ots  > shiftEnd && ots < shiftEnd + INTERVAL) {
+                
+                timeDifference = ots - shiftEnd;
+                ats = ots - timeDifference;
+                
+            }
+            else if( ots > lunchStart && ots < lunchEnd) {
+                
+                ats = ots + (ots - lunchStart);
+                
+            }
+            
+            
+        }
+ }
         // Getters
     
 
@@ -268,6 +285,6 @@ public class Punch{
     }
     
         
-    }
- 
 }
+ 
+
