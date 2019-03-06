@@ -255,9 +255,7 @@ public class Punch{
             
             if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){
                 
-                adjustedTime.set(Calendar.HOUR, );
-                adjustedTime.set(Calendar.MINUTE, )
-                    
+                
                 
             }
                 
