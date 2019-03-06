@@ -118,7 +118,7 @@ public class Punch{
         punchTime.setTimeInMillis(ots);
         
         GregorianCalendar adjustedTime = new GregorianCalendar();
-        adjustedTime.setTimeInMillis(ots);
+        
         
         
         
@@ -126,17 +126,17 @@ public class Punch{
             
             if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){
                 
-                
+                timeDifference = shiftStart - ots;
+                long adjustedTS = this.getOTS() + timeDifference;
+                adjustedTime.setTimeInMillis(adjustedTS);
+                ats = adjustedTime.getTimeInMillis();
                 
             }
                 
                 
         }
-        
-        else if(this.punchType == 0){
-            
-            compareTime.setTimeInMillis(end_time);
-        }
+     
+    }
         // Getters
     
 
