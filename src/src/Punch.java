@@ -239,7 +239,7 @@ public class Punch{
         
         long lunchstart = s.getLunch_Start();
         long lunchend = s.getLunch_End();
-        long interval = 15000;
+        final long INTERVAL = 15000;
         
         long timeDifference;
         
@@ -253,10 +253,10 @@ public class Punch{
         
         if(this.punchType == 1){
             
-            if(ots < (shiftStart + interval) && ots > (shiftStart - interval)){
+            if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){
                 
-                if(punchTime.before(shiftStart))
-                    adjustedTime.setTimeInMillis(shift_Start);
+                adjustedTime.set(Calendar.HOUR, );
+                adjustedTime.set(Calendar.MINUTE, )
                     
                 
             }
