@@ -11,6 +11,7 @@ import java.util.Date;
 
 
 public class Punch{
+    
     public static final long INTERVAL = 15000;
     public static final long GRACE_PERIOD = 5000;
     public static final int CLOCK_OUT = 0;
@@ -110,46 +111,68 @@ public class Punch{
         
         long lunchStart = s.getLunch_Start();
         long lunchEnd = s.getLunch_End();
-        
-        
+                
         long timeDifference;
-        
-        GregorianCalendar punchTime = new GregorianCalendar();
-        punchTime.setTimeInMillis(ots);
-        
-        GregorianCalendar adjustedTime = new GregorianCalendar();
-        
-        
-        
         
         if(this.punchType == 1){
             
-            if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){
+            if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){ //CLOCK IN LESS THAN 15 MINS EARLY
                 
                 timeDifference = shiftStart - ots;
                 ats = ots + timeDifference;
                 
             }
             
-            else if( ots < lunchEnd && ots > lunchStart) {
+            else if( ots < lunchEnd && ots > lunchStart) { //CLOCK IN EARLY FROM LUNCH
                 
                 ats = ots + (lunchEnd - ots);
                  
             } 
+            
+            else if(ots > shiftStart && ots < shiftStart + GRACE_PERIOD){ //CLOCK IN LESS THAN 5 MINS LATE
+                ats = ots - (ots - shiftStart);
+            }
+            
+            else if(ots > shiftStart + GRACE_PERIOD && ots < shiftStart + INTERVAL){  //CLOCK IN THAT LATE ENOUGH FOR A DOCK  
+                ats = shiftStart + INTERVAL;
+            }
+            
+            else if(ots > lunchEnd && ots < lunchEnd + GRACE_PERIOD){  //CLOCK IN WITHIN GRACE PERIOD FOR LUNCH
+                ats = ots - (ots - shiftStart);
+            }
+            
+            else if(ots > lunchEnd + GRACE_PERIOD && ots < lunchEnd + INTERVAL){ //CLOCK IN FROM LUNCH THAT IS DOCKED
+                ats = lunchEnd + INTERVAL;
+            }
+            
         }
         else if ( this.punchType == 0) {
             
-            if ( ots  > shiftEnd && ots < shiftEnd + INTERVAL) {
+            if ( ots  > shiftEnd && ots < shiftEnd + INTERVAL) { // ClOCK OUT LATE LESS THAN 15 MINS
                 
                 timeDifference = ots - shiftEnd;
-                ats = ots - timeDifference;
+                ats = ots - timeDifference;    
+            }
+            
+            else if( ots > lunchStart && ots < lunchEnd) { //CLOCK OUT LATE FOR LUNCH
+                
+                ats = ots - (ots - lunchStart);      
+            }
+            
+            else if(ots < shiftEnd && ots > shiftEnd - GRACE_PERIOD){ //CLOCK OUT EARLY LESS THAN 5 MINS
+                ats = ots + (shiftEnd - ots);
+            }
+            
+            else if(ots < shiftEnd - GRACE_PERIOD && ots > shiftEnd - INTERVAL){ //CLOCK EARLY THAT IS DOCKED
+                ats = shiftEnd - INTERVAL;
+            }
+            
+            else if(ots < lunchStart && ots > lunchStart - GRACE_PERIOD){
                 
             }
-            else if( ots > lunchStart && ots < lunchEnd) {
-                
-                ats = ots - (ots - lunchStart);
-                
-            }
+            
+            
+            
             
             
         }
