@@ -336,6 +336,9 @@ public class Punch{
     public GregorianCalendar getGreg() {
         return greg;
     }
+    public String getAdjustData(){
+        return adjustData;
+    }
     
     
     
