@@ -1,6 +1,7 @@
 
 package src;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -11,12 +12,16 @@ public class Main {
         
         TASDatabase db = new TASDatabase();
         
-        Punch p1 = db.getPunch(1162);
-        Shift s1 = db.getShift(1);
+        Punch p = db.getPunch(3634);
+        Badge b = db.getBadge(p.getBadgeID());
+        Shift s = db.getShift(b);
         
-        p1.adjust(s1);
-        System.out.println(p1.printOriginalTimestamp());
-       System.out.println(p1.printAdjustedTimestamp());
+        ArrayList<Punch> dailypunchlist = db.getDailyPunchList(b, p.getOTS());
+        
+        for(Punch p1 : dailypunchlist){
+            p1.adjust(s);
+            System.out.println(p1.getOTS() + " " + p1.getATS());
+        }
         
         
     }
