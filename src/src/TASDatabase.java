@@ -114,16 +114,13 @@ public class TASDatabase {
             
             Timestamp ts = resultset.getTimestamp(3);
             long startTime = ts.getTime();
-            System.out.println(startTime);
-            
+             
             ts = resultset.getTimestamp(4);
             long endTime = ts.getTime();
-            
-            
+               
             ts = resultset.getTimestamp(8);
             long lunch_start = ts.getTime();
-            System.out.println("LS: " + lunch_start);
-            
+              
             ts = resultset.getTimestamp(9);
             long lunch_end = ts.getTime();
             

@@ -175,7 +175,6 @@ public class Punch{
         shiftEnd = SEGC.getTimeInMillis();
         
         long lunchStart = s.getLunch_Start();
-        System.out.println("AASDASD " + lunchStart);
         
         GregorianCalendar LSGC = new GregorianCalendar();
         LSGC.setTimeInMillis(lunchStart);
@@ -195,13 +194,13 @@ public class Punch{
           
         int numOfIntervals;    
         long timeDifference;
+        boolean isWeekEnd = false;
+         
+       if(OTS.get(Calendar.DAY_OF_WEEK) == 1 || OTS.get(Calendar.DAY_OF_WEEK) == 7)
+           isWeekEnd = true;
         
-        
-     
-       if((OTS.get(Calendar.DAY_OF_WEEK) != 1) || OTS.get(Calendar.DAY_OF_WEEK) != 7){
+       if(!isWeekEnd){
            
-           
- 
         // PUNCH IN
         if(this.punchType == 1){
                          
@@ -440,7 +439,7 @@ public class Punch{
         }
         
        }
-       else if((OTS.get(Calendar.DAY_OF_WEEK) == 1) || OTS.get(Calendar.DAY_OF_WEEK) == 7){
+       else if(isWeekEnd){
                 GregorianCalendar NCCI = new GregorianCalendar();
                 NCCI.setTimeInMillis(ots);
                 
