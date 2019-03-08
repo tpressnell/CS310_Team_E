@@ -74,9 +74,9 @@ public class TASLogic {
             HashMap<String, String> punchData = new HashMap();
             
             punchData.put("id", String.valueOf(p.getPunchID()));
-            punchData.put("badgeID", p.getBadgeID());
-            punchData.put("termID", String.valueOf(p.getTerminalid()));
-            punchData.put("punchType", String.valueOf(p.getPunchType()));
+            punchData.put("badgeid", p.getBadgeID());
+            punchData.put("terminalid", String.valueOf(p.getTerminalid()));
+            punchData.put("punchtypeid", String.valueOf(p.getPunchType()));
             punchData.put("punchdata", p.getAdjustData());
             punchData.put("originaltimestamp", String.valueOf(p.getOTS()));
             punchData.put("adjsutedtimestamp", String.valueOf(p.getATS()));
