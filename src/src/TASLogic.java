@@ -62,4 +62,9 @@ public class TASLogic {
         
         return minutes;
     }
+    
+    public static String getPunchListAsJSON(ArrayList<Punch> dailyPunchList){
+        
+        return null;
+    }
 }
