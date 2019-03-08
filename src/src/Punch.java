@@ -167,8 +167,9 @@ public class Punch{
             
             if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){ //CLOCK IN LESS THAN 15 MINS EARLY
                 
-                timeDifference = shiftStart - ots;
-                ats = ots + timeDifference;
+                
+                ats = ots + (shiftStart - ots);
+                
                 adjustData = "Shift Start";
                 
                 
@@ -212,12 +213,15 @@ public class Punch{
                     if ((nonConformingClockIn.get(Calendar.MINUTE) / 15) < 0.5) {
                         
                         nonConformingClockIn.set(Calendar.MINUTE, 0);
-                        nonConformingClockIn.set(Calendar.SECOND, 0);  
+                        nonConformingClockIn.set(Calendar.SECOND, 0);
+                        ats = nonConformingClockIn.getTimeInMillis();
+                        adjustData = "Interval Round";
                     }
                     else {
                         nonConformingClockIn.set(Calendar.MINUTE, 15);
                         nonConformingClockIn.set(Calendar.SECOND, 0);
-                        
+                        ats = nonConformingClockIn.getTimeInMillis();
+                        adjustData = "Interval Round";
                     }
                 }
                 else if ( numOfIntervals == 1) {
@@ -225,12 +229,15 @@ public class Punch{
                     if (((nonConformingClockIn.get(Calendar.MINUTE) - 15) / 15) < 0.5) {
                         
                         nonConformingClockIn.set(Calendar.MINUTE, 15);
-                        nonConformingClockIn.set(Calendar.SECOND, 0);  
+                        nonConformingClockIn.set(Calendar.SECOND, 0);
+                        ats = nonConformingClockIn.getTimeInMillis();
+                        adjustData = "Interval Round";
                     }
                     else {
                         nonConformingClockIn.set(Calendar.MINUTE, 30);
                         nonConformingClockIn.set(Calendar.SECOND, 0);
-                        
+                        ats = nonConformingClockIn.getTimeInMillis();
+                        adjustData = "Interval Round";
                     }
                 }
                 else if ( numOfIntervals == 2) {
@@ -238,12 +245,15 @@ public class Punch{
                     if (((nonConformingClockIn.get(Calendar.MINUTE) - 30 ) / 15) < 0.5) {
                         
                         nonConformingClockIn.set(Calendar.MINUTE, 30);
-                        nonConformingClockIn.set(Calendar.SECOND, 0);  
+                        nonConformingClockIn.set(Calendar.SECOND, 0); 
+                        ats = nonConformingClockIn.getTimeInMillis();
+                        adjustData = "Interval Round";
                     }
                     else {
                         nonConformingClockIn.set(Calendar.MINUTE, 45);
                         nonConformingClockIn.set(Calendar.SECOND, 0);
-                        
+                        ats = nonConformingClockIn.getTimeInMillis();
+                        adjustData = "Interval Round";
                     } 
                 }
                 else if ( numOfIntervals == 3) {
@@ -251,13 +261,17 @@ public class Punch{
                     if (((nonConformingClockIn.get(Calendar.MINUTE) - 45) / 15) < 0.5) {
                         
                         nonConformingClockIn.set(Calendar.MINUTE, 45);
-                        nonConformingClockIn.set(Calendar.SECOND, 0);  
+                        nonConformingClockIn.set(Calendar.SECOND, 0); 
+                        ats = nonConformingClockIn.getTimeInMillis();
+                        adjustData = "Interval Round";
                     }
                     else {
                         
                         nonConformingClockIn.set(Calendar.HOUR, Calendar.HOUR + 1);
                         nonConformingClockIn.set(Calendar.MINUTE, 0);
                         nonConformingClockIn.set(Calendar.SECOND, 0);
+                        ats = nonConformingClockIn.getTimeInMillis();
+                        adjustData = "Interval Round";
                         
                     }
                 }
