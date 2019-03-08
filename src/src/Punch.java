@@ -20,7 +20,7 @@ public class Punch{
     private int punchType;
     private Date originalTimestamp;
     private Badge Badge;
-    private String stringTimestamp;
+    private String stringTimestamp, adjustData;
     public GregorianCalendar greg;
     private int punchID;
     private int termId; 
@@ -120,29 +120,36 @@ public class Punch{
                 
                 timeDifference = shiftStart - ots;
                 ats = ots + timeDifference;
+                adjustData = "Shift Start";
+                
                 
             }
             
             else if( ots < lunchEnd && ots > lunchStart) { //CLOCK IN EARLY FROM LUNCH
                 
                 ats = ots + (lunchEnd - ots);
+                adjustData = "Lunch End";
                  
             } 
             
             else if(ots > shiftStart && ots < shiftStart + GRACE_PERIOD){ //CLOCK IN LESS THAN 5 MINS LATE
                 ats = ots - (ots - shiftStart);
+                adjustData = "Shift Start";
             }
             
             else if(ots > shiftStart + GRACE_PERIOD && ots < shiftStart + INTERVAL){  //CLOCK IN THAT LATE ENOUGH FOR A DOCK  
                 ats = shiftStart + INTERVAL;
+                adjustData = "Shift Start";
             }
             
             else if(ots > lunchEnd && ots < lunchEnd + GRACE_PERIOD){  //CLOCK IN WITHIN GRACE PERIOD FOR LUNCH
                 ats = ots - (ots - shiftStart);
+                adjustData = "Lunch End";
             }
             
             else if(ots > lunchEnd + GRACE_PERIOD && ots < lunchEnd + INTERVAL){ //CLOCK IN FROM LUNCH THAT IS DOCKED
                 ats = lunchEnd + INTERVAL;
+                adjustData = "Lunch End";
             }
             
             else{
@@ -155,30 +162,41 @@ public class Punch{
             if ( ots  > shiftEnd && ots < shiftEnd + INTERVAL) { // ClOCK OUT LATE LESS THAN 15 MINS
                 
                 timeDifference = ots - shiftEnd;
-                ats = ots - timeDifference;    
+                ats = ots - timeDifference; 
+                adjustData = "Shift End";
             }
             
             else if( ots > lunchStart && ots < lunchEnd) { //CLOCK OUT LATE FOR LUNCH
                 
-                ats = ots - (ots - lunchStart);      
+                ats = ots - (ots - lunchStart);
+                adjustData = "Lunch Start";
             }
             
             else if(ots < shiftEnd && ots > shiftEnd - GRACE_PERIOD){ //CLOCK OUT EARLY LESS THAN 5 MINS
                 ats = ots + (shiftEnd - ots);
+                adjustData = "Shift End";
             }
             
             else if(ots < shiftEnd - GRACE_PERIOD && ots > shiftEnd - INTERVAL){ //CLOCK EARLY THAT IS DOCKED
                 ats = shiftEnd - INTERVAL;
+                adjustData = "Shift End";
             }
             
             else if(ots < lunchStart - GRACE_PERIOD && ots > lunchStart - INTERVAL){
-                ats = lunchStart - INTERVAL;                
+                ats = lunchStart - INTERVAL;
+                adjustData = "Lunch Start";
             }
  
         }
         
         else if(this.punchType == 2){
             ats = ots - (ots - shiftEnd);
+            adjustData = "Shift End";
+        }
+        
+        else{
+            GregorianCalendar yeah = new GregorianCalendar();
+            yeah.setTimeInMillis(ots);
         }
         
         
