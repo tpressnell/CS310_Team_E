@@ -152,27 +152,76 @@ public class Punch{
     
     public void adjust(Shift s){
         
+        GregorianCalendar compareTime = new GregorianCalendar();
+        
         long shiftStart = s.getStart_Time();
+        System.out.println(shiftStart);
         long shiftEnd = s.getEnd_Time();
         
         long lunchStart = s.getLunch_Start();
         long lunchEnd = s.getLunch_End();
         
+        GregorianCalendar shiftStartGC = new GregorianCalendar();
+        shiftStartGC.setTimeInMillis(ots);
+        
+        compareTime.setTimeInMillis(shiftStart);
+        
+        shiftStartGC.set(Calendar.HOUR_OF_DAY, compareTime.get(Calendar.HOUR_OF_DAY));
+        shiftStartGC.set(Calendar.MINUTE, compareTime.get(Calendar.MINUTE));
+        shiftStartGC.set(Calendar.SECOND, compareTime.get(Calendar.SECOND));
+        
+        shiftStart = shiftStartGC.getTimeInMillis();
+        
+        GregorianCalendar shiftEndGC = new GregorianCalendar();
+        shiftEndGC.setTimeInMillis(ots);
+        
+        compareTime.setTimeInMillis(shiftEnd);
+        
+        shiftEndGC.set(Calendar.HOUR_OF_DAY, compareTime.get(Calendar.HOUR_OF_DAY));
+        shiftEndGC.set(Calendar.MINUTE, compareTime.get(Calendar.MINUTE));
+        shiftEndGC.set(Calendar.SECOND, compareTime.get(Calendar.SECOND));
+        
+        shiftEnd = shiftEndGC.getTimeInMillis();
+        
+        GregorianCalendar lunchStartGC = new GregorianCalendar();
+        shiftEndGC.setTimeInMillis(ots);
+        
+        compareTime.setTimeInMillis(shiftEnd);
+        
+        shiftEndGC.set(Calendar.HOUR_OF_DAY, compareTime.get(Calendar.HOUR_OF_DAY));
+        shiftEndGC.set(Calendar.MINUTE, compareTime.get(Calendar.MINUTE));
+        shiftEndGC.set(Calendar.SECOND, compareTime.get(Calendar.SECOND));
+        
+        shiftEnd = shiftEndGC.getTimeInMillis();
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         int numOfIntervals;
                 
         long timeDifference;
+        long 
+        
+        
         
         // PUNCH IN
         if(this.punchType == 1){
             
+            
+            
             if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){ //CLOCK IN LESS THAN 15 MINS EARLY
                 
-                
                 ats = ots + (shiftStart - ots);
-                
-                adjustData = "Shift Start";
-                
-                
+                adjustData = "Shift Start";         
             }
             
             else if( ots < lunchEnd && ots > lunchStart) { //CLOCK IN EARLY FROM LUNCH
