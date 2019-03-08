@@ -14,7 +14,7 @@ public class TASLogic {
         final int CONVERT_TO_MINUTES = 60000;
         final int LUNCH_BREAK = 30;
         
-        if (dailyPunchList.size() == 0){
+        if (dailyPunchList.isEmpty()){
             minutes = 0;
         }
         
@@ -23,10 +23,10 @@ public class TASLogic {
         }
         
         else if(dailyPunchList.size() == 2){
-            long time_in = dailyPunchList.get(0).getOTS();
-            long time_out = dailyPunchList.get(1).getOTS();
+            long time_in = dailyPunchList.get(0).getATS();
+            long time_out = dailyPunchList.get(1).getATS();
             
-            if((time_out - time_in) > LUNCH_DEDUCT){
+            if(((time_out - time_in) / CONVERT_TO_MINUTES) > LUNCH_DEDUCT){
                 minutes = (int)(((time_out - time_in) / CONVERT_TO_MINUTES) - LUNCH_BREAK);
             }
             
@@ -42,14 +42,14 @@ public class TASLogic {
         }
         
         else if (dailyPunchList.size() == 4){
-            long time_in = dailyPunchList.get(0).getOTS();
-            long lunch_start = dailyPunchList.get(1).getOTS();
-            long lunch_stop = dailyPunchList.get(2).getOTS();
-            long time_out = dailyPunchList.get(3).getOTS();
+            long time_in = dailyPunchList.get(0).getATS();
+            long lunch_start = dailyPunchList.get(1).getATS();
+            long lunch_stop = dailyPunchList.get(2).getATS();
+            long time_out = dailyPunchList.get(3).getATS();
             
             long lunch_break = lunch_stop - lunch_start;
             
-            if((time_out - time_in) > LUNCH_DEDUCT){
+            if(((time_out - time_in) / CONVERT_TO_MINUTES) > LUNCH_DEDUCT){
                 minutes = (int)(((time_out - time_in) - lunch_break) / CONVERT_TO_MINUTES);
             }
             
@@ -79,7 +79,7 @@ public class TASLogic {
             punchData.put("punchtypeid", String.valueOf(p.getPunchType()));
             punchData.put("punchdata", p.getAdjustData());
             punchData.put("originaltimestamp", String.valueOf(p.getOTS()));
-            punchData.put("adjsutedtimestamp", String.valueOf(p.getATS()));
+            punchData.put("adjustedtimestamp", String.valueOf(p.getATS()));
             
             jsonData.add(punchData);
         }
