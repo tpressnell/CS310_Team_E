@@ -2,6 +2,8 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import org.json.simple.JSONValue;
 
 public class TASLogic {
     
@@ -64,7 +66,26 @@ public class TASLogic {
     }
     
     public static String getPunchListAsJSON(ArrayList<Punch> dailyPunchList){
+        ArrayList<HashMap<String, String>> jsonData = new ArrayList();
+        String results;
         
-        return null;
+        for(Punch p : dailyPunchList){
+            
+            HashMap<String, String> punchData = new HashMap();
+            
+            punchData.put("id", String.valueOf(p.getPunchID()));
+            punchData.put("badgeID", p.getBadgeID());
+            punchData.put("termID", String.valueOf(p.getTerminalid()));
+            punchData.put("punchType", String.valueOf(p.getPunchType()));
+            punchData.put("punchdata", p.getAdjustData());
+            punchData.put("originaltimestamp", String.valueOf(p.getOTS()));
+            punchData.put("adjsutedtimestamp", String.valueOf(p.getATS()));
+            
+            jsonData.add(punchData);
+        }
+        
+        results = JSONValue.toJSONString(jsonData);
+        
+        return results;
     }
 }
