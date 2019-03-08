@@ -172,6 +172,7 @@ public class Punch{
         
         shiftStart = shiftStartGC.getTimeInMillis();
         
+        
         GregorianCalendar shiftEndGC = new GregorianCalendar();
         shiftEndGC.setTimeInMillis(ots);
         
@@ -183,36 +184,34 @@ public class Punch{
         
         shiftEnd = shiftEndGC.getTimeInMillis();
         
+        
         GregorianCalendar lunchStartGC = new GregorianCalendar();
-        shiftEndGC.setTimeInMillis(ots);
+        lunchStartGC.setTimeInMillis(ots);
         
-        compareTime.setTimeInMillis(shiftEnd);
+        compareTime.setTimeInMillis(lunchStart);
         
-        shiftEndGC.set(Calendar.HOUR_OF_DAY, compareTime.get(Calendar.HOUR_OF_DAY));
-        shiftEndGC.set(Calendar.MINUTE, compareTime.get(Calendar.MINUTE));
-        shiftEndGC.set(Calendar.SECOND, compareTime.get(Calendar.SECOND));
+        lunchStartGC.set(Calendar.HOUR_OF_DAY, compareTime.get(Calendar.HOUR_OF_DAY));
+        lunchStartGC.set(Calendar.MINUTE, compareTime.get(Calendar.MINUTE));
+        lunchStartGC.set(Calendar.SECOND, compareTime.get(Calendar.SECOND));
         
-        shiftEnd = shiftEndGC.getTimeInMillis();
-        
-        
+        lunchStart = shiftEndGC.getTimeInMillis();
         
         
+        GregorianCalendar lunchEndGC = new GregorianCalendar();
+        lunchEndGC.setTimeInMillis(ots);
         
+        compareTime.setTimeInMillis(lunchEnd);
         
+        lunchEndGC.set(Calendar.HOUR_OF_DAY, compareTime.get(Calendar.HOUR_OF_DAY));
+        lunchEndGC.set(Calendar.MINUTE, compareTime.get(Calendar.MINUTE));
+        lunchEndGC.set(Calendar.SECOND, compareTime.get(Calendar.SECOND));
         
+        lunchEnd = shiftEndGC.getTimeInMillis();
         
-        
-        
-        
-        
-        
-        int numOfIntervals;
-                
+  
+        int numOfIntervals;    
         long timeDifference;
-        long 
-        
-        
-        
+ 
         // PUNCH IN
         if(this.punchType == 1){
             
