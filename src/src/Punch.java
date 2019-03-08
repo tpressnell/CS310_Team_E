@@ -111,9 +111,12 @@ public class Punch{
         
         long lunchStart = s.getLunch_Start();
         long lunchEnd = s.getLunch_End();
+        
+        int numOfIntervals;
                 
         long timeDifference;
         
+        // PUNCH IN
         if(this.punchType == 1){
             
             if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){ //CLOCK IN LESS THAN 15 MINS EARLY
@@ -147,10 +150,69 @@ public class Punch{
             
             else{
                 
+                GregorianCalendar nonConformingClockIn = new GregorianCalendar();
+                nonConformingClockIn.setTimeInMillis(ots);
+                numOfIntervals = (nonConformingClockIn.get(Calendar.MINUTE)) % 15;
+                
+                if ( numOfIntervals == 0) {
+                    
+                    if ((nonConformingClockIn.get(Calendar.MINUTE) / 15) < 0.5) {
+                        
+                        nonConformingClockIn.set(Calendar.MINUTE, 0);
+                        nonConformingClockIn.set(Calendar.SECOND, 0);  
+                    }
+                    else {
+                        nonConformingClockIn.set(Calendar.MINUTE, 15);
+                        nonConformingClockIn.set(Calendar.SECOND, 0);
+                        
+                    }
+                }
+                else if ( numOfIntervals == 1) {
+                    
+                    if (((nonConformingClockIn.get(Calendar.MINUTE) - 15) / 15) < 0.5) {
+                        
+                        nonConformingClockIn.set(Calendar.MINUTE, 15);
+                        nonConformingClockIn.set(Calendar.SECOND, 0);  
+                    }
+                    else {
+                        nonConformingClockIn.set(Calendar.MINUTE, 30);
+                        nonConformingClockIn.set(Calendar.SECOND, 0);
+                        
+                    }
+                }
+                else if ( numOfIntervals == 2) {
+                    
+                    if (((nonConformingClockIn.get(Calendar.MINUTE) - 30 ) / 15) < 0.5) {
+                        
+                        nonConformingClockIn.set(Calendar.MINUTE, 30);
+                        nonConformingClockIn.set(Calendar.SECOND, 0);  
+                    }
+                    else {
+                        nonConformingClockIn.set(Calendar.MINUTE, 45);
+                        nonConformingClockIn.set(Calendar.SECOND, 0);
+                        
+                    } 
+                }
+                else if ( numOfIntervals == 3) {
+                    
+                    if (((nonConformingClockIn.get(Calendar.MINUTE) - 45) / 15) < 0.5) {
+                        
+                        nonConformingClockIn.set(Calendar.MINUTE, 45);
+                        nonConformingClockIn.set(Calendar.SECOND, 0);  
+                    }
+                    else {
+                        
+                        nonConformingClockIn.set(Calendar.HOUR, Calendar.HOUR + 1);
+                        nonConformingClockIn.set(Calendar.MINUTE, 0);
+                        nonConformingClockIn.set(Calendar.SECOND, 0);
+                        
+                    }
+                }
             }
-            
         }
-        else if ( this.punchType == 0) {
+        
+        //PUNCH OUT
+        if ( this.punchType == 0) {
             
             if ( ots  > shiftEnd && ots < shiftEnd + INTERVAL) { // ClOCK OUT LATE LESS THAN 15 MINS
                 
@@ -171,7 +233,7 @@ public class Punch{
                 ats = shiftEnd - INTERVAL;
             }
             
-            else if(ots < lunchStart - GRACE_PERIOD && ots > lunchStart - INTERVAL){
+            else if(ots < lunchStart - GRACE_PERIOD && ots > lunchStart - INTERVAL){ //CLOCK OUT EARLY DOCKED
                 ats = lunchStart - INTERVAL;                
             }
  
@@ -179,10 +241,11 @@ public class Punch{
         
         else if(this.punchType == 2){
             ats = ots - (ots - shiftEnd);
-        }
+        }   
+    }
         
-        
- }
+                 
+ 
         // Getters
     
 
