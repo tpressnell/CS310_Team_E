@@ -145,6 +145,10 @@ public class Punch{
                 ats = lunchEnd + INTERVAL;
             }
             
+            else{
+                
+            }
+            
         }
         else if ( this.punchType == 0) {
             
@@ -167,15 +171,17 @@ public class Punch{
                 ats = shiftEnd - INTERVAL;
             }
             
-            else if(ots < lunchStart && ots > lunchStart - GRACE_PERIOD){
-                
+            else if(ots < lunchStart - GRACE_PERIOD && ots > lunchStart - INTERVAL){
+                ats = lunchStart - INTERVAL;                
             }
-            
-            
-            
-            
-            
+ 
         }
+        
+        else if(this.punchType == 2){
+            ats = ots - (ots - shiftEnd);
+        }
+        
+        
  }
         // Getters
     
