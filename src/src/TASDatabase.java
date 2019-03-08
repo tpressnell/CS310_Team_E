@@ -111,13 +111,20 @@ public class TASDatabase {
         
             resultset.first();
             int shiftID = resultset.getInt(1);
+            
             Timestamp ts = resultset.getTimestamp(3);
             long startTime = ts.getTime();
             
             ts = resultset.getTimestamp(4);
             long endTime = ts.getTime();
             
-            Shift returnShift = new Shift(startTime, endTime, shiftID);
+            ts = resultset.getTimestamp(8);
+            long lunch_start = ts.getTime();
+            
+            ts = resultset.getTimestamp(9);
+            long lunch_end = ts.getTime();
+            
+            Shift returnShift = new Shift(startTime, endTime, shiftID, lunch_start, lunch_end);
             
             return returnShift;
         }
@@ -148,14 +155,22 @@ public class TASDatabase {
         
             resultset.first();
             
+            int shiftID = resultset.getInt(1);
+           
             Timestamp ts = resultset.getTimestamp(3);
             long startTime = ts.getTime();
             
             ts = resultset.getTimestamp(4);
             long endTime = ts.getTime();
             
-            Shift returnShift = new Shift(startTime, endTime, shift_id);
+            ts = resultset.getTimestamp(8);
+            long lunch_start = ts.getTime();
             
+            ts = resultset.getTimestamp(9);
+            long lunch_end = ts.getTime();
+            
+            Shift returnShift = new Shift(startTime, endTime, shiftID, lunch_start, lunch_end);
+             
             return returnShift;
             
         }
