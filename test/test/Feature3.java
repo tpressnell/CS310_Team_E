@@ -1,6 +1,7 @@
-package tas_fa18;
+package test;
 
 import org.junit.*;
+import src.*;
 import static org.junit.Assert.*;
 
 public class Feature3 {

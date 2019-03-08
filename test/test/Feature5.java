@@ -1,6 +1,7 @@
-package tas_fa18;
+package test;
 
 import org.junit.*;
+import src.*;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,12 +28,12 @@ public class Feature5 {
         /* Get Punch */
         
         Punch p = db.getPunch(3634);
-        Badge b = db.getBadge(p.getBadgeid());
+        Badge b = db.getBadge(p.getBadgeID());
         Shift s = db.getShift(b);
 		
         /* Get Daily Punch List */
         
-        ArrayList<Punch> dailypunchlist = db.getDailyPunchList(b, p.getOriginaltimestamp());
+        ArrayList<Punch> dailypunchlist = db.getDailyPunchList(b, p.getOTS());
         
         /* Adjust Punches */
         
@@ -64,12 +65,12 @@ public class Feature5 {
         /* Get Punch */
         
         Punch p = db.getPunch(1087);
-        Badge b = db.getBadge(p.getBadgeid());
+        Badge b = db.getBadge(p.getBadgeID());
         Shift s = db.getShift(b);
         
         /* Get Daily Punch List */
         
-        ArrayList<Punch> dailypunchlist = db.getDailyPunchList(b, p.getOriginaltimestamp());
+        ArrayList<Punch> dailypunchlist = db.getDailyPunchList(b, p.getOTS());
         
         /* Adjust Punches */
         
@@ -101,12 +102,12 @@ public class Feature5 {
         /* Get Punch */
         
         Punch p = db.getPunch(4943);
-        Badge b = db.getBadge(p.getBadgeid());
+        Badge b = db.getBadge(p.getBadgeID());
         Shift s = db.getShift(b);
         
         /* Get Daily Punch List */
         
-        ArrayList<Punch> dailypunchlist = db.getDailyPunchList(b, p.getOriginaltimestamp());
+        ArrayList<Punch> dailypunchlist = db.getDailyPunchList(b, p.getOTS());
         
         /* Adjust Punches */
         

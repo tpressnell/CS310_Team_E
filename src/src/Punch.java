@@ -104,6 +104,52 @@ public class Punch{
         return output.toString();
     }
     
+    public String printAdjustedTimestamp(){
+        StringBuilder output = new StringBuilder("");
+        
+        output.append( "#"+ this.getBadgeID());
+        
+        if(this.getPunchType() == 0)
+            output.append(" CLOCKED OUT: ");
+        else if(this.getPunchType() == 1)
+            output.append(" CLOCKED IN: ");
+        else if(this.getPunchType() == 2)
+            output.append(" TIMED OUT: ");
+        
+        switch(this.getDayOfWeek()){
+            case 1:
+                output.append("SUN ");
+                break;
+            case 2:
+                output.append("MON ");
+                break;
+            case 3:
+                output.append("TUE ");
+                break;
+            case 4:
+                output.append("WED ");
+                break;
+            case 5:
+                output.append("THU ");
+                break;
+            case 6:
+                output.append("FRI ");
+                break;
+            case 7:
+                output.append("SAT ");
+                break;
+                
+        }
+        
+        String OTStamp = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(ots);
+        
+        output.append(OTStamp);
+        
+        output.append(this.getAdjustData());
+        
+        return output.toString();
+    }
+    
     public void adjust(Shift s){
         
         long shiftStart = s.getStart_Time();
