@@ -12,7 +12,7 @@ public class Shift {
         this.start_time = st;
         this.end_time = et;
         this.shiftID = id;
-        this.lunch_end = lunch_start;
+        this.lunch_start = lunch_start;
         this.lunch_end = lunch_end;
     }
 

@@ -21,8 +21,8 @@ public class TASDatabase {
 
 
         String server = ("jdbc:mysql://localhost/tas");
-        String username = "TeamE";
-        String password = "TeamE123!";
+        String username = "root";
+        String password = "CS310";
         System.out.println("Connecting to " + server + "...");
 
         Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -122,6 +122,7 @@ public class TASDatabase {
             
             ts = resultset.getTimestamp(8);
             long lunch_start = ts.getTime();
+            System.out.println("LS: " + lunch_start);
             
             ts = resultset.getTimestamp(9);
             long lunch_end = ts.getTime();
