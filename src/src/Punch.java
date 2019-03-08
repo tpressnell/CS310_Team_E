@@ -143,9 +143,9 @@ public class Punch{
         
         String OTStamp = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(ots);
         
-        output.append(OTStamp);
+        output.append(OTStamp + " (");
         
-        output.append(this.getAdjustData());
+        output.append(this.getAdjustData() + ")");
         
         return output.toString();
     }
