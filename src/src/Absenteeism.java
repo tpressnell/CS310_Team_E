@@ -46,6 +46,8 @@ public class Absenteeism {
         output.append("#" + ID);
         output.append(" (Pay Period Starting " + timeStamp + "): ");
         output.append(percentage + "%");
+        
+        return output.toString();
     }
     
 }
