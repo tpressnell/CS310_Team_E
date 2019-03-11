@@ -87,5 +87,13 @@ public class TASLogic {
         results = JSONValue.toJSONString(jsonData);
         
         return results;
+        
+    }
+    public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift shift) {
+       double percent = 0.00; 
+       
+        
+        
+        return percent;
     }
 }
