@@ -3,6 +3,8 @@ package src;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 
@@ -261,6 +263,76 @@ public class TASDatabase {
         }
         
         
+        return null;
+    }
+    
+    public ArrayList getPayPeriodPunchList(Badge b, long ts){
+        final long MILLIS_IN_DAY = 86400000;
+        ArrayList<Punch> payPeriodPunches = new ArrayList<>();
+        int daysBefore = 0;
+        
+        //Create greg object
+        GregorianCalendar g = new GregorianCalendar();
+        g.setTimeInMillis(ts);
+        
+        //Find day of week
+        switch(g.get(Calendar.DAY_OF_WEEK)){
+            case 1:
+                daysBefore = 0;
+                break;
+            case 2:
+                daysBefore = 1;
+                break;
+            case 3:
+                daysBefore = 2;
+                break;
+            case 4:
+                daysBefore = 3;
+                break;
+            case 5:
+                daysBefore = 4;
+                break;
+            case 6:
+                daysBefore = 5;
+                break;
+            case 7:
+                daysBefore = 6;
+                break;
+        }
+        
+        //For each day in period, parse punches
+        try{
+            for (int i = 0; i < daysBefore; i++){
+                String day = new SimpleDateFormat("yyyy-MM-dd").format(ts - (MILLIS_IN_DAY * i));
+
+                query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "'" ;
+                pstSelect = conn.prepareStatement(query);
+                pstSelect.execute();
+                resultset = pstSelect.getResultSet();
+                resultset.first();
+
+                while(resultset.next()){
+                    String timestamp = resultset.getString(4);
+                    if(timestamp.contains(day)){
+                        int dbPunchID = resultset.getInt(1);
+                        int termID = resultset.getInt(2);
+                        String badgeID = resultset.getString(3);
+                        Timestamp dbTS = resultset.getTimestamp(4);
+                        long longTS = dbTS.getTime();
+                        int punchType = resultset.getInt(5);
+                        String otStamp = dbTS.toString();
+
+                        Punch p = new Punch(b, longTS, punchType, otStamp, dbPunchID, termID);
+
+                        payPeriodPunches.add(p);
+                    }
+                }
+                return payPeriodPunches;
+            }
+        }
+        catch(Exception e){
+            System.err.println(e.toString());
+        }
         return null;
     }
 }
