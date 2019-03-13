@@ -1,6 +1,9 @@
 
 package src;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 
 public class Absenteeism {
     
@@ -9,8 +12,17 @@ public class Absenteeism {
     private double percentage;
     
     public Absenteeism(String ID, long TS, double percent){
+        
         this.ID = ID;
-        this.timeStamp = TS;
+        
+        GregorianCalendar adjustTS = new GregorianCalendar();
+        adjustTS.setTimeInMillis(TS);
+        adjustTS.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        adjustTS.set(Calendar.HOUR_OF_DAY, 0);
+        adjustTS.set(Calendar.MINUTE, 0);
+        adjustTS.set(Calendar.SECOND, 0);
+        
+        this.timeStamp = adjustTS.getTimeInMillis();
         this.percentage =  percent;
         
     }
