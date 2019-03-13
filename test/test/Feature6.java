@@ -45,7 +45,7 @@ public class Feature6 {
         
         /* Retrieve Absenteeism From Database */
         
-        Absenteeism a2 = db.getAbsenteeism(b.getId(), ts);
+        Absenteeism a2 = db.getAbsenteeism(b, ts);
         
         /* Compare to Expected Value */
         
@@ -84,7 +84,7 @@ public class Feature6 {
         
         /* Retrieve Absenteeism From Database */
         
-        Absenteeism a2 = db.getAbsenteeism(b.getId(), ts);
+        Absenteeism a2 = db.getAbsenteeism(b, ts);
         
         /* Compare to Expected Value */
         
@@ -123,7 +123,7 @@ public class Feature6 {
         
         /* Retrieve Absenteeism From Database */
         
-        Absenteeism a2 = db.getAbsenteeism(b.getId(), ts);
+        Absenteeism a2 = db.getAbsenteeism(b, ts);
         
         /* Compare to Expected Value */
         
