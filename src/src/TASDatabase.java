@@ -331,16 +331,17 @@ public class TASDatabase {
             }
         }
         catch(Exception e){
-            System.err.println(e.toString());
+            System.err.println("** getPayPeriodPunches " + e.toString());
         }
         return null;
     }
     
     public Absenteeism getAbsenteeism(Badge b, long payPeriod){
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd").format(payPeriod);
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(payPeriod);
+        Timestamp newTS = Timestamp.valueOf(timestamp);
         try{
             query = "SELECT * FROM absenteeism WHERE badgeid = '" + b.getId() + "'" +
-                    "AND WHERE payperiod = '" + timestamp + "'";
+                    "AND WHERE payperiod = '" + newTS + "'";
             pstSelect = conn.prepareStatement(query);
             pstSelect.execute();
             resultset = pstSelect.getResultSet();
@@ -354,16 +355,17 @@ public class TASDatabase {
             return a;
         }
         catch(Exception e){
-            System.err.println(e.toString());
+            System.err.println("** getAbsenteesim " + e.toString());
         }
         return null;
     }
     
     public void insertAbsenteeism(Absenteeism a){
-         String timestamp = new SimpleDateFormat("yyyy-MM-dd").format(a.getTimeStamp());
+         String timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(a.getTimeStamp());
+         Timestamp newTS = Timestamp.valueOf(timestamp);
         try{
             query = "SELECT * FROM absenteeism WHERE badgeid = '" + a.getID() + "'" +
-                    "AND WHERE payperiod = '" + timestamp + "'";
+                    "AND WHERE payperiod = '" + newTS + "'";
             pstSelect = conn.prepareStatement(query);
             pstSelect.execute();
             resultset = pstSelect.getResultSet();
@@ -387,7 +389,7 @@ public class TASDatabase {
         }
         
         catch(Exception e){
-            System.err.println(e.toString());
+            System.err.println("**insertAbsenteeism " + e.toString());
         }   
     }
 }
