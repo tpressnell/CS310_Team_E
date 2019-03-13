@@ -358,4 +358,36 @@ public class TASDatabase {
         }
         return null;
     }
+    
+    public void insertAbsenteeism(Absenteeism a){
+         String timestamp = new SimpleDateFormat("yyyy-MM-dd").format(a.getTimeStamp());
+        try{
+            query = "SELECT * FROM absenteeism WHERE badgeid = '" + a.getID() + "'" +
+                    "AND WHERE payperiod = '" + timestamp + "'";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+            resultset.first();
+            
+            if(resultset.next()){
+                query = "UPDATE absenteeism SET percentage = " + a.getPercentage();
+                pstUpdate = conn.prepareStatement(query);
+                pstUpdate.execute();
+            }
+            
+            else{
+                query = "INSERT INTO absenteeism (percentage) values (?)";
+            
+                pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                pstUpdate.setDouble(1, a.getPercentage());
+                
+                pstUpdate.executeUpdate();
+            
+            }
+        }
+        
+        catch(Exception e){
+            System.err.println(e.toString());
+        }   
+    }
 }

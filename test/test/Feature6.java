@@ -1,8 +1,9 @@
-package tas_sp19;
+package test;
 
 import java.util.ArrayList;
 import org.junit.*;
 import static org.junit.Assert.*;
+import src.*;
 
 public class Feature6 {
     
@@ -19,12 +20,12 @@ public class Feature6 {
         /* Get Punch */
         
         Punch p = db.getPunch(3634);
-        Badge b = db.getBadge(p.getBadgeid());
+        Badge b = db.getBadge(p.getBadgeID());
         Shift s = db.getShift(b);
         
         /* Get Pay Period Punch List */
         
-        long ts = p.getOriginaltimestamp();
+        long ts = p.getOTS();
         ArrayList<Punch> punchlist = db.getPayPeriodPunchList(b, ts);
 
         /* Adjust Punches */
@@ -58,12 +59,12 @@ public class Feature6 {
         /* Get Punch */
         
         Punch p = db.getPunch(1087);
-        Badge b = db.getBadge(p.getBadgeid());
+        Badge b = db.getBadge(p.getBadgeID());
         Shift s = db.getShift(b);
         
         /* Get Pay Period Punch List */
         
-        long ts = p.getOriginaltimestamp();
+        long ts = p.getOTS();
         ArrayList<Punch> punchlist = db.getPayPeriodPunchList(b, ts);
 
         /* Adjust Punches */
@@ -97,12 +98,12 @@ public class Feature6 {
         /* Get Punch */
         
         Punch p = db.getPunch(4943);
-        Badge b = db.getBadge(p.getBadgeid());
+        Badge b = db.getBadge(p.getBadgeID());
         Shift s = db.getShift(b);
         
         /* Get Pay Period Punch List */
         
-        long ts = p.getOriginaltimestamp();
+        long ts = p.getOTS();
         ArrayList<Punch> punchlist = db.getPayPeriodPunchList(b, ts);
 
         /* Adjust Punches */
