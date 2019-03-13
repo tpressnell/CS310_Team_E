@@ -92,6 +92,8 @@ public class TASLogic {
     public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift shift) {
        int dailyPunches = 4;
        int totalAccuredTime = 0;
+       int totalShiftTime = 0;
+       
         
        for(int i = 0; i < punchlist.size(); i = i + 4){
            ArrayList<Punch> dailyPunchList = new ArrayList<>();
@@ -100,9 +102,12 @@ public class TASLogic {
                dailyPunchList.add(punchlist.get(i));       
            }
            totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchList, shift);
+           
         }
        
-       int 
+       
+       
+       
        
        double percent = 0.00; 
        
