@@ -90,24 +90,31 @@ public class TASLogic {
         
     }
     public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift shift) {
-       int dailyPunches = 4;
+       final int LUNCH_BREAK = 360;
+       final int CONVERT_TO_MINS = 60000; 
+       final int DAILY_PUNCHES = 4;
        int totalAccuredTime = 0;
+       int totalShiftTime = 0;
+       double percent = 0;
+       
+       
         
        for(int i = 0; i < punchlist.size(); i = i + 4){
            ArrayList<Punch> dailyPunchList = new ArrayList<>();
            
-           for(int j = 0; j < dailyPunches; j++){
+           for(int j = 0; j < DAILY_PUNCHES; j++){
                dailyPunchList.add(punchlist.get(i));       
            }
            totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchList, shift);
+           
         }
        
-       int 
+       for(int i = 0; i < punchlist.size() / 4; i++){
+           totalShiftTime += ((shift.getEnd_Time() - shift.getStart_Time())/ CONVERT_TO_MINS) - LUNCH_BREAK;
+       }
        
-       double percent = 0.00; 
-       
-        
-        
-        return percent;
+       percent = totalAccuredTime/totalShiftTime;
+  
+       return percent;
     }
 }
