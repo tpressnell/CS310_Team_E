@@ -340,19 +340,26 @@ public class TASDatabase {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(payPeriod);
         Timestamp newTS = Timestamp.valueOf(timestamp);
         try{
-            query = "SELECT * FROM absenteeism WHERE badgeid = '" + b.getId() + "'" +
-                    "AND WHERE payperiod = '" + newTS + "'";
+            query = "SELECT * FROM absenteeism WHERE badgeid = ? AND payperiod = ?";
             pstSelect = conn.prepareStatement(query);
+            pstSelect.setString(1, b.getId());
+            pstSelect.setTimestamp(2, newTS);
             pstSelect.execute();
             resultset = pstSelect.getResultSet();
             resultset.first();
             
-            String badgeID = resultset.getString(1);
-            Timestamp dbts = resultset.getTimestamp(2);
-            Double percentage = resultset.getDouble(3);
+            if(resultset.next()){
             
-            Absenteeism a = new Absenteeism(badgeID, dbts.getTime(), percentage);
-            return a;
+                String badgeID = resultset.getString(1);
+                Timestamp dbts = resultset.getTimestamp(2);
+                Double percentage = resultset.getDouble(3);
+
+                Absenteeism a = new Absenteeism(badgeID, dbts.getTime(), percentage);
+                
+                return a;
+            }
+            
+            
         }
         catch(Exception e){
             System.err.println("** getAbsenteesim " + e.toString());
@@ -361,12 +368,13 @@ public class TASDatabase {
     }
     
     public void insertAbsenteeism(Absenteeism a){
-         String timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(a.getTimeStamp());
-         Timestamp newTS = Timestamp.valueOf(timestamp);
+       //  String timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(a.getTimeStamp());
+         Timestamp newTS = new Timestamp(a.getTimeStamp());
         try{
-            query = "SELECT * FROM absenteeism WHERE badgeid = '" + a.getID() + "'" +
-                    "AND WHERE payperiod = '" + newTS + "'";
+            query = "SELECT * FROM absenteeism WHERE badgeid = ? AND payperiod = ?";
             pstSelect = conn.prepareStatement(query);
+            pstSelect.setString(1, a.getID());
+            pstSelect.setTimestamp(2, newTS);
             pstSelect.execute();
             resultset = pstSelect.getResultSet();
             resultset.first();
@@ -378,10 +386,11 @@ public class TASDatabase {
             }
             
             else{
-                query = "INSERT INTO absenteeism (percentage) values (?)";
+                query = "INSERT INTO absenteeism (badgeid, percentage) values (?,?)";
             
                 pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                pstUpdate.setDouble(1, a.getPercentage());
+                pstUpdate.setString(1, a.getID());
+                pstUpdate.setDouble(2, a.getPercentage());
                 
                 pstUpdate.executeUpdate();
             
