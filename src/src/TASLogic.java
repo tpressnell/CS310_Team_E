@@ -2,6 +2,8 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import org.json.simple.JSONValue;
 
@@ -97,22 +99,38 @@ public class TASLogic {
        int totalShiftTime = 0;
        double percent = 0;
        
+       ArrayList<ArrayList<Punch>> dailyPunchLists = new ArrayList<>();
        
-        
-       for(int i = 0; i < punchlist.size(); i = i + 4){
-           ArrayList<Punch> dailyPunchList = new ArrayList<>();
-           
-           for(int j = 0; j < DAILY_PUNCHES; j++){
-               dailyPunchList.add(punchlist.get(i));       
-           }
-           totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchList, shift);
-           
-        }
+       GregorianCalendar startOfPP = new GregorianCalendar();
+       startOfPP.setTimeInMillis(punchlist.get(0).getOTS());
        
-       for(int i = 0; i < punchlist.size() / 4; i++){
-           totalShiftTime += ((shift.getEnd_Time() - shift.getStart_Time())/ CONVERT_TO_MINS) - LUNCH_BREAK;
-       }
+       startOfPP.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+       startOfPP.set(Calendar.HOUR_OF_DAY, 0);
+       startOfPP.set(Calendar.MINUTE, 0);
+       startOfPP.set(Calendar.SECOND, 0);
        
+       long SOPP = startOfPP.getTimeInMillis();
+       int currentDayOfWeek = 1;
+      
+       
+      while(currentDayOfWeek < 8){
+          ArrayList<Punch> dayOfPunches = new ArrayList<>();
+          for(int i = 0; i < punchlist.size(); i++){
+              if(punchlist.get(i).getDayOfWeek() == currentDayOfWeek)
+                  dayOfPunches.add(punchlist.get(i));
+          }
+          currentDayOfWeek++;
+          dailyPunchLists.add(dayOfPunches);
+                  
+      }
+      
+      for(int i = 0; i < dailyPunchLists.size(); i++){
+          totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchLists.get(i), shift);
+          if(dailyPunchLists.get(i).get(0).getDayOfWeek() != 1 ||dailyPunchLists.get(i).get(0).getDayOfWeek() != 7){
+              totalShiftTime += ((shift.getEnd_Time() - shift.getStart_Time() / CONVERT_TO_MINS) - LUNCH_BREAK);
+          }
+      }
+             
        percent = totalAccuredTime/totalShiftTime;
   
        return percent;
