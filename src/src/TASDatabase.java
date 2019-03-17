@@ -337,8 +337,8 @@ public class TASDatabase {
     }
     
     public Absenteeism getAbsenteeism(Badge b, long payPeriod){
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(payPeriod);
-        Timestamp newTS = Timestamp.valueOf(timestamp);
+     
+        Timestamp newTS = new Timestamp(payPeriod);
         try{
             query = "SELECT * FROM absenteeism WHERE badgeid = ? AND payperiod = ?";
             pstSelect = conn.prepareStatement(query);
@@ -348,16 +348,15 @@ public class TASDatabase {
             resultset = pstSelect.getResultSet();
             resultset.first();
             
-            if(resultset.next()){
             
-                String badgeID = resultset.getString(1);
-                Timestamp dbts = resultset.getTimestamp(2);
-                Double percentage = resultset.getDouble(3);
+            String badgeID = resultset.getString(1);
+            Timestamp dbts = resultset.getTimestamp(2);
+            Double percentage = resultset.getDouble(3);
 
-                Absenteeism a = new Absenteeism(badgeID, dbts.getTime(), percentage);
-                
-                return a;
-            }
+            Absenteeism a = new Absenteeism(badgeID, dbts.getTime(), percentage);
+
+            return a;
+            
             
             
         }
@@ -368,7 +367,7 @@ public class TASDatabase {
     }
     
     public void insertAbsenteeism(Absenteeism a){
-       //  String timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(a.getTimeStamp());
+      
          Timestamp newTS = new Timestamp(a.getTimeStamp());
         try{
             query = "SELECT * FROM absenteeism WHERE badgeid = ? AND payperiod = ?";
