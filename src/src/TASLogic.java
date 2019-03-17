@@ -99,7 +99,7 @@ public class TASLogic {
        int totalShiftTime = 0;
        double percent = 0;
        
-       ArrayList<ArrayList<Punch>> dailyPunchLists = new ArrayList<>(); //ArrayList to contain parsed DailyPunchList
+       ArrayList<ArrayList<Punch>> dailyPunchLists = new ArrayList<>(); //ArrayList to contain parsed DailyPunchLists
        
        GregorianCalendar startOfPP = new GregorianCalendar();
        startOfPP.setTimeInMillis(punchlist.get(0).getOTS());
@@ -120,7 +120,9 @@ public class TASLogic {
                   dayOfPunches.add(punchlist.get(i));
           }
           currentDayOfWeek++;
-          dailyPunchLists.add(dayOfPunches);
+          if(!dayOfPunches.isEmpty()) //If Punches for the currentDayOfWeek were parsed, add to dailyPunchLists
+              dailyPunchLists.add(dayOfPunches);
+            
                   
       }
       
