@@ -171,17 +171,16 @@ public class TASLogic {
        int currentDayOfWeek = 1; //Set Day_of_Week counter to SUNDAY
       
        
-      while(currentDayOfWeek < 8){ //loop throught entire week of pay period and parse each day's punches into their own list
-          ArrayList<Punch> dayOfPunches = new ArrayList<>();
-          for(int i = 0; i < punchlist.size(); i++){ 
-              if(punchlist.get(i).getDayOfWeek() == currentDayOfWeek)
-                  dayOfPunches.add(punchlist.get(i));
+        while(currentDayOfWeek < 8){ //loop throught entire week of pay period and parse each day's punches into their own list
+            ArrayList<Punch> dayOfPunches = new ArrayList<>();
+            for(int i = 0; i < punchlist.size(); i++){ 
+                if(punchlist.get(i).getDayOfWeek() == currentDayOfWeek)
+                    dayOfPunches.add(punchlist.get(i));
           }
-          currentDayOfWeek++;
-          if(!dayOfPunches.isEmpty()) //If Punches for the currentDayOfWeek were parsed, add to dailyPunchLists
-              dailyPunchLists.add(dayOfPunches);
-            
-                  
+            currentDayOfWeek++;
+            if(!dayOfPunches.isEmpty()) //If Punches for the currentDayOfWeek were parsed, add to dailyPunchLists
+                dailyPunchLists.add(dayOfPunches);
+       
       }
       
       for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
