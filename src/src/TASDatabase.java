@@ -337,8 +337,16 @@ public class TASDatabase {
     }
     
     public Absenteeism getAbsenteeism(Badge b, long payPeriod){
-     
-        Timestamp newTS = new Timestamp(payPeriod);
+        
+        GregorianCalendar greg_three = new GregorianCalendar();
+        greg_three.setTimeInMillis(payPeriod);
+        greg_three.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        greg_three.set(Calendar.HOUR_OF_DAY, 0);
+        greg_three.set(Calendar.MINUTE, 0);
+        greg_three.set(Calendar.SECOND, 0);
+        
+        Timestamp newTS = new Timestamp(greg_three.getTimeInMillis());
+        
         try{
             query = "SELECT * FROM absenteeism WHERE badgeid = ? AND payperiod = ?";
             pstSelect = conn.prepareStatement(query);
@@ -370,6 +378,8 @@ public class TASDatabase {
       
          Timestamp newTS = new Timestamp(a.getTimeStamp());
         try{
+            /*
+        }
             query = "SELECT * FROM absenteeism WHERE badgeid = ? AND payperiod = ?";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setString(1, a.getID());
@@ -385,15 +395,18 @@ public class TASDatabase {
             }
             
             else{
-                query = "INSERT INTO absenteeism (badgeid, percentage) values (?,?)";
+                
+                */
+                query = "INSERT INTO absenteeism (badgeid,payperiod,percentage) values (?,?,?)";
             
                 pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 pstUpdate.setString(1, a.getID());
-                pstUpdate.setDouble(2, a.getPercentage());
+                pstUpdate.setTimestamp(2, newTS);
+                pstUpdate.setDouble(3, a.getPercentage());
                 
                 pstUpdate.executeUpdate();
             
-            }
+          //  }
         }
         
         catch(Exception e){

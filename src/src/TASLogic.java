@@ -67,6 +67,64 @@ public class TASLogic {
         return minutes;
     }
     
+    public static int calculateAccuredMinutes(ArrayList<Punch> dailyPunchList, Shift shift){
+        
+        int minutes  = -1;
+        final int LUNCH_DEDUCT = 360;
+        final int CONVERT_TO_MINUTES = 60000;
+        final int LUNCH_BREAK = 30;
+        
+        if (dailyPunchList.isEmpty()){
+            minutes = 0;
+        }
+        
+        else if(dailyPunchList.size() == 1){
+            minutes = 0;
+        }
+        
+        else if(dailyPunchList.size() == 2){
+            long time_in = dailyPunchList.get(0).getOTS();
+            long time_out = dailyPunchList.get(1).getOTS();
+            
+            if(((time_out - time_in) / CONVERT_TO_MINUTES) > LUNCH_DEDUCT){
+                minutes = (int)(((time_out - time_in) / CONVERT_TO_MINUTES) - LUNCH_BREAK);
+            }
+            
+            else{
+                minutes = (int)((time_out - time_in) / CONVERT_TO_MINUTES);
+            }
+            
+            
+        }
+        
+        else if (dailyPunchList.size() == 3){
+            minutes = 0;
+        }
+        
+        else if (dailyPunchList.size() == 4){
+            long time_in = dailyPunchList.get(0).getOTS();
+            long lunch_start = dailyPunchList.get(1).getOTS();
+            long lunch_stop = dailyPunchList.get(2).getOTS();
+            long time_out = dailyPunchList.get(3).getOTS();
+            
+            long lunch_break = lunch_stop - lunch_start;
+            
+            if(((time_out - time_in) / CONVERT_TO_MINUTES) > LUNCH_DEDUCT){
+                minutes = (int)(((time_out - time_in) - lunch_break) / CONVERT_TO_MINUTES);
+            }
+            
+            else{
+                 minutes = (int)((time_out - time_in) / CONVERT_TO_MINUTES);  
+            }
+        }
+        
+        else {
+            minutes = -1;
+        }
+        
+        return minutes;
+    }
+    
     public static String getPunchListAsJSON(ArrayList<Punch> dailyPunchList){
         ArrayList<HashMap<String, String>> jsonData = new ArrayList();
         String results;
@@ -95,9 +153,9 @@ public class TASLogic {
        final int LUNCH_BREAK = 360;
        final int CONVERT_TO_MINS = 60000; 
        final int DAILY_PUNCHES = 4;
-       int totalAccuredTime = 0;
-       int totalShiftTime = 0;
-       double percent = 0;
+       double totalAccuredTime = 0;
+       double totalShiftTime = 0;
+       double percent = 0.0;
        
        ArrayList<ArrayList<Punch>> dailyPunchLists = new ArrayList<>(); //ArrayList to contain parsed DailyPunchLists
        
@@ -127,13 +185,16 @@ public class TASLogic {
       }
       
       for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
-          totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchLists.get(i), shift);
+          totalAccuredTime += TASLogic.calculateAccuredMinutes(dailyPunchLists.get(i), shift);
           if(dailyPunchLists.get(i).get(0).getDayOfWeek() != 1 ||dailyPunchLists.get(i).get(0).getDayOfWeek() != 7){
-              totalShiftTime += ((shift.getEnd_Time() - shift.getStart_Time() / CONVERT_TO_MINS) - LUNCH_BREAK);
+              totalShiftTime += 480;
           }
       }
+      
+      System.out.println(totalAccuredTime);
+       System.out.println(totalShiftTime);
              
-       percent = totalAccuredTime/totalShiftTime; //Calc absenteeism as percentage
+       percent = (1 - (totalAccuredTime/totalShiftTime)) * 100; //Calc absenteeism as percentage
   
        return percent;
     }

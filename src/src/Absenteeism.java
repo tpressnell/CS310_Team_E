@@ -1,6 +1,7 @@
 
 package src;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -54,9 +55,10 @@ public class Absenteeism {
     public String toString(){
         
         StringBuilder output = new StringBuilder();
+        String startPayPeriod = new SimpleDateFormat("MM-dd-YYYY").format(this.getTimeStamp());
         
         output.append("#" + ID);
-        output.append(" (Pay Period Starting " + timeStamp + "): ");
+        output.append(" (Pay Period Starting " + startPayPeriod + "): ");
         output.append(percentage + "%");
         
         return output.toString();
