@@ -178,8 +178,7 @@ public class TASLogic {
                     dayOfPunches.add(punchlist.get(i));
           }
             currentDayOfWeek++;
-            if(!dayOfPunches.isEmpty()) //If Punches for the currentDayOfWeek were parsed, add to dailyPunchLists
-                dailyPunchLists.add(dayOfPunches);
+            dailyPunchLists.add(dayOfPunches);
        
       }
       
