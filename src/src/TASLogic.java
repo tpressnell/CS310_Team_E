@@ -157,6 +157,8 @@ public class TASLogic {
        double totalShiftTime = 0;
        double percent = 0.0;
        
+       System.out.println("ArrayList size: " + punchlist.size());
+       
        ArrayList<ArrayList<Punch>> dailyPunchLists = new ArrayList<>(); //ArrayList to contain parsed DailyPunchLists
        
        GregorianCalendar startOfPP = new GregorianCalendar();

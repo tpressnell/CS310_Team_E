@@ -269,41 +269,24 @@ public class TASDatabase {
     public ArrayList getPayPeriodPunchList(Badge b, long ts){
         final long MILLIS_IN_DAY = 86400000;
         ArrayList<Punch> payPeriodPunches = new ArrayList<>();
-        int daysBefore = 0;
         
         //Create greg object
         GregorianCalendar g = new GregorianCalendar();
         g.setTimeInMillis(ts);
+        g.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        g.set(Calendar.HOUR_OF_DAY, 0);
+        g.set(Calendar.MINUTE, 0);
+        g.set(Calendar.SECOND, 0);
         
         //Find day of week
-        switch(g.get(Calendar.DAY_OF_WEEK)){
-            case 1:
-                daysBefore = 0;
-                break;
-            case 2:
-                daysBefore = 1;
-                break;
-            case 3:
-                daysBefore = 2;
-                break;
-            case 4:
-                daysBefore = 3;
-                break;
-            case 5:
-                daysBefore = 4;
-                break;
-            case 6:
-                daysBefore = 5;
-                break;
-            case 7:
-                daysBefore = 6;
-                break;
-        }
+        
         
         //For each day in period, parse punches
         try{
-            for (int i = 0; i < daysBefore; i++){
-                String day = new SimpleDateFormat("yyyy-MM-dd").format(ts - (MILLIS_IN_DAY * i));
+            for (int i = 1; i < 8; i++){
+                String day = new SimpleDateFormat("yyyy-MM-dd").format(g.getTimeInMillis());
+                
+                System.out.println(day);
 
                 query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "'" ;
                 pstSelect = conn.prepareStatement(query);
@@ -327,8 +310,10 @@ public class TASDatabase {
                         payPeriodPunches.add(p);
                     }
                 }
-                return payPeriodPunches;
+                g.setTimeInMillis(g.getTimeInMillis() + MILLIS_IN_DAY);
+                
             }
+            return payPeriodPunches;
         }
         catch(Exception e){
             System.err.println("** getPayPeriodPunches " + e.toString());
