@@ -169,23 +169,19 @@ public class TASLogic {
        startOfPP.set(Calendar.MINUTE, 0);
        startOfPP.set(Calendar.SECOND, 0);
        
-       long SOPP = startOfPP.getTimeInMillis();
+       
        int currentDayOfWeek = 1; //Set Day_of_Week counter to SUNDAY
       
+       for(int i = 1; i < 8; i++){
+           ArrayList<Punch> dayOfPunches = new ArrayList<>();
+           for(int j = 0 ; j < punchlist.size(); j++){
+               if(punchlist.get(j).getDayOfWeek() == i)
+                   dayOfPunches.add(punchlist.get(j));
+           }
+           dailyPunchLists.add(dayOfPunches);
+       }
        
-        while(currentDayOfWeek < 8){ //loop throught entire week of pay period and parse each day's punches into their own list
-            ArrayList<Punch> dayOfPunches = new ArrayList<>();
-            for(int i = 0; i < punchlist.size(); i++){ 
-                if(punchlist.get(i).getDayOfWeek() == currentDayOfWeek)
-                    dayOfPunches.add(punchlist.get(i));
-          }
-            currentDayOfWeek++;
-            if(!dayOfPunches.isEmpty()) //If Punches for the currentDayOfWeek were parsed, add to dailyPunchLists
-                dailyPunchLists.add(dayOfPunches);
-       
-      }
-      
-      for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
+       for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
           totalAccuredTime += TASLogic.calculateAccuredMinutes(dailyPunchLists.get(i), shift);
           if(dailyPunchLists.get(i).get(0).getDayOfWeek() != 1 ||dailyPunchLists.get(i).get(0).getDayOfWeek() != 7){
               totalShiftTime += 480;
