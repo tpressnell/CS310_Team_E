@@ -178,7 +178,8 @@ public class TASLogic {
                if(punchlist.get(j).getDayOfWeek() == i)
                    dayOfPunches.add(punchlist.get(j));
            }
-           dailyPunchLists.add(dayOfPunches);
+           if(!dayOfPunches.isEmpty())
+                dailyPunchLists.add(dayOfPunches);
        }
        
        for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
