@@ -59,7 +59,7 @@ public class Absenteeism {
         
         output.append("#" + ID);
         output.append(" (Pay Period Starting " + startPayPeriod + "): ");
-        output.append(percentage + "%");
+        output.append(String.format("%.2f",percentage) + "%");
         
         return output.toString();
     }

@@ -363,8 +363,7 @@ public class TASDatabase {
       
          Timestamp newTS = new Timestamp(a.getTimeStamp());
         try{
-            /*
-        }
+            
             query = "SELECT * FROM absenteeism WHERE badgeid = ? AND payperiod = ?";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setString(1, a.getID());
@@ -373,7 +372,7 @@ public class TASDatabase {
             resultset = pstSelect.getResultSet();
             resultset.first();
             
-            if(resultset.next()){
+            if(resultset.next() == true){
                 query = "UPDATE absenteeism SET percentage = " + a.getPercentage();
                 pstUpdate = conn.prepareStatement(query);
                 pstUpdate.execute();
@@ -381,7 +380,7 @@ public class TASDatabase {
             
             else{
                 
-                */
+                
                 query = "INSERT INTO absenteeism (badgeid,payperiod,percentage) values (?,?,?)";
             
                 pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -391,7 +390,7 @@ public class TASDatabase {
                 
                 pstUpdate.executeUpdate();
             
-          //  }
+            }
         }
         
         catch(Exception e){

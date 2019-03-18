@@ -18,7 +18,7 @@ public class Shift {
     public int getShiftLength() {
         long shiftLengthInMillis = 0;
         int shiftLengthInMinutes = 0;
-        final int CONVERSION_TO_MINUTES = 600000;
+        final int CONVERSION_TO_MINUTES = 60000;
         
         shiftLengthInMillis = (this.getEnd_Time() - this.getStart_Time()) - (this.lunch_end - this.lunch_start);
         shiftLengthInMinutes = (int) shiftLengthInMillis / CONVERSION_TO_MINUTES;
