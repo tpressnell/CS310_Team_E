@@ -15,6 +15,16 @@ public class Shift {
         this.lunch_start = lunch_start;
         this.lunch_end = lunch_end;
     }
+    public int getShiftLength() {
+        long shiftLengthInMillis = 0;
+        int shiftLengthInMinutes = 0;
+        final int CONVERSION_TO_MINUTES = 600000;
+        
+        shiftLengthInMillis = (this.getEnd_Time() - this.getStart_Time()) - (this.lunch_end - this.lunch_start);
+        shiftLengthInMinutes = (int) shiftLengthInMillis / CONVERSION_TO_MINUTES;
+        
+       return shiftLengthInMinutes; 
+    }
 
     public long getStart_Time() {
         return start_time;
