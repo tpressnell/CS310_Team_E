@@ -181,6 +181,10 @@ public class TASLogic {
           if(dailyPunchLists.get(i).get(0).getDayOfWeek() != Calendar.SUNDAY ||dailyPunchLists.get(i).get(0).getDayOfWeek() != Calendar.SATURDAY){
               totalShiftTime += shift.getShiftLength();
           }
+          else if(dailyPunchLists.get(i).get(0).getDayOfWeek() == Calendar.SUNDAY ||dailyPunchLists.get(i).get(0).getDayOfWeek() == Calendar.SATURDAY){
+              totalShiftTime = totalShiftTime - shift.getShiftLength();
+              System.out.println("WEEKEND");
+          }
       }
       
       System.out.println("Time actually worked: " + totalAccuredTime);

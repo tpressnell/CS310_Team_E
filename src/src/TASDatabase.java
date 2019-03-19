@@ -286,7 +286,6 @@ public class TASDatabase {
             for (int i = 1; i < 8; i++){
                 String day = new SimpleDateFormat("yyyy-MM-dd").format(g.getTimeInMillis());
                 
-                System.out.println(day);
 
                 query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "'" ;
                 pstSelect = conn.prepareStatement(query);
