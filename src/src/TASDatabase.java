@@ -360,38 +360,31 @@ public class TASDatabase {
     
     public void insertAbsenteeism(Absenteeism a){
       
-         Timestamp newTS = new Timestamp(a.getTimeStamp());
+        GregorianCalendar greg_three = new GregorianCalendar();
+        greg_three.setTimeInMillis(a.getTimeStamp());
+        greg_three.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        greg_three.set(Calendar.HOUR_OF_DAY, 0);
+        greg_three.set(Calendar.MINUTE, 0);
+        greg_three.set(Calendar.SECOND, 0);
+        
+        Timestamp newTS = new Timestamp(greg_three.getTimeInMillis());
         try{
             
-            query = "SELECT * FROM absenteeism WHERE badgeid = ? AND payperiod = ?";
+            query = "DELETE FROM absenteeism WHERE badgeid = ? AND payperiod = ?";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setString(1, a.getID());
             pstSelect.setTimestamp(2, newTS);
             pstSelect.execute();
             resultset = pstSelect.getResultSet();
-            resultset.first();
             
-            if(resultset.getRow() != 0){
-                query = "UPDATE absenteeism SET percentage = ?";
-                pstUpdate = conn.prepareStatement(query);
-                pstUpdate.setDouble(1, a.getPercentage());
-                pstUpdate.execute();
-                System.out.println("UPDATE");
-            }
+            query = "INSERT INTO absenteeism (badgeid,payperiod,percentage) values (?,?,?)";
+            pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            pstUpdate.setString(1, a.getID());
+            pstUpdate.setTimestamp(2, newTS);
+            pstUpdate.setDouble(3, a.getPercentage());
+            pstUpdate.executeUpdate();
+            System.out.println("INSERT");
             
-            else if (resultset.getRow() == 0){
-                
-                
-                query = "INSERT INTO absenteeism (badgeid,payperiod,percentage) values (?,?,?)";
-            
-                pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                pstUpdate.setString(1, a.getID());
-                pstUpdate.setTimestamp(2, newTS);
-                pstUpdate.setDouble(3, a.getPercentage());
-                pstUpdate.executeUpdate();
-                System.out.println("INSERT");
-            
-            }
         }
         
         catch(Exception e){
