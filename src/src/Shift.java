@@ -6,6 +6,7 @@ public class Shift {
     private long end_time;
     private long lunch_start;
     private long lunch_end;// End Time in ms
+    private int numOfDaysInShift;
     private int shiftID;
     
     public Shift(long st, long et, int id, long lunch_start, long lunch_end){
@@ -14,6 +15,8 @@ public class Shift {
         this.shiftID = id;
         this.lunch_start = lunch_start;
         this.lunch_end = lunch_end;
+        if(shiftID == 1 || shiftID == 2 || shiftID == 3)
+            this.numOfDaysInShift = 5;
     }
     public int getShiftLength() {
         long shiftLengthInMillis = 0;
@@ -64,6 +67,10 @@ public class Shift {
     
     public void setLunc_End(long newLunch_end){
         this.lunch_end = newLunch_end;
+    }
+    
+    public int getNumOfDaysInShift(){
+        return this.numOfDaysInShift;
     }
     @Override
     public String toString(){
