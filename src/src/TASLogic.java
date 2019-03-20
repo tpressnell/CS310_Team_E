@@ -158,13 +158,6 @@ public class TASLogic {
        
        ArrayList<ArrayList<Punch>> dailyPunchLists = new ArrayList<>(); //ArrayList to contain parsed DailyPunchLists
        
-       /*GregorianCalendar startOfPP = new GregorianCalendar();
-       startOfPP.setTimeInMillis(punchlist.get(0).getOTS());
-       
-       startOfPP.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-       startOfPP.set(Calendar.HOUR_OF_DAY, 0);
-       startOfPP.set(Calendar.MINUTE, 0);
-       startOfPP.set(Calendar.SECOND, 0);*/
       
        for(int i = 1; i < 8; i++){
            ArrayList<Punch> dayOfPunches = new ArrayList<>();
@@ -180,16 +173,8 @@ public class TASLogic {
           totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchLists.get(i), shift);
           totalShiftTime = shift.getShiftLength() * 5; //Works, but need to replace constant with method that calc how many days a shift is scheduled to work (MON-FRI, etc.)
           
-          /*if(dailyPunchLists.get(i).get(0).getDayOfWeek() != Calendar.SUNDAY ||dailyPunchLists.get(i).get(0).getDayOfWeek() != Calendar.SATURDAY){
-              totalShiftTime += shift.getShiftLength();
-          }
-          else if(dailyPunchLists.get(i).get(0).getDayOfWeek() == Calendar.SUNDAY ||dailyPunchLists.get(i).get(0).getDayOfWeek() == Calendar.SATURDAY){
-              totalShiftTime = totalShiftTime - shift.getShiftLength();
-              System.out.println("WEEKEND");
-          }*/
       }
-       
-      
+        
        System.out.println("Time actually worked: " + totalAccuredTime);
        System.out.println("Shift time in minutes: " + totalShiftTime);
              

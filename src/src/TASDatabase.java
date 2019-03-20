@@ -371,13 +371,15 @@ public class TASDatabase {
             resultset = pstSelect.getResultSet();
             resultset.first();
             
-            if(resultset.next() == true){
-                query = "UPDATE absenteeism SET percentage = " + a.getPercentage();
+            if(resultset.getRow() != 0){
+                query = "UPDATE absenteeism SET percentage = ?";
                 pstUpdate = conn.prepareStatement(query);
+                pstUpdate.setDouble(1, a.getPercentage());
                 pstUpdate.execute();
+                System.out.println("UPDATE");
             }
             
-            else{
+            else if (resultset.getRow() == 0){
                 
                 
                 query = "INSERT INTO absenteeism (badgeid,payperiod,percentage) values (?,?,?)";
@@ -386,8 +388,8 @@ public class TASDatabase {
                 pstUpdate.setString(1, a.getID());
                 pstUpdate.setTimestamp(2, newTS);
                 pstUpdate.setDouble(3, a.getPercentage());
-                
                 pstUpdate.executeUpdate();
+                System.out.println("INSERT");
             
             }
         }
