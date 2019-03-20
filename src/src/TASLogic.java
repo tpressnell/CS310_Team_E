@@ -178,7 +178,7 @@ public class TASLogic {
        
        for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
           totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchLists.get(i), shift);
-          totalShiftTime = shift.getShiftLength() * 5; //Works, but need to replace constant with method that calc how many days a shift is scheduled to work (MON-FRI, etc.)
+          totalShiftTime = shift.getShiftLength() * shift.getNumOfDaysInShift(); //Works, but need to replace constant with method that calc how many days a shift is scheduled to work (MON-FRI, etc.)
           
           /*if(dailyPunchLists.get(i).get(0).getDayOfWeek() != Calendar.SUNDAY ||dailyPunchLists.get(i).get(0).getDayOfWeek() != Calendar.SATURDAY){
               totalShiftTime += shift.getShiftLength();
