@@ -15,7 +15,7 @@ public class Shift {
         this.shiftID = id;
         this.lunch_start = lunch_start;
         this.lunch_end = lunch_end;
-        if(shiftID == 1 || shiftID == 2 || shiftID == 3)
+        if(shiftID == 1 || shiftID == 2 || shiftID == 3 || shiftID == 4)
             this.numOfDaysInShift = 5;
     }
     public int getShiftLength() {
