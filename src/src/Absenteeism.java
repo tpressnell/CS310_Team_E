@@ -1,6 +1,7 @@
 
 package src;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -25,6 +26,7 @@ public class Absenteeism {
         
         this.timeStamp = adjustTS.getTimeInMillis();
         this.percentage =  percent;
+        
         
     }
 
@@ -56,10 +58,13 @@ public class Absenteeism {
         
         StringBuilder output = new StringBuilder();
         String startPayPeriod = new SimpleDateFormat("MM-dd-YYYY").format(this.getTimeStamp());
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String percentageAsString = decimalFormat.format(percentage);
+        
         
         output.append("#" + ID);
         output.append(" (Pay Period Starting " + startPayPeriod + "): ");
-        output.append(String.format("%.2f",percentage) + "%");
+        output.append(percentageAsString + "%");
         
         return output.toString();
     }
