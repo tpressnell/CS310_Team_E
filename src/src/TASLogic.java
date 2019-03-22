@@ -1,6 +1,7 @@
 
 package src;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -186,7 +187,56 @@ public class TASLogic {
     }
     
     public static String getPunchListPlusTotalsAsJSON(ArrayList<Punch> punchlist, Shift s){
+        ArrayList<HashMap<String, String>> jsonData = new ArrayList();
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String results;
+        double absenteeism = 0;
+        int totalMinutes = 0;
         
-        return null;
+        
+        for(Punch p : punchlist){
+            
+            HashMap<String, String> punchData = new HashMap();
+            
+            punchData.put("id", String.valueOf(p.getPunchID()));
+            punchData.put("badgeid", p.getBadgeID());
+            punchData.put("terminalid", String.valueOf(p.getTerminalid()));
+            punchData.put("punchtypeid", String.valueOf(p.getPunchType()));
+            punchData.put("punchdata", p.getAdjustData());
+            punchData.put("originaltimestamp", String.valueOf(p.getOTS()));
+            punchData.put("adjustedtimestamp", String.valueOf(p.getATS()));
+            
+            jsonData.add(punchData);
+        }
+        
+        ArrayList<ArrayList<Punch>> dailyPunchLists = new ArrayList<>(); //ArrayList to contain parsed DailyPunchLists
+
+            for(int i = 1; i < 8; i++){
+                ArrayList<Punch> dayOfPunches = new ArrayList<>();
+                for(int j = 0 ; j < punchlist.size(); j++){
+                    if(punchlist.get(j).getDayOfWeek() == i)
+                        dayOfPunches.add(punchlist.get(j));
+                }
+                if(!dayOfPunches.isEmpty())
+                     dailyPunchLists.add(dayOfPunches);
+            }
+
+            for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
+               totalMinutes += TASLogic.calculateTotalMinutes(dailyPunchLists.get(i), s);
+            }
+        
+        
+            HashMap<String, String> extraData = new HashMap();
+            absenteeism = TASLogic.calculateAbsenteeism(punchlist, s);
+            
+            extraData.put("absenteeism", String.valueOf(decimalFormat.format(absenteeism)) + "%");
+            extraData.put("totalminutes", String.valueOf(totalMinutes));
+            
+            jsonData.add(extraData);
+
+        
+        results = JSONValue.toJSONString(jsonData);
+        
+        return results;
     }
 }
