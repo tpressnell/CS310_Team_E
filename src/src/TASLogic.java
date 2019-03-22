@@ -184,4 +184,9 @@ public class TASLogic {
   
        return percent;
     }
+    
+    public static String getPunchListPlusTotalsAsJSON(ArrayList<Punch> punchlist, Shift s){
+        
+        return null;
+    }
 }
