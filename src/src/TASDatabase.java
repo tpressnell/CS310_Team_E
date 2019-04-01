@@ -70,6 +70,7 @@ public class TASDatabase {
         return null;
         
     }
+   
     
     public Punch getPunch(int punchID){
         try{
@@ -183,6 +184,12 @@ public class TASDatabase {
         
         return null;
     } 
+    public Shift getShift( Badge b, long ts) {
+        
+        
+        
+        
+    }
     public int insertPunch(Punch p){
         
         try {
