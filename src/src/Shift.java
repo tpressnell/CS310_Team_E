@@ -1,5 +1,7 @@
 package src;
 
+import java.util.HashMap;
+
 public class Shift {
     
     private DailySchedule defaultSchedule;
