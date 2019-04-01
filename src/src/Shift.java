@@ -1,5 +1,7 @@
 package src;
 
+import java.util.HashMap;
+
 public class Shift {
     
     private long start_time; //Start Time in ms
