@@ -186,6 +186,8 @@ public class TASDatabase {
     } 
     public Shift getShift( Badge b, long ts) {
         
+        GregorianCalendar garry = TASLogic.makeCal(ts); 
+        
         
         
         
@@ -277,13 +279,7 @@ public class TASDatabase {
         final long MILLIS_IN_DAY = 86400000;
         ArrayList<Punch> payPeriodPunches = new ArrayList<>();
         
-        //Create greg object
-        GregorianCalendar g = new GregorianCalendar();
-        g.setTimeInMillis(ts);
-        g.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        g.set(Calendar.HOUR_OF_DAY, 0);
-        g.set(Calendar.MINUTE, 0);
-        g.set(Calendar.SECOND, 0);
+        GregorianCalendar g = TASLogic.makeCal(ts);
         
         //Find day of week
         
