@@ -2,19 +2,15 @@ package src;
 
 public class Shift {
     
-    private long start_time; //Start Time in ms
-    private long end_time;
-    private long lunch_start;
-    private long lunch_end;// End Time in ms
+    private DailySchedule defaultSchedule;
     private int numOfDaysInShift;
     private int shiftID;
     
-    public Shift(long st, long et, int id, long lunch_start, long lunch_end){
-        this.start_time = st;
-        this.end_time = et;
-        this.shiftID = id;
-        this.lunch_start = lunch_start;
-        this.lunch_end = lunch_end;
+    public Shift(int shiftID, String description, DailySchedule defaultSchedule){
+        
+        this.shiftID = shiftID;
+        this.defaultSchedule = defaultSchedule;
+        
         if(shiftID == 1 || shiftID == 2 || shiftID == 3 || shiftID == 4)
             this.numOfDaysInShift = 5;
     }
@@ -30,19 +26,20 @@ public class Shift {
     }
 
     public long getStart_Time() {
-        return start_time;
+        return defaultSchedule.getStart();
     }
 
     public void setStart_Time(long start_time) {
-        this.start_time = start_time;
+        this.defaultSchedule.setStart(start_time);
     }
 
-    public long getEnd_Time() {
-        return end_time;
+    public long getStop_Time() {
+        return defaultSchedule.getStop();
     }
 
-    public void setEnd_Time(long end_time) {
-        this.end_time = end_time;
+    public void setStop_Time(long Stop_time) {
+        this.defaultSchedule.setStop(Stop_time);
+        
     }
     
     public int getID(){
@@ -54,19 +51,19 @@ public class Shift {
     }
     
     public long getLunch_Start(){
-        return this.lunch_start;
+        return defaultSchedule.getLunch_start();
     }
     
     public void setLunch_Start(long newLunch_start){
-        this.lunch_start = newLunch_start;
+        this.defaultSchedule.setLunch_start(newLunch_start);
     }
     
-    public long getLunch_End(){
-        return this.lunch_end;
+    public long getLunch_Stop(){
+        return defaultSchedule.getLunch_stop()
     }
     
-    public void setLunc_End(long newLunch_end){
-        this.lunch_end = newLunch_end;
+    public void setLunch_Stop(long newLunch_stop){
+        this.defaultSchedule.setLunch_stop(newLunch_stop);
     }
     
     public int getNumOfDaysInShift(){
