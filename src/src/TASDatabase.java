@@ -188,6 +188,21 @@ public class TASDatabase {
         
         GregorianCalendar garry = TASLogic.makeCal(ts); 
         
+        try {
+            query = "SELECT * FROM employee WHERE badgeid = ?";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.setString(1, b.getId());
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+            resultset.first();
+            
+            int employeeShiftID = resultset.getInt(7); //"That gives us their shift id" -Tyler
+            
+        }
+        catch(Exception e) { 
+            System.err.println("GetShift" + e.toString());
+        }
+        
         
         
         
