@@ -161,7 +161,7 @@ public class Punch{
         shiftStart = SSGC.getTimeInMillis();
         
         
-        long shiftEnd = s.getEnd_Time();
+        long shiftEnd = s.getStop_Time();
         
         GregorianCalendar SEGC = new GregorianCalendar();
         SEGC.setTimeInMillis(shiftEnd);
@@ -179,7 +179,7 @@ public class Punch{
         LSGC.set(Calendar.DAY_OF_MONTH, OTS.get(Calendar.DAY_OF_MONTH));
         lunchStart = LSGC.getTimeInMillis();
         
-        long lunchEnd = s.getLunch_End();
+        long lunchEnd = s.getLunch_Stop();
         
         GregorianCalendar LEGC = new GregorianCalendar();
         LEGC.setTimeInMillis(lunchEnd);

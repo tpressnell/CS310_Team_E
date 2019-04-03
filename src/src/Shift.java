@@ -1,27 +1,30 @@
 package src;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 public class Shift {
     
     private DailySchedule defaultSchedule;
+    private String description;
     private int numOfDaysInShift;
     private int shiftID;
     
+      
     public Shift(int shiftID, String description, DailySchedule defaultSchedule){
         
         this.shiftID = shiftID;
-        this.defaultSchedule = defaultSchedule;
-        
-        if(shiftID == 1 || shiftID == 2 || shiftID == 3 || shiftID == 4)
-            this.numOfDaysInShift = 5;
+        this.description = description;
+        this.defaultSchedule = defaultSchedule;    
+        this.numOfDaysInShift = 5;
     }
+    
     public int getShiftLength() {
         long shiftLengthInMillis = 0;
         int shiftLengthInMinutes = 0;
         final int CONVERSION_TO_MINUTES = 60000;
         
-        shiftLengthInMillis = (this.getEnd_Time() - this.getStart_Time()) - (this.lunch_end - this.lunch_start);
+        shiftLengthInMillis = (this.defaultSchedule.getStop() - this.defaultSchedule.getLunch_start() - (this.defaultSchedule.getLunch_stop() - this.defaultSchedule.getLunch_start()));
         shiftLengthInMinutes = (int) shiftLengthInMillis / CONVERSION_TO_MINUTES;
         
        return shiftLengthInMinutes; 
@@ -61,7 +64,7 @@ public class Shift {
     }
     
     public long getLunch_Stop(){
-        return defaultSchedule.getLunch_stop()
+        return defaultSchedule.getLunch_stop();
     }
     
     public void setLunch_Stop(long newLunch_stop){
@@ -71,23 +74,32 @@ public class Shift {
     public int getNumOfDaysInShift(){
         return this.numOfDaysInShift;
     }
+    public String getDescription(){
+        return this.description;
+    }
+    
+    
     @Override
     public String toString(){
-        String string;
-        if(this.getID() == 1){
-           string = "Shift 1: 07:00 - 15:30 (510 minutes); Lunch: 12:00 - 12:30 (30 minutes)";
-        }
-        else if(this.getID() == 2){
-            string = "Shift 2: 12:00 - 20:30 (510 minutes); Lunch: 16:30 - 17:00 (30 minutes)";
-        }
-        else if(this.getID() == 3){
-            string = "Shift 1 Early Lunch: 07:00 - 15:30 (510 minutes); Lunch: 11:30 - 12:00 (30 minutes)";
-        }
-        else{
-            string = "Shift 3: 22:30 - 7:00 (510 minutes); Lunch: 3:30 - 4:00 (30 minutes)";
-            
-        }
-        return string;
+        
+        StringBuilder output = new StringBuilder();
+        
+        String start = new SimpleDateFormat("HH:mm:ss").format(defaultSchedule.getStart());
+        String stop = new SimpleDateFormat("HH:mm:ss").format(defaultSchedule.getStop());
+        String lunch_start = new SimpleDateFormat("HH:mm:ss").format(defaultSchedule.getLunch_start());
+        String lunch_stop = new SimpleDateFormat("HH:mm:ss").format(defaultSchedule.getLunch_stop());
+        long lunch_length = defaultSchedule.getLunch_stop() - defaultSchedule.getLunch_start() / 60000;
+        String lunch_length_string = new SimpleDateFormat("HH:mm:ss").format(lunch_length);
+        
+        output.append(this.description + ": ");
+        output.append(start + " - ");
+        output.append(stop + " (");
+        output.append(this.getShiftLength() + " minutes); Lunch: ");
+        output.append(lunch_start + " - ");
+        output.append(lunch_stop + " (");
+        output.append(lunch_length_string + " minutes)");        
+        
+        return output.toString();
     }
     
     
