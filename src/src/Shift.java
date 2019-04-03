@@ -10,14 +10,13 @@ public class Shift {
     private int numOfDaysInShift;
     private int shiftID;
     
+      
     public Shift(int shiftID, String description, DailySchedule defaultSchedule){
         
         this.shiftID = shiftID;
         this.description = description;
-        this.defaultSchedule = defaultSchedule;
-        
-        if(shiftID == 1 || shiftID == 2 || shiftID == 3 || shiftID == 4)
-            this.numOfDaysInShift = 5;
+        this.defaultSchedule = defaultSchedule;    
+        this.numOfDaysInShift = 5;
     }
     
     public int getShiftLength() {
