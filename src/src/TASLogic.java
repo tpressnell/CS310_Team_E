@@ -239,4 +239,17 @@ public class TASLogic {
         
         return results;
     }
+    public static GregorianCalendar makeCal(long ts) {
+        
+        //Create greg object
+        GregorianCalendar g = new GregorianCalendar();
+        g.setTimeInMillis(ts);
+        g.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        g.set(Calendar.HOUR_OF_DAY, 0);
+        g.set(Calendar.MINUTE, 0);
+        g.set(Calendar.SECOND, 0);
+        
+        return g;
+        
+    }
 }
