@@ -220,9 +220,14 @@ public class TASDatabase {
     } 
     public Shift getShift( Badge b, long ts) {
         
-        GregorianCalendar garry = TASLogic.makeCal(ts); 
+        GregorianCalendar garry = TASLogic.makeCal(ts);
+        
+        boolean overrideFlag = false;
         
         try {
+            
+            // QUERY 1 
+            
             query = "SELECT * FROM employee WHERE badgeid = ?";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setString(1, b.getId());
@@ -230,7 +235,134 @@ public class TASDatabase {
             resultset = pstSelect.getResultSet();
             resultset.first();
             
-            int employeeShiftID = resultset.getInt(7); //"That gives us their shift id" -Tyler
+            int employeeShiftId = resultset.getInt(7); //"That gives us their shift id" -Tyler
+            
+            
+            //QUERY 2
+            
+            query = "SELECT * FROM shift WHERE shiftid = ?";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.setInt(1, employeeShiftId);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+            resultset.first();
+            
+            String description = resultset.getString(2);
+            int dailyScheduleId = resultset.getInt(3);
+            
+            //QUERY 3
+            
+            query = "SELECT * FROM dailyshedule WHERE id = ?";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.setInt(1, dailyScheduleId);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+            resultset.first();
+            
+            long start = resultset.getLong(2);
+            long stop = resultset.getLong(3);
+            long lunch_start = resultset.getLong(4);
+            long lunch_stop = resultset.getLong(5);
+            int interval = resultset.getInt(6);
+            int grace_period = resultset.getInt(7);
+            int dock = resultset.getInt(8);
+            int lunchDeduct = resultset.getInt(9);
+            
+            DailySchedule dailyScheudle = new DailySchedule(start, stop, lunch_start, lunch_stop, interval, grace_period, dock, lunchDeduct);
+            Timestamp Jenny = new Timestamp(garry.getTimeInMillis());
+            
+            
+            // QUERY 4
+            
+            query = "SELECT * FROM scheduleoverride WHERE start = ? AND badegid = null";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.setTimestamp(1, Jenny);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+            resultset.first();
+            
+            
+            if( resultset.next() == true) {
+                
+                overrideFlag = true;
+                
+                int newDailyScheduleId = resultset.getInt(6);
+                
+                // QUERY 4.5
+                
+                query = "SELECT * FROM dailyshedule WHERE id = ?";
+                pstSelect = conn.prepareStatement(query);
+                pstSelect.setInt(1, newDailyScheduleId);
+                pstSelect.execute();
+                resultset = pstSelect.getResultSet();
+                resultset.first();
+
+                long newStart = resultset.getLong(2);
+                long newStop = resultset.getLong(3);
+                long newLunch_start = resultset.getLong(4);
+                long newLunch_stop = resultset.getLong(5);
+                int newInterval = resultset.getInt(6);
+                int newGrace_period = resultset.getInt(7);
+                int newDock = resultset.getInt(8);
+                int newLunchDeduct = resultset.getInt(9);
+                
+                DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
+
+                
+            }
+            
+            
+            
+            // QUERY 5
+            
+            query = "SELECT * FROM scheduleoverride WHERE start = ? AND badegid = ?";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.setTimestamp(1, Jenny);
+            pstSelect.setString(2, b.getId());
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+            resultset.first();
+            
+            
+            if( resultset.next() == true) {
+                
+                overrideFlag = true;
+                
+                int newDailyScheduleId = resultset.getInt(6);
+                
+                // QUERY 5.5
+                
+                query = "SELECT * FROM dailyshedule WHERE id = ?";
+                pstSelect = conn.prepareStatement(query);
+                pstSelect.setInt(1, newDailyScheduleId);
+                pstSelect.execute();
+                resultset = pstSelect.getResultSet();
+                resultset.first();
+
+                long newStart = resultset.getLong(2);
+                long newStop = resultset.getLong(3);
+                long newLunch_start = resultset.getLong(4);
+                long newLunch_stop = resultset.getLong(5);
+                int newInterval = resultset.getInt(6);
+                int newGrace_period = resultset.getInt(7);
+                int newDock = resultset.getInt(8);
+                int newLunchDeduct = resultset.getInt(9);
+  
+                DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
+
+            }
+            
+            if (overrideFlag == true) {
+                
+                Shift newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
+                
+            }
+            
+            
+            
+            
+            
+            
             
         }
         catch(Exception e) { 
