@@ -207,8 +207,6 @@ public class TASDatabase {
         
         GregorianCalendar garry = TASLogic.makeCal(ts);
         
-        boolean overrideFlag = false;
-        
         try {
             
             // QUERY 1 
@@ -269,7 +267,6 @@ public class TASDatabase {
             
             if( resultset.next() == true) {
                 
-                overrideFlag = true;
                 
                 int newDailyScheduleId = resultset.getInt(6);
                 
@@ -292,7 +289,9 @@ public class TASDatabase {
                 int newLunchDeduct = resultset.getInt(9);
                 
                 DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
-
+                Shift newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
+                
+                return newShift;
                 
             }
             
@@ -311,7 +310,6 @@ public class TASDatabase {
             
             if( resultset.next() == true) {
                 
-                overrideFlag = true;
                 
                 int newDailyScheduleId = resultset.getInt(6);
                 
@@ -334,14 +332,11 @@ public class TASDatabase {
                 int newLunchDeduct = resultset.getInt(9);
   
                 DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
-
-            }
-            
-            if (overrideFlag == true) {
-                
                 Shift newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
                 
+                return newShift;
             }
+            
             
             
             
@@ -355,7 +350,7 @@ public class TASDatabase {
         }
         
         
-        
+        return null;
         
     }
     public int insertPunch(Punch p){
