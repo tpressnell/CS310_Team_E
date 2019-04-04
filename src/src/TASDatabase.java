@@ -164,35 +164,50 @@ public class TASDatabase {
             query = "SELECT * FROM employee WHERE badgeid = '" + badge.getId() + "'";
             pstSelect = conn.prepareStatement(query);
             pstSelect.execute();
-            resultset = pstSelect.getResultSet();
-        
+            resultset = pstSelect.getResultSet();      
             resultset.first();
-             
-            int shift_id = Integer.parseInt(resultset.getString("shiftid"));
+  
+            int shiftID = resultset.getInt(1);
             
-            query = "SELECT * FROM shift WHERE id = '" + shift_id + "'";
+            query = "SELECT * FROM shift WHERE id = '" + shiftID+ "'";
             pstSelect = conn.prepareStatement(query);
             pstSelect.execute();
             resultset = pstSelect.getResultSet();
-        
+            resultset.first();
+    
+            String description = resultset.getString(2);
+            
+            int dailyScheduleID = resultset.getInt(3);
+              
+            query = "SELECT * FROM dailyschedule WHERE id = '" + dailyScheduleID + "'";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
             resultset.first();
             
-            int shiftID = resultset.getInt(1);
-           
-            Timestamp ts = resultset.getTimestamp(3);
-            long startTime = ts.getTime();
-            
-            ts = resultset.getTimestamp(4);
-            long endTime = ts.getTime();
-            
-            ts = resultset.getTimestamp(8);
-            long lunch_start = ts.getTime();
-            
-            ts = resultset.getTimestamp(9);
-            long lunch_end = ts.getTime();
-            
-            Shift returnShift = new Shift(startTime, endTime, shiftID, lunch_start, lunch_end);
+            Timestamp ts = resultset.getTimestamp(2);
+            long start = ts.getTime();
              
+            ts = resultset.getTimestamp(3);
+            long stop = ts.getTime();
+            
+            int interval = resultset.getInt(4);
+            int grace_period = resultset.getInt(5);
+            int dock = resultset.getInt(6);
+            
+               
+            ts = resultset.getTimestamp(7);
+            long lunch_start = ts.getTime();
+              
+            ts = resultset.getTimestamp(8);
+            long lunch_stop = ts.getTime();
+            
+            int lunch_deduct = resultset.getInt(9);
+            
+            DailySchedule defaultSchedule = new DailySchedule(start,stop,lunch_start,lunch_stop,interval,grace_period,dock,lunch_deduct);
+            
+            Shift returnShift = new Shift(shiftID, description, defaultSchedule);
+            
             return returnShift;
             
         }
