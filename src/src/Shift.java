@@ -9,6 +9,7 @@ public class Shift {
     private String description;
     private int numOfDaysInShift;
     private int shiftID;
+    private HashMap<Integer, DailySchedule> workSchedule;
     
       
     public Shift(int shiftID, String description, DailySchedule defaultSchedule){
@@ -17,7 +18,14 @@ public class Shift {
         this.description = description;
         this.defaultSchedule = defaultSchedule;    
         this.numOfDaysInShift = 5;
+        this.workSchedule = new HashMap<>();
+        for(int i = 1; i < 8; i++){
+            if(i != 1 || i != 7)
+                workSchedule.put(i, defaultSchedule);
+        }
     }
+    
+    
     
     public int getShiftLength() {
         long shiftLengthInMillis = 0;
