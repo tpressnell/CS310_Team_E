@@ -270,6 +270,9 @@ public class TASDatabase {
             Timestamp Jenny = new Timestamp(garry.getTimeInMillis());
             
             Shift newShift = new Shift(dailyScheduleId, description, dailySchedule);
+                
+                
+            
             
             
             // QUERY 4
@@ -284,7 +287,7 @@ public class TASDatabase {
             
             if( resultset.next() == true) {
                 
-                
+                int day = resultset.getInt(5);
                 int newDailyScheduleId = resultset.getInt(6);
                 
                 // QUERY 4.5
@@ -308,8 +311,12 @@ public class TASDatabase {
                 DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
                 newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
                 
-                return newShift;
                 
+                
+                newShift.setOverride(overrideDailySchedule, day);
+                    
+                
+                return newShift;
             }
             
             
@@ -327,7 +334,7 @@ public class TASDatabase {
             
             if( resultset.next() == true) {
                 
-                
+                int day = resultset.getInt(5);
                 int newDailyScheduleId = resultset.getInt(6);
                 
                 // QUERY 5.5
@@ -350,6 +357,12 @@ public class TASDatabase {
   
                 DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
                 newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
+                
+                
+                    
+                newShift.setOverride(overrideDailySchedule, day);
+                    
+                
                 
                 return newShift;
             }
