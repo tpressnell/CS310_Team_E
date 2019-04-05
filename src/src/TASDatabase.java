@@ -266,8 +266,10 @@ public class TASDatabase {
             int dock = resultset.getInt(8);
             int lunchDeduct = resultset.getInt(9);
             
-            DailySchedule dailyScheudle = new DailySchedule(start, stop, lunch_start, lunch_stop, interval, grace_period, dock, lunchDeduct);
+            DailySchedule dailySchedule = new DailySchedule(start, stop, lunch_start, lunch_stop, interval, grace_period, dock, lunchDeduct);
             Timestamp Jenny = new Timestamp(garry.getTimeInMillis());
+            
+            Shift newShift = new Shift(dailyScheduleId, description, dailySchedule);
             
             
             // QUERY 4
@@ -304,7 +306,7 @@ public class TASDatabase {
                 int newLunchDeduct = resultset.getInt(9);
                 
                 DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
-                Shift newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
+                newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
                 
                 return newShift;
                 
@@ -347,14 +349,14 @@ public class TASDatabase {
                 int newLunchDeduct = resultset.getInt(9);
   
                 DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
-                Shift newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
+                newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
                 
                 return newShift;
             }
             
             
             
-            
+            return newShift;
             
             
             
