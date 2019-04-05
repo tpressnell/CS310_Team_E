@@ -167,7 +167,7 @@ public class TASDatabase {
             resultset = pstSelect.getResultSet();      
             resultset.first();
   
-            int shiftID = resultset.getInt(1);
+            int shiftID = resultset.getInt(7);
             
             query = "SELECT * FROM shift WHERE id = '" + shiftID+ "'";
             pstSelect = conn.prepareStatement(query);
@@ -238,7 +238,7 @@ public class TASDatabase {
             
             //QUERY 2
             
-            query = "SELECT * FROM shift WHERE shiftid = ?";
+            query = "SELECT * FROM shift WHERE id = ?";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setInt(1, employeeShiftId);
             pstSelect.execute();
@@ -250,7 +250,7 @@ public class TASDatabase {
             
             //QUERY 3
             
-            query = "SELECT * FROM dailyshedule WHERE id = ?";
+            query = "SELECT * FROM dailyschedule WHERE id = ?";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setInt(1, dailyScheduleId);
             pstSelect.execute();
@@ -272,7 +272,7 @@ public class TASDatabase {
             
             // QUERY 4
             
-            query = "SELECT * FROM scheduleoverride WHERE start = ? AND badegid = null";
+            query = "SELECT * FROM scheduleoverride WHERE start = ? AND badgeid = null";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setTimestamp(1, Jenny);
             pstSelect.execute();
@@ -287,7 +287,7 @@ public class TASDatabase {
                 
                 // QUERY 4.5
                 
-                query = "SELECT * FROM dailyshedule WHERE id = ?";
+                query = "SELECT * FROM dailyschedule WHERE id = ?";
                 pstSelect = conn.prepareStatement(query);
                 pstSelect.setInt(1, newDailyScheduleId);
                 pstSelect.execute();
@@ -314,7 +314,7 @@ public class TASDatabase {
             
             // QUERY 5
             
-            query = "SELECT * FROM scheduleoverride WHERE start = ? AND badegid = ?";
+            query = "SELECT * FROM scheduleoverride WHERE start = ? AND badgeid = ?";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setTimestamp(1, Jenny);
             pstSelect.setString(2, b.getId());

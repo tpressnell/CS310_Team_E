@@ -172,7 +172,7 @@ public class TASLogic {
        
        for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
           totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchLists.get(i), shift);
-          totalShiftTime = shift.getShiftLength() * shift.getNumOfDaysInShift();
+          totalShiftTime = (shift.getShiftLength() - shift.getLunchLength()) * shift.getNumOfDaysInShift();
           
       }
         
