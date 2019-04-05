@@ -22,11 +22,17 @@ public class Shift {
         for(int i = 1; i < 8; i++){
             if(i != 1 || i != 7)
                 workSchedule.put(i, defaultSchedule);
+            
         }
     }
     
+    public void setOverride(DailySchedule override, int dayOfWeek){
+        workSchedule.put(dayOfWeek, override);
+    }
     
-    
+    public DailySchedule getDailySchdedule(int dayOfWeek){
+        return workSchedule.get(dayOfWeek);
+    }
     public int getShiftLength() {
         long shiftLengthInMillis = 0;
         int shiftLengthInMinutes = 0;
