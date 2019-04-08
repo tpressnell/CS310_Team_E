@@ -22,9 +22,9 @@ public class Shift {
         this.numOfDaysInShift = 5;
         this.workSchedule = new HashMap<>();
         for(int i = 1; i < 8; i++){
-            if(i != 1 || i != 7)
+            if(i != 1 || i != 7){
                 workSchedule.put(i, defaultSchedule);
-            
+            }
         }
     }
     

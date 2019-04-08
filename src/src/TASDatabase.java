@@ -309,7 +309,7 @@ public class TASDatabase {
                 int newLunchDeduct = resultset.getInt(9);
                 
                 DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
-                newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
+               
                 
                 
                 
@@ -356,7 +356,7 @@ public class TASDatabase {
                 int newLunchDeduct = resultset.getInt(9);
   
                 DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
-                newShift = new Shift(employeeShiftId, description, overrideDailySchedule);
+
                 
                 
                     
