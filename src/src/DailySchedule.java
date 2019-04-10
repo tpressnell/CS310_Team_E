@@ -12,7 +12,16 @@ public class DailySchedule {
     private int dock;
     private int lunchDeduct;
     
-    public DailySchedule(long start, long stop, long lunch_start, long lunch_stop, int interval, int grace_period, int dock, int lunchDeduct){
+    public DailySchedule(
+            long start, 
+            long stop, 
+            long lunch_start, 
+            long lunch_stop, 
+            int interval, 
+            int grace_period, 
+            int dock, 
+            int lunchDeduct){
+        
         this.start = start;
         this.stop = stop;
         this.lunch_start = lunch_start;
