@@ -171,10 +171,11 @@ public class TASLogic {
        }
        
        for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
-          totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchLists.get(i), shift);
-          totalShiftTime = (shift.getShiftLength() - shift.getLunchLength()) * shift.getNumOfDaysInShift();
-          
-      }
+          totalAccuredTime += TASLogic.calculateTotalMinutes(dailyPunchLists.get(i), shift); 
+        }
+       for(int j = Calendar.MONDAY; j < Calendar.SATURDAY; ++j){
+              totalShiftTime += (shift.getShiftLength(j) - shift.getLunchLength(j));
+        }
         
        System.out.println("Time actually worked: " + totalAccuredTime);
        System.out.println("Shift time in minutes: " + totalShiftTime);
