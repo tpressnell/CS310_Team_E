@@ -280,7 +280,7 @@ public class TASDatabase {
             
             Shift newShift = new Shift(dailyScheduleId, description, dailySchedule);
                 
-                
+            
             
             
             
@@ -349,6 +349,8 @@ public class TASDatabase {
             resultset = pstSelect.getResultSet();
             resultset.first();
             
+            System.out.println(resultset.next());
+            
             
             if( resultset.next() == true) {
                 
@@ -396,8 +398,8 @@ public class TASDatabase {
             
             
             
-            return newShift;
             
+            return newShift;
             
             
             

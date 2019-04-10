@@ -24,12 +24,14 @@ public class Shift {
         for(int i = 1; i < 8; i++){
             if(i != 1 || i != 7){
                 workSchedule.put(i, defaultSchedule);
+                System.out.println("** Start time of dailyschedule: " + workSchedule.get(i).getStart());
             }
         }
     }
     
     public void setOverride(DailySchedule override, int dayOfWeek){
         workSchedule.put(dayOfWeek, override);
+        System.out.println("** Start time of override schedule: " + workSchedule.get(dayOfWeek).getStart());
     }
     
     public DailySchedule getDailySchdedule(int dayOfWeek){
