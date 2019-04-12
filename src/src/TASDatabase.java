@@ -314,13 +314,11 @@ public class TASDatabase {
             
             
             for(PreparedStatement select : selects ){
-                System.out.println("**FOR LOOP TRIGGERED**");
                 pstSelect = select;
                 pstSelect.execute();
                 resultset = pstSelect.getResultSet();
                 
                 while(resultset.next()) {
-                    System.out.println("**WHILE LOOP TRIGGERED**");
                     String originalTimestamp = new SimpleDateFormat("yyyy-MM-dd").format(garry.getTimeInMillis());
                     int day = resultset.getInt(5);
                     int newDailyScheduleId = resultset.getInt(6);
@@ -353,8 +351,6 @@ public class TASDatabase {
                         int newLunchDeduct = resultset.getInt(9);
 
                         DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
-
-                        System.out.println("**OVERRIDE MADE**");
 
 
                         newShift.setOverride(overrideDailySchedule, day);   

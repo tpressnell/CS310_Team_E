@@ -30,8 +30,6 @@ public class Shift {
     
     public void setOverride(DailySchedule override, int dayOfWeek){
         workSchedule.put(dayOfWeek, override);
-        String hour = new SimpleDateFormat("hh:mm:ss").format(workSchedule.get(dayOfWeek).getStart());
-        System.out.println("** Start time of override schedule: " + hour);
     }
     
     public DailySchedule getDailySchdedule(int dayOfWeek){
