@@ -148,10 +148,12 @@ public class Punch{
     
     public void adjust(Shift s){
         
+        int dayOfWeek = this.getDayOfWeek();
+        
         GregorianCalendar OTS = new GregorianCalendar();
         OTS.setTimeInMillis(ots);
         
-        long shiftStart = s.getStart_Time();
+        long shiftStart = s.getStart_Time(dayOfWeek);
         
         GregorianCalendar SSGC = new GregorianCalendar();
         SSGC.setTimeInMillis(shiftStart);
@@ -161,7 +163,7 @@ public class Punch{
         shiftStart = SSGC.getTimeInMillis();
         
         
-        long shiftEnd = s.getStop_Time();
+        long shiftEnd = s.getStop_Time(dayOfWeek);
         
         GregorianCalendar SEGC = new GregorianCalendar();
         SEGC.setTimeInMillis(shiftEnd);
@@ -170,7 +172,7 @@ public class Punch{
         SEGC.set(Calendar.DAY_OF_MONTH, OTS.get(Calendar.DAY_OF_MONTH));
         shiftEnd = SEGC.getTimeInMillis();
         
-        long lunchStart = s.getLunch_Start();
+        long lunchStart = s.getLunch_Start(dayOfWeek);
         
         GregorianCalendar LSGC = new GregorianCalendar();
         LSGC.setTimeInMillis(lunchStart);
@@ -179,7 +181,7 @@ public class Punch{
         LSGC.set(Calendar.DAY_OF_MONTH, OTS.get(Calendar.DAY_OF_MONTH));
         lunchStart = LSGC.getTimeInMillis();
         
-        long lunchEnd = s.getLunch_Stop();
+        long lunchEnd = s.getLunch_Stop(dayOfWeek);
         
         GregorianCalendar LEGC = new GregorianCalendar();
         LEGC.setTimeInMillis(lunchEnd);
