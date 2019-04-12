@@ -221,7 +221,7 @@ public class TASDatabase {
     public Shift getShift( Badge b, long ts) {
         
         GregorianCalendar garry = TASLogic.makeCal(ts);
-        ArrayList<ResultSet> resultSets = new ArrayList<>();
+        ArrayList<PreparedStatement> selects = new ArrayList<>();
         
         try {
             
@@ -285,56 +285,48 @@ public class TASDatabase {
             
             
             // QUERY 4
-            
-            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND end IS null";
+            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND end IS NOT null";
             pstSelect = conn.prepareStatement(query);
-            pstSelect.execute();
-            resultset = pstSelect.getResultSet();
-            resultset.first();
-            resultSets.add(resultset);
+            pstSelect.setString(1, b.getId());
+            selects.add(pstSelect);
+            
             
             // QUERY 5
-            
-            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND end IS NOT null";
-            pstSelect = conn.prepareStatement(query);
-            pstSelect.execute();
-            resultset = pstSelect.getResultSet();
-            resultset.first();
-            resultSets.add(resultset);
-            
-            //QUERY 6
             
             query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND end IS null";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setString(1, b.getId());
-            pstSelect.execute();
-            resultset = pstSelect.getResultSet();
-            resultset.first();
-            resultSets.add(resultset);
+            selects.add(pstSelect);
+            
+            
+            //QUERY 6
+            
+            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND end IS NOT null";
+            pstSelect = conn.prepareStatement(query);
+            selects.add(pstSelect);
             
             // QUERY 7
             
-            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND end IS NOT null";
+            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND end IS null";
             pstSelect = conn.prepareStatement(query);
-            pstSelect.setString(1, b.getId());
-            pstSelect.execute();
-            resultset = pstSelect.getResultSet();
-            resultset.first();
-            resultSets.add(resultset);
+            selects.add(pstSelect);
             
-            for(ResultSet resultset : resultSets ){
-                
-                System.out.println("**NEW RESULTSET**");
-                System.out.println("resultset.next(): " + resultset.next());
+            
+            
+            for(PreparedStatement select : selects ){
+                System.out.println("**FOR LOOP TRIGGERED**");
+                pstSelect = select;
+                pstSelect.execute();
+                resultset = pstSelect.getResultSet();
                 
                 while(resultset.next()) {
-
+                    System.out.println("**WHILE LOOP TRIGGERED**");
                     String originalTimestamp = new SimpleDateFormat("yyyy-MM-dd").format(garry.getTimeInMillis());
                     int day = resultset.getInt(5);
                     int newDailyScheduleId = resultset.getInt(6);
 
 
-                    if(resultset.getString(2).contains(originalTimestamp)){
+                    
                         query = "SELECT * FROM dailyschedule WHERE id = ?";
                         pstSelect = conn.prepareStatement(query);
                         pstSelect.setInt(1, newDailyScheduleId);
@@ -362,11 +354,11 @@ public class TASDatabase {
 
                         DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
 
-
+                        System.out.println("**OVERRIDE MADE**");
 
 
                         newShift.setOverride(overrideDailySchedule, day);   
-                    } 
+                    
                 }
             }
             
