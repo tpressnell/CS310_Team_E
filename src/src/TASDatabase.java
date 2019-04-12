@@ -221,6 +221,7 @@ public class TASDatabase {
     public Shift getShift( Badge b, long ts) {
         
         GregorianCalendar garry = TASLogic.makeCal(ts);
+        ArrayList<ResultSet> resultSets = new ArrayList<>();
         
         try {
             
@@ -285,55 +286,88 @@ public class TASDatabase {
             
             // QUERY 4
             
-            query = "SELECT * FROM scheduleoverride";
+            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND end IS null";
             pstSelect = conn.prepareStatement(query);
             pstSelect.execute();
             resultset = pstSelect.getResultSet();
             resultset.first();
+            resultSets.add(resultset);
             
-            while(resultset.next()) {
+            // QUERY 5
+            
+            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND end IS NOT null";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+            resultset.first();
+            resultSets.add(resultset);
+            
+            //QUERY 6
+            
+            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND end IS null";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.setString(1, b.getId());
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+            resultset.first();
+            resultSets.add(resultset);
+            
+            // QUERY 7
+            
+            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND end IS NOT null";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.setString(1, b.getId());
+            pstSelect.execute();
+            resultset = pstSelect.getResultSet();
+            resultset.first();
+            resultSets.add(resultset);
+            
+            for(ResultSet resultset : resultSets ){
                 
-                String originalTimestamp = new SimpleDateFormat("yyyy-MM-dd").format(garry.getTimeInMillis());
-                int day = resultset.getInt(5);
-                int newDailyScheduleId = resultset.getInt(6);
+                System.out.println("**NEW RESULTSET**");
+                System.out.println("resultset.next(): " + resultset.next());
                 
-                
-                if(resultset.getString(2).contains(originalTimestamp)){
-                    query = "SELECT * FROM dailyschedule WHERE id = ?";
-                    pstSelect = conn.prepareStatement(query);
-                    pstSelect.setInt(1, newDailyScheduleId);
-                    pstSelect.execute();
-                    resultset = pstSelect.getResultSet();
-                    resultset.first();
+                while(resultset.next()) {
 
-                    nts = resultset.getTimestamp(2);
-                    long newStart = nts.getTime();
-
-                    nts = resultset.getTimestamp(3);
-                    long newStop = nts.getTime();
-
-                    int newInterval = resultset.getInt(4);
-                    int newGrace_period = resultset.getInt(5);
-                    int newDock = resultset.getInt(6);
+                    String originalTimestamp = new SimpleDateFormat("yyyy-MM-dd").format(garry.getTimeInMillis());
+                    int day = resultset.getInt(5);
+                    int newDailyScheduleId = resultset.getInt(6);
 
 
-                    nts = resultset.getTimestamp(7);
-                    long newLunch_start = nts.getTime();
+                    if(resultset.getString(2).contains(originalTimestamp)){
+                        query = "SELECT * FROM dailyschedule WHERE id = ?";
+                        pstSelect = conn.prepareStatement(query);
+                        pstSelect.setInt(1, newDailyScheduleId);
+                        pstSelect.execute();
+                        resultset = pstSelect.getResultSet();
+                        resultset.first();
 
-                    nts = resultset.getTimestamp(8);
-                    long newLunch_stop = nts.getTime();
-                    int newLunchDeduct = resultset.getInt(9);
+                        nts = resultset.getTimestamp(2);
+                        long newStart = nts.getTime();
 
-                    DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
+                        nts = resultset.getTimestamp(3);
+                        long newStop = nts.getTime();
+
+                        int newInterval = resultset.getInt(4);
+                        int newGrace_period = resultset.getInt(5);
+                        int newDock = resultset.getInt(6);
+
+
+                        nts = resultset.getTimestamp(7);
+                        long newLunch_start = nts.getTime();
+
+                        nts = resultset.getTimestamp(8);
+                        long newLunch_stop = nts.getTime();
+                        int newLunchDeduct = resultset.getInt(9);
+
+                        DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
 
 
 
 
-                    newShift.setOverride(overrideDailySchedule, day);
-
-
-                    return newShift;
-                } 
+                        newShift.setOverride(overrideDailySchedule, day);   
+                    } 
+                }
             }
             
             
