@@ -286,116 +286,55 @@ public class TASDatabase {
             
             // QUERY 4
             
-            query = "SELECT * FROM scheduleoverride WHERE start = ? AND badgeid = null";
+            query = "SELECT * FROM scheduleoverride";
             pstSelect = conn.prepareStatement(query);
-            pstSelect.setTimestamp(1, Jenny);
             pstSelect.execute();
             resultset = pstSelect.getResultSet();
             resultset.first();
             
-            
-            if( resultset.next() == true) {
+            if( resultset.next()) {
                 
+                String originalTimestamp = new SimpleDateFormat("yyyy-MM-dd").format(ts);
                 int day = resultset.getInt(5);
                 int newDailyScheduleId = resultset.getInt(6);
                 
-                // QUERY 4.5
-                
-                query = "SELECT * FROM dailyschedule WHERE id = ?";
-                pstSelect = conn.prepareStatement(query);
-                pstSelect.setInt(1, newDailyScheduleId);
-                pstSelect.execute();
-                resultset = pstSelect.getResultSet();
-                resultset.first();
+                if(resultset.getString(2).contains(originalTimestamp)){
+                    query = "SELECT * FROM dailyschedule WHERE id = ?";
+                    pstSelect = conn.prepareStatement(query);
+                    pstSelect.setInt(1, newDailyScheduleId);
+                    pstSelect.execute();
+                    resultset = pstSelect.getResultSet();
+                    resultset.first();
 
-                nts = resultset.getTimestamp(2);
-                long newStart = nts.getTime();
+                    nts = resultset.getTimestamp(2);
+                    long newStart = nts.getTime();
 
-                nts = resultset.getTimestamp(3);
-                 long newStop = nts.getTime();
+                    nts = resultset.getTimestamp(3);
+                     long newStop = nts.getTime();
 
-                int newInterval = resultset.getInt(4);
-                int newGrace_period = resultset.getInt(5);
-                int newDock = resultset.getInt(6);
+                    int newInterval = resultset.getInt(4);
+                    int newGrace_period = resultset.getInt(5);
+                    int newDock = resultset.getInt(6);
 
 
-                nts = resultset.getTimestamp(7);
-                long newLunch_start = nts.getTime();
+                    nts = resultset.getTimestamp(7);
+                    long newLunch_start = nts.getTime();
 
-                nts = resultset.getTimestamp(8);
-                long newLunch_stop = nts.getTime();
-                int newLunchDeduct = resultset.getInt(9);
-                
-                DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
-               
-                
-                
-                
-                newShift.setOverride(overrideDailySchedule, day);
-                    
-                
-                return newShift;
+                    nts = resultset.getTimestamp(8);
+                    long newLunch_stop = nts.getTime();
+                    int newLunchDeduct = resultset.getInt(9);
+
+                    DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
+
+
+
+
+                    newShift.setOverride(overrideDailySchedule, day);
+
+
+                    return newShift;
+                } 
             }
-            
-            
-            
-            // QUERY 5
-            
-            query = "SELECT * FROM scheduleoverride WHERE start = ? AND badgeid = ?";
-            pstSelect = conn.prepareStatement(query);
-            pstSelect.setTimestamp(1, Jenny);
-            pstSelect.setString(2, b.getId());
-            pstSelect.execute();
-            resultset = pstSelect.getResultSet();
-            resultset.first();
-            
-            System.out.println(resultset.next());
-            
-            
-            if( resultset.next() == true) {
-                
-                int day = resultset.getInt(5);
-                int newDailyScheduleId = resultset.getInt(6);
-                
-                // QUERY 5.5
-                
-                query = "SELECT * FROM dailyshedule WHERE id = ?";
-                pstSelect = conn.prepareStatement(query);
-                pstSelect.setInt(1, newDailyScheduleId);
-                pstSelect.execute();
-                resultset = pstSelect.getResultSet();
-                resultset.first();
-
-                nts = resultset.getTimestamp(2);
-                long newStart = nts.getTime();
-
-                nts = resultset.getTimestamp(3);
-                 long newStop = nts.getTime();
-
-                int newInterval = resultset.getInt(4);
-                int newGrace_period = resultset.getInt(5);
-                int newDock = resultset.getInt(6);
-
-
-                nts = resultset.getTimestamp(7);
-                long newLunch_start = nts.getTime();
-
-                nts = resultset.getTimestamp(8);
-                long newLunch_stop = nts.getTime();
-                int newLunchDeduct = resultset.getInt(9);
-  
-                DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
-
-                
-                
-                    
-                newShift.setOverride(overrideDailySchedule, day);
-                    
-                
-                
-                return newShift;
-            }
-            
             
             
             
