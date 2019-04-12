@@ -297,45 +297,43 @@ public class TASDatabase {
                 int day = resultset.getInt(5);
                 int newDailyScheduleId = resultset.getInt(6);
                 
-                if(b.getId().contains(resultset.getString(4)) || resultset.getString(4) == null){
-                    if(resultset.getString(2).contains(originalTimestamp)){
-                        query = "SELECT * FROM dailyschedule WHERE id = ?";
-                        pstSelect = conn.prepareStatement(query);
-                        pstSelect.setInt(1, newDailyScheduleId);
-                        pstSelect.execute();
-                        resultset = pstSelect.getResultSet();
-                        resultset.first();
+                
+                if(resultset.getString(2).contains(originalTimestamp)){
+                    query = "SELECT * FROM dailyschedule WHERE id = ?";
+                    pstSelect = conn.prepareStatement(query);
+                    pstSelect.setInt(1, newDailyScheduleId);
+                    pstSelect.execute();
+                    resultset = pstSelect.getResultSet();
+                    resultset.first();
 
-                        nts = resultset.getTimestamp(2);
-                        long newStart = nts.getTime();
+                    nts = resultset.getTimestamp(2);
+                    long newStart = nts.getTime();
 
-                        nts = resultset.getTimestamp(3);
-                        long newStop = nts.getTime();
+                    nts = resultset.getTimestamp(3);
+                    long newStop = nts.getTime();
 
-                        int newInterval = resultset.getInt(4);
-                        int newGrace_period = resultset.getInt(5);
-                        int newDock = resultset.getInt(6);
-
-
-                        nts = resultset.getTimestamp(7);
-                        long newLunch_start = nts.getTime();
-
-                        nts = resultset.getTimestamp(8);
-                        long newLunch_stop = nts.getTime();
-                        int newLunchDeduct = resultset.getInt(9);
-
-                        DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
+                    int newInterval = resultset.getInt(4);
+                    int newGrace_period = resultset.getInt(5);
+                    int newDock = resultset.getInt(6);
 
 
+                    nts = resultset.getTimestamp(7);
+                    long newLunch_start = nts.getTime();
+
+                    nts = resultset.getTimestamp(8);
+                    long newLunch_stop = nts.getTime();
+                    int newLunchDeduct = resultset.getInt(9);
+
+                    DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
 
 
-                        newShift.setOverride(overrideDailySchedule, day);
 
 
-                        return newShift;
-                    } 
-            
-                }
+                    newShift.setOverride(overrideDailySchedule, day);
+
+
+                    return newShift;
+                } 
             }
             
             
