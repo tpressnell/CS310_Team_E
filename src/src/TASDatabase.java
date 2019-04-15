@@ -304,10 +304,9 @@ public class TASDatabase {
             
             //QUERY 6
             
-            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND start <= ? AND end is null";
+            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND end is null";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setString(1, b.getId());
-            pstSelect.setTimestamp(2, garryTS);
             selects.add(pstSelect);
             
             
@@ -328,18 +327,19 @@ public class TASDatabase {
                 
                 
                 while(resultset.next()) {
-                    String originalTimestamp = new SimpleDateFormat("yyyy-MM-dd").format(garry.getTimeInMillis());
                     
                     int day = resultset.getInt(5);
                     int newDailyScheduleId = resultset.getInt(6);
 
                     if(resultset.getTimestamp(2).getTime() <= garryTS.getTime() && garryTS.getTime() <= resultset.getTimestamp(3).getTime() ){
-                    
+                       
                        DailySchedule overrideDailySchedule = this.createOverrideSchedule(nts, newDailyScheduleId);
                        newShift.setOverride(overrideDailySchedule, day);  
                     }
                     
-                    else if(resultset.getTimestamp(3) == null && resultset.getTimestamp(2).getTime() <= garryTS.getTime()){
+                    else if(resultset.getString(3) == null && resultset.getTimestamp(2).getTime() <= garryTS.getTime()){
+                       
+                       System.out.println("**ELSE IF TRIGGERED**");
                        DailySchedule overrideDailySchedule = this.createOverrideSchedule(nts, newDailyScheduleId);
                        newShift.setOverride(overrideDailySchedule, day);
                     }
