@@ -73,6 +73,14 @@ public class Shift {
         
     }
     
+    public int getLunchDeduct(){
+        int lunchDeduct = 0;
+        
+        lunchDeduct = this.defaultSchedule.getLunchDeduct();
+        
+        return lunchDeduct;
+    }
+    
     public int getLunchLength(){
         long lunchLengthInMillis = 0;
         int lunchLengthInMinutes = 0;

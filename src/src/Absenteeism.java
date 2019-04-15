@@ -58,7 +58,7 @@ public class Absenteeism {
         
         StringBuilder output = new StringBuilder();
         String startPayPeriod = new SimpleDateFormat("MM-dd-YYYY").format(this.getTimeStamp());
-        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
         String percentageAsString = decimalFormat.format(percentage);
         
         
