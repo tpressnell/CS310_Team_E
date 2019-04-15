@@ -318,12 +318,14 @@ public class TASDatabase {
                 pstSelect.execute();
                 resultset = pstSelect.getResultSet();
                 
+                
                 while(resultset.next()) {
                     String originalTimestamp = new SimpleDateFormat("yyyy-MM-dd").format(garry.getTimeInMillis());
+     
                     int day = resultset.getInt(5);
                     int newDailyScheduleId = resultset.getInt(6);
 
-
+                    if(resultset.getString(2).contains(originalTimestamp)){
                     
                         query = "SELECT * FROM dailyschedule WHERE id = ?";
                         pstSelect = conn.prepareStatement(query);
@@ -353,7 +355,10 @@ public class TASDatabase {
                         DailySchedule overrideDailySchedule = new DailySchedule(newStart, newStop, newLunch_start, newLunch_stop, newInterval, newGrace_period, newDock, newLunchDeduct);
 
 
-                        newShift.setOverride(overrideDailySchedule, day);   
+                        newShift.setOverride(overrideDailySchedule, day);  
+                    }
+                    
+                    
                     
                 }
             }
@@ -428,7 +433,7 @@ public class TASDatabase {
         
         while(resultset.next()){
             String timestamp = resultset.getString(4);
-            if(timestamp.contains(originalTimeStamp)){
+            if(timestamp.contains(originalTimeStamp) ){
                 int dbPunchID = resultset.getInt(1);
                 int termID = resultset.getInt(2);
                 String badgeID = resultset.getString(3);
@@ -489,6 +494,7 @@ public class TASDatabase {
                         String otStamp = dbTS.toString();
 
                         Punch p = new Punch(b, longTS, punchType, otStamp, dbPunchID, termID);
+                        
 
                         payPeriodPunches.add(p);
                     }
