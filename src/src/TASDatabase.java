@@ -221,8 +221,6 @@ public class TASDatabase {
     public Shift getShift( Badge b, long ts) {
         
         GregorianCalendar garry = TASLogic.makeCal(ts);
-        GregorianCalendar startTimeCal = new GregorianCalendar();
-        GregorianCalendar endTimeCal = new GregorianCalendar();
         ArrayList<PreparedStatement> selects = new ArrayList<>();
         
         try {
@@ -284,33 +282,37 @@ public class TASDatabase {
                 
             
             
-            
+            Timestamp garryTS = new Timestamp(garry.getTimeInMillis());
             
             // QUERY 4
-            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND end IS NOT null";
+            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND start <= ? <= end";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setString(1, b.getId());
+            pstSelect.setTimestamp(2, garryTS);
             selects.add(pstSelect);
             
             
             // QUERY 5
             
-            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND end IS null";
+            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND start <= ?";
             pstSelect = conn.prepareStatement(query);
             pstSelect.setString(1, b.getId());
+            pstSelect.setTimestamp(2, garryTS);
             selects.add(pstSelect);
             
             
             //QUERY 6
             
-            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND end IS NOT null";
+            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND start <= ? <= end";
             pstSelect = conn.prepareStatement(query);
+            pstSelect.setTimestamp(1, garryTS);
             selects.add(pstSelect);
             
             // QUERY 7
             
-            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND end IS null";
+            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND start <= ?";
             pstSelect = conn.prepareStatement(query);
+            pstSelect.setTimestamp(1, garryTS);
             selects.add(pstSelect);
             
             
@@ -324,18 +326,10 @@ public class TASDatabase {
                 while(resultset.next()) {
                     String originalTimestamp = new SimpleDateFormat("yyyy-MM-dd").format(garry.getTimeInMillis());
                     
-                    Timestamp tsStart = resultset.getTimestamp(2);
-                    Timestamp tsEnd = resultset.getTimestamp(3);
-                    long startTime = tsStart.getTime();
-                    long endTime = tsEnd.getTime();
-                    startTimeCal.setTimeInMillis(startTime);
-                    endTimeCal.setTimeInMillis(endTime);
                     int day = resultset.getInt(5);
                     int newDailyScheduleId = resultset.getInt(6);
 
-                    if(resultset.getString(2).contains(originalTimestamp) || 
-                            (resultset.getString(4).equals(b.getId()) && ((garry.equals(startTimeCal))
-                            || (garry.after(startTimeCal) && garry.before(endTimeCal))))){
+                   // if(resultset.getString(2).contains(originalTimestamp)){
                     
                         query = "SELECT * FROM dailyschedule WHERE id = ?";
                         pstSelect = conn.prepareStatement(query);
@@ -366,7 +360,7 @@ public class TASDatabase {
 
 
                         newShift.setOverride(overrideDailySchedule, day);  
-                    }
+                  //  }
                     
                     
                     
