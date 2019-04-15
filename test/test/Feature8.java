@@ -145,7 +145,7 @@ public class Feature8 {
         double percentage = TASLogic.calculateAbsenteeism(p1, s);
         Absenteeism a1 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
-        assertEquals("#0FFA272B (Pay Period Starting 09-02-2018): 28.13%", a1.toString());
+        assertEquals("#0FFA272B (Pay Period Starting 09-02-2018): 28.12%", a1.toString());
         
         /* PART TWO */
         
