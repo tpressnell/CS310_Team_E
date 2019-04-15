@@ -1,6 +1,9 @@
 package src;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Date;
@@ -8,8 +11,8 @@ import java.util.Date;
 
 public class Punch{
     
-    public static final long INTERVAL = 900000;
-    public static final long GRACE_PERIOD = 300000;
+    public static final int INTERVAL = 15;
+    public static final int GRACE_PERIOD = 5;
     public static final int CLOCK_OUT = 0;
     public static final int CLOCK_IN = 1;
     public static final int TIME_OUT = 2;
@@ -149,52 +152,37 @@ public class Punch{
     public void adjust(Shift s){
         
         int dayOfWeek = this.getDayOfWeek();
+        final int CONVERSION_TO_MILIS = 60000;
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_TIME;
         
-        GregorianCalendar OTS = new GregorianCalendar();
-        OTS.setTimeInMillis(ots);
+        GregorianCalendar OTSGC = new GregorianCalendar();
+        OTSGC.setTimeInMillis(ots);
         
-        long shiftStart = s.getStart_Time(dayOfWeek);
+        String parsedOTS = new SimpleDateFormat("HH:mm:ss").format(ots);
+        LocalTime OTS = LocalTime.parse(parsedOTS, formatter);
+       
+        long shiftStartinMilis = s.getStart_Time(dayOfWeek);
+        String parsedStartTime = new SimpleDateFormat("HH:mm:ss").format(shiftStartinMilis);
+        LocalTime ShiftStart = LocalTime.parse(parsedStartTime,formatter);
+         
+        long shiftStopinMilis = s.getStop_Time(dayOfWeek);
+        String parsedStopTime = new SimpleDateFormat("HH:mm:ss").format(shiftStopinMilis);
+        LocalTime ShiftStop = LocalTime.parse(parsedStopTime,formatter);
         
-        GregorianCalendar SSGC = new GregorianCalendar();
-        SSGC.setTimeInMillis(shiftStart);
-        SSGC.set(Calendar.YEAR, OTS.get(Calendar.YEAR));
-        SSGC.set(Calendar.MONTH, OTS.get(Calendar.MONTH));
-        SSGC.set(Calendar.DAY_OF_MONTH, OTS.get(Calendar.DAY_OF_MONTH));
-        shiftStart = SSGC.getTimeInMillis();
+        
+        long lunchStartinMilis = s.getLunch_Start(dayOfWeek);
+        String parsedLunchStartTime = new SimpleDateFormat("HH:mm:ss").format(lunchStartinMilis);
+        LocalTime ShiftLunchStart = LocalTime.parse(parsedLunchStartTime,formatter);
         
         
-        long shiftEnd = s.getStop_Time(dayOfWeek);
-        
-        GregorianCalendar SEGC = new GregorianCalendar();
-        SEGC.setTimeInMillis(shiftEnd);
-        SEGC.set(Calendar.YEAR, OTS.get(Calendar.YEAR));
-        SEGC.set(Calendar.MONTH, OTS.get(Calendar.MONTH));
-        SEGC.set(Calendar.DAY_OF_MONTH, OTS.get(Calendar.DAY_OF_MONTH));
-        shiftEnd = SEGC.getTimeInMillis();
-        
-        long lunchStart = s.getLunch_Start(dayOfWeek);
-        
-        GregorianCalendar LSGC = new GregorianCalendar();
-        LSGC.setTimeInMillis(lunchStart);
-        LSGC.set(Calendar.YEAR, OTS.get(Calendar.YEAR));
-        LSGC.set(Calendar.MONTH, OTS.get(Calendar.MONTH));
-        LSGC.set(Calendar.DAY_OF_MONTH, OTS.get(Calendar.DAY_OF_MONTH));
-        lunchStart = LSGC.getTimeInMillis();
-        
-        long lunchEnd = s.getLunch_Stop(dayOfWeek);
-        
-        GregorianCalendar LEGC = new GregorianCalendar();
-        LEGC.setTimeInMillis(lunchEnd);
-        LEGC.set(Calendar.YEAR, OTS.get(Calendar.YEAR));
-        LEGC.set(Calendar.MONTH, OTS.get(Calendar.MONTH));
-        LEGC.set(Calendar.DAY_OF_MONTH, OTS.get(Calendar.DAY_OF_MONTH));
-        lunchEnd = LEGC.getTimeInMillis();
-          
-        int numOfIntervals;    
-        long timeDifference;
+        long lunchStopinMilis = s.getLunch_Stop(dayOfWeek);
+        String parsedLunchStopTime = new SimpleDateFormat("HH:mm:ss").format(lunchStopinMilis);
+        LocalTime ShiftLunchStop = LocalTime.parse(parsedLunchStopTime,formatter);
+  
+      
         boolean isWeekEnd = false;
          
-       if(OTS.get(Calendar.DAY_OF_WEEK) == 1 || OTS.get(Calendar.DAY_OF_WEEK) == 7) {
+       if(OTSGC.get(Calendar.DAY_OF_WEEK) == 1 || OTSGC.get(Calendar.DAY_OF_WEEK) == 7) {
            
            isWeekEnd = true;
            
@@ -205,119 +193,126 @@ public class Punch{
             // PUNCH IN
             if(this.punchType == 1){
 
-                if( (ots < shiftStart) && ( ots > (shiftStart - INTERVAL) )){ //CLOCK IN LESS THAN 15 MINS EARLY
+                if((OTS.isBefore(ShiftStart)) && (OTS.isAfter(ShiftStart.minusMinutes(INTERVAL)))){ //CLOCK IN LESS THAN 15 MINS EARLY
 
-                    ats = ots + (shiftStart - ots);
+                    Duration timeDifference = Duration.between(OTS, ShiftStart);
+                    ats = ots + timeDifference.toMillis();
                     adjustData = "Shift Start";  
 
                 }
 
-                else if( ots < lunchEnd && ots > lunchStart) { //CLOCK IN EARLY FROM LUNCH
-
-                    ats = lunchEnd;
+                else if( OTS.isBefore(ShiftLunchStop) && OTS.isAfter(ShiftLunchStart)) { //CLOCK IN EARLY FROM LUNCH
+                    
+                    Duration timeDifference = Duration.between(OTS, ShiftLunchStop);
+                    ats = ots + timeDifference.toMillis();
                     adjustData = "Lunch Stop";
 
 
                 } 
 
-                else if(ots > shiftStart && ots < shiftStart + GRACE_PERIOD){ //CLOCK IN LESS THAN 5 MINS LATE
-                    ats = ots - (ots - shiftStart);
+                else if(OTS.isAfter(ShiftStart) && OTS.isBefore(ShiftStart.plusMinutes(GRACE_PERIOD))){ //CLOCK IN LESS THAN 5 MINS LATE
+                    
+                    Duration timeDifference = Duration.between(ShiftStart, OTS);
+                    ats = ots - timeDifference.toMillis();
                     adjustData = "Shift Start";
 
                 }
 
-                else if(ots > shiftStart + GRACE_PERIOD && ots < shiftStart + INTERVAL){  //CLOCK IN THAT LATE ENOUGH FOR A DOCK  
-                    ats = shiftStart + INTERVAL;
+                else if(OTS.isAfter(ShiftStart.plusMinutes(GRACE_PERIOD)) && OTS.isBefore(ShiftStart.plusMinutes(INTERVAL))){  //CLOCK IN THAT LATE ENOUGH FOR A DOCK  
+                   
+                    Duration timeDifference = Duration.between(ShiftStart, OTS);
+                    ats = (ots - timeDifference.toMillis()) + (INTERVAL * CONVERSION_TO_MILIS); 
                     adjustData = "Shift Dock";
 
                 }
 
-                else if(ots > lunchEnd && ots < lunchEnd + GRACE_PERIOD){  //CLOCK IN WITHIN GRACE PERIOD FOR LUNCH
-                    ats = ots - (ots - shiftStart);
+                else if(OTS.isAfter(ShiftLunchStop) && OTS.isBefore(ShiftLunchStop.plusMinutes(GRACE_PERIOD))){  //CLOCK IN WITHIN GRACE PERIOD FOR LUNCH
+                    
+                    Duration timeDifference = Duration.between(OTS, ShiftLunchStop);            
+                    ats = ots - timeDifference.toMillis();   
                     adjustData = "Lunch Stop";
 
                 }
 
-                else if(ots > lunchEnd + GRACE_PERIOD && ots < lunchEnd + INTERVAL){ //CLOCK IN FROM LUNCH THAT IS DOCKED
-                    ats = lunchEnd + INTERVAL;
+                else if(OTS.isAfter(ShiftLunchStop.plusMinutes(GRACE_PERIOD)) && OTS.isBefore(ShiftLunchStop.plusMinutes(INTERVAL))){ //CLOCK IN FROM LUNCH THAT IS DOCKED
+                    Duration timeDifference = Duration.between(ShiftLunchStop, OTS);
+                    ats = (ots - timeDifference.toMillis()) + (INTERVAL * CONVERSION_TO_MILIS); 
                     adjustData = "Lunch Stop";
                 }
 
-                else if(OTS.get(Calendar.MINUTE) == 0 || OTS.get(Calendar.MINUTE) == 15 || OTS.get(Calendar.MINUTE) == 30 || OTS.get(Calendar.MINUTE) == 45 ){
-                    OTS.set(Calendar.SECOND, 0);
-                    ats = OTS.getTimeInMillis();
+                else if(OTS.getMinute() == 0 || (OTS.getMinute()) == 15 || OTS.getMinute() == 30 || OTS.getMinute() == 45){
+                    OTSGC.set(Calendar.SECOND, 0);
+                    ats = OTSGC.getTimeInMillis();
                     adjustData = "None";
                 }
 
                 else{
-                    GregorianCalendar NCCI = new GregorianCalendar();
-                    NCCI.setTimeInMillis(ots);
-
-                    if(NCCI.get(Calendar.MINUTE) > 0 && NCCI.get(Calendar.MINUTE) < 15 ){
-                        double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                        if(minSec < 7.5){
-                            NCCI.set(Calendar.MINUTE, 0);
-                            NCCI.set(Calendar.SECOND, 0);
-                            ats = NCCI.getTimeInMillis();
-                            adjustData = "Interval Round";
-                        }
-                        else{
-                            NCCI.set(Calendar.MINUTE, 15);
-                            NCCI.set(Calendar.SECOND, 0);
-                            ats = NCCI.getTimeInMillis();
-                            adjustData = "Interval Round";
-                        }
-
-                    }
-
-                    else if(NCCI.get(Calendar.MINUTE) > 15 && NCCI.get(Calendar.MINUTE) < 30){
-                        double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                        if(minSec < 22.5){
-                            NCCI.set(Calendar.MINUTE, 15);
-                            NCCI.set(Calendar.SECOND, 0);
-                            ats = NCCI.getTimeInMillis();
-                            adjustData = "Interval Round";
-                        }
-                        else{
-                            NCCI.set(Calendar.MINUTE, 30);
-                            NCCI.set(Calendar.SECOND, 0);
-                            ats = NCCI.getTimeInMillis();
-                            adjustData = "Interval Round";
-                        }
-                    }
-
-                    else if(NCCI.get(Calendar.MINUTE) > 30 && NCCI.get(Calendar.MINUTE) < 45){
-                        double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                        if(minSec < 37.5){
-                            NCCI.set(Calendar.MINUTE, 30);
-                            NCCI.set(Calendar.SECOND, 0);
-                            ats = NCCI.getTimeInMillis();
-                            adjustData = "Interval Round";
-                        }
-                        else{
-                            NCCI.set(Calendar.MINUTE, 45);
-                            NCCI.set(Calendar.SECOND, 0);
-                            ats = NCCI.getTimeInMillis();
-                            adjustData = "Interval Round";
-                        }
-                    }
-
-                    else if(NCCI.get(Calendar.MINUTE) > 45 && NCCI.get(Calendar.MINUTE) <= 59){
-                        double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                        if(minSec < 52.5){
-                            NCCI.set(Calendar.MINUTE, 45);
-                            NCCI.set(Calendar.SECOND, 0);
-                            ats = NCCI.getTimeInMillis();
-                            adjustData = "Interval Round";
-                        }
-                        else{
-                            NCCI.set(Calendar.HOUR_OF_DAY, (NCCI.get(Calendar.HOUR_OF_DAY) + 1));
-                            NCCI.set(Calendar.MINUTE, 0);
-                            NCCI.set(Calendar.SECOND, 0);
-                            ats = NCCI.getTimeInMillis();
-                            adjustData = "Interval Round";
-                        }
-                    }
+                    LocalTime Interval0 = LocalTime.of(OTS.getHour(),0,0);
+           LocalTime Interval7_5 = LocalTime.of(OTS.getHour(), 7, 30);
+           LocalTime Interval22_5 = LocalTime.of(OTS.getHour(), 22,30);
+           LocalTime Interval37_5 = LocalTime.of(OTS.getHour(), 37,30);
+           LocalTime Interval52_5 = LocalTime.of(OTS.getHour(), 52,30);
+           LocalTime Interval60_0 = LocalTime.of(OTS.getHour() + 1,0,0);
+           
+           if(OTS.isAfter(Interval0) && OTS.isBefore(Interval7_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 0);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+           }
+           else if(OTS.isAfter(Interval7_5) && OTS.isBefore(Interval22_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 15);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.isAfter(Interval22_5) && OTS.isBefore(Interval37_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 30);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.isAfter(Interval37_5) && OTS.isBefore(Interval52_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 45);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.isAfter(Interval52_5) && OTS.isBefore(Interval60_0)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour() + 1);
+               OTSGC.set(Calendar.MINUTE, 0);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+                      else if(OTS.equals(Interval7_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval22_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval37_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval52_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval60_0)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
                 }
 
             }
@@ -325,195 +320,194 @@ public class Punch{
         //PUNCH OUT
         if ( this.punchType == 0) {
             
-            if ( ots  > shiftEnd && ots < shiftEnd + INTERVAL) { // ClOCK OUT LATE LESS THAN 15 MINS
+            if ( OTS.isAfter(ShiftStop) && OTS.isBefore(ShiftStop.plusMinutes(INTERVAL))) { // ClOCK OUT LATE LESS THAN 15 MINS
                 
-                timeDifference = ots - shiftEnd;
-                ats = ots - timeDifference; 
+                Duration timeDifference = Duration.between(ShiftStop, OTS);
+                ats = ots - timeDifference.toMillis();
                 adjustData = "Shift Stop";
             }
             
-            else if( ots > lunchStart && ots < lunchEnd) { //CLOCK OUT LATE FOR LUNCH
-                
-                ats = lunchStart;
+            else if( OTS.isAfter(ShiftLunchStart) && OTS.isBefore(ShiftLunchStop)) { //CLOCK OUT LATE FOR LUNCH
+               
+                Duration timeDifference = Duration.between(ShiftLunchStart, OTS);
+                ats = ots - timeDifference.toMillis();
                 adjustData = "Lunch Start";
             }
             
-            else if(ots < shiftEnd && ots > shiftEnd - GRACE_PERIOD){ //CLOCK OUT EARLY LESS THAN 5 MINS
-                ats = ots + (shiftEnd - ots);
+            else if(OTS.isBefore(ShiftStop) && OTS.isAfter(ShiftStop.minusMinutes(GRACE_PERIOD))){ //CLOCK OUT EARLY LESS THAN 5 MINS
+               
+                Duration timeDifference = Duration.between(OTS, ShiftStop);
+                ats = ots + timeDifference.toMillis();                        
                 adjustData = "Shift Stop";
             }
             
-            else if((ots < shiftEnd - GRACE_PERIOD && ots > shiftEnd - INTERVAL) || ots == shiftEnd - INTERVAL){ //CLOCK EARLY THAT IS DOCKED
-                ats = shiftEnd - INTERVAL;
+            else if((OTS.isBefore(ShiftStop.minusMinutes(GRACE_PERIOD)) && OTS.isAfter(ShiftStop.minusMinutes(INTERVAL))) || OTS.equals(ShiftStop.minusMinutes(INTERVAL))){ //CLOCK EARLY THAT IS DOCKED
+                
+                Duration timeDifference = Duration.between(OTS, ShiftStop );
+                ats = (ots + timeDifference.toMillis()) - (INTERVAL * CONVERSION_TO_MILIS);
                 adjustData = "Shift Dock";
             }
             
-            else if(ots < lunchStart - GRACE_PERIOD && ots > lunchStart - INTERVAL){
-                ats = lunchStart - INTERVAL;
+            else if(OTS.isBefore(ShiftLunchStart.minusMinutes(GRACE_PERIOD)) && OTS.isAfter(ShiftLunchStart.minusMinutes(INTERVAL))){
+                
+                Duration timeDifference = Duration.between(OTS, ShiftLunchStart);
+                ats = (ots + timeDifference.toMillis()) - (INTERVAL * CONVERSION_TO_MILIS);
                 adjustData = "Lunch Start";
             }
-            else if(OTS.get(Calendar.MINUTE) == 0 || OTS.get(Calendar.MINUTE) == 15 || OTS.get(Calendar.MINUTE) == 30 || OTS.get(Calendar.MINUTE) == 45 ){
-                OTS.set(Calendar.SECOND, 0);
-                ats = OTS.getTimeInMillis();
-                adjustData = "None"; 
-            } 
+            else if(OTS.getMinute() == 0 || (OTS.getMinute()) == 15 || OTS.getMinute() == 30 || OTS.getMinute() == 45){
+                    OTSGC.set(Calendar.SECOND, 0);
+                    ats = OTSGC.getTimeInMillis();
+                    adjustData = "None";
+                }
            else{
-                GregorianCalendar NCCI = new GregorianCalendar();
-                NCCI.setTimeInMillis(ots);
-                
-                if(NCCI.get(Calendar.MINUTE) > 0 && NCCI.get(Calendar.MINUTE) < 15 ){
-                    double minSec = 0;
-                    if(NCCI.get(Calendar.MINUTE) == 7)
-                        if(NCCI.get(Calendar.SECOND) >= 30)
-                            minSec = 7.6;
-             
-                    if(minSec < 7.5){
-                        NCCI.set(Calendar.MINUTE, 0);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                    else{
-                        NCCI.set(Calendar.MINUTE, 15);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                        
-                }
-                
-                else if(NCCI.get(Calendar.MINUTE) > 15 && NCCI.get(Calendar.MINUTE) < 30){
-                    double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                    if(minSec < 22.5){
-                        NCCI.set(Calendar.MINUTE, 15);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                    else{
-                        NCCI.set(Calendar.MINUTE, 30);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                }
-                
-                else if(NCCI.get(Calendar.MINUTE) > 30 && NCCI.get(Calendar.MINUTE) < 45){
-                    double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                    if(minSec < 37.5){
-                        NCCI.set(Calendar.MINUTE, 30);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                    else{
-                        NCCI.set(Calendar.MINUTE, 45);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                }
-                
-                else if(NCCI.get(Calendar.MINUTE) > 45 && NCCI.get(Calendar.MINUTE) <= 59){
-                    double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                    if(minSec < 52.5){
-                        NCCI.set(Calendar.MINUTE, 45);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                    else{
-                        NCCI.set(Calendar.HOUR_OF_DAY, (NCCI.get(Calendar.HOUR_OF_DAY) + 1));
-                        NCCI.set(Calendar.MINUTE, 0);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                }
+           
+                LocalTime Interval0 = LocalTime.of(OTS.getHour(),0,0);
+           LocalTime Interval7_5 = LocalTime.of(OTS.getHour(), 7, 30);
+           LocalTime Interval22_5 = LocalTime.of(OTS.getHour(), 22,30);
+           LocalTime Interval37_5 = LocalTime.of(OTS.getHour(), 37,30);
+           LocalTime Interval52_5 = LocalTime.of(OTS.getHour(), 52,30);
+           LocalTime Interval60_0 = LocalTime.of(OTS.getHour() + 1,0,0);
+           
+           if(OTS.isAfter(Interval0) && OTS.isBefore(Interval7_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 0);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+           }
+           else if(OTS.isAfter(Interval7_5) && OTS.isBefore(Interval22_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 15);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.isAfter(Interval22_5) && OTS.isBefore(Interval37_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 30);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.isAfter(Interval37_5) && OTS.isBefore(Interval52_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 45);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.isAfter(Interval52_5) && OTS.isBefore(Interval60_0)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour() + 1);
+               OTSGC.set(Calendar.MINUTE, 0);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.equals(Interval7_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval22_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval37_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval52_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval60_0)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+               
             }
  
         }
         
         else if(this.punchType == 2){
-            ats = ots - (ots - shiftEnd);
+            ats = ots - (ots - INTERVAL * CONVERSION_TO_MILIS);
             adjustData = "Shift Stop";
         }
         
        }
        else if(isWeekEnd){
-                GregorianCalendar NCCI = new GregorianCalendar();
-                NCCI.setTimeInMillis(ots);
+            
+           LocalTime Interval0 = LocalTime.of(OTS.getHour(),0,0);
+           LocalTime Interval7_5 = LocalTime.of(OTS.getHour(), 7, 30);
+           LocalTime Interval22_5 = LocalTime.of(OTS.getHour(), 22,30);
+           LocalTime Interval37_5 = LocalTime.of(OTS.getHour(), 37,30);
+           LocalTime Interval52_5 = LocalTime.of(OTS.getHour(), 52,30);
+           LocalTime Interval60_0 = LocalTime.of(OTS.getHour() + 1,0,0);
+           
+           if(OTS.isAfter(Interval0) && OTS.isBefore(Interval7_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 0);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+           }
+           else if(OTS.isAfter(Interval7_5) && OTS.isBefore(Interval22_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 15);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.isAfter(Interval22_5) && OTS.isBefore(Interval37_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 30);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.isAfter(Interval37_5) && OTS.isBefore(Interval52_5)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+               OTSGC.set(Calendar.MINUTE, 45);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+           else if(OTS.isAfter(Interval52_5) && OTS.isBefore(Interval60_0)){
+               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour() + 1);
+               OTSGC.set(Calendar.MINUTE, 0);
+               OTSGC.set(Calendar.SECOND, 0);
+               ats = OTSGC.getTimeInMillis();
+               adjustData = "Interval Round";   
+               
+           }
+                      else if(OTS.equals(Interval7_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval22_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval37_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval52_5)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
+           else if(OTS.equals(Interval60_0)){
+               ats = ots;
+               adjustData = "Interval Round";
+           }
                 
-                if(NCCI.get(Calendar.MINUTE) > 0 && NCCI.get(Calendar.MINUTE) < 15 ){
-                    double minSec = 0;
-                    if(NCCI.get(Calendar.MINUTE) == 7)
-                        if(NCCI.get(Calendar.SECOND) >= 30)
-                            minSec = 7.6;
-             
-                    if(minSec < 7.5){
-                        NCCI.set(Calendar.MINUTE, 0);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                    else{
-                        NCCI.set(Calendar.MINUTE, 15);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                        
-                }
-                
-                else if(NCCI.get(Calendar.MINUTE) > 15 && NCCI.get(Calendar.MINUTE) < 30){
-                    double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                    if(minSec < 22.5){
-                        NCCI.set(Calendar.MINUTE, 15);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                    else{
-                        NCCI.set(Calendar.MINUTE, 30);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                }
-                
-                else if(NCCI.get(Calendar.MINUTE) > 30 && NCCI.get(Calendar.MINUTE) < 45){
-                    double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                    if(minSec < 37.5){
-                        NCCI.set(Calendar.MINUTE, 30);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                    else{
-                        NCCI.set(Calendar.MINUTE, 45);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                }
-                
-                else if(NCCI.get(Calendar.MINUTE) > 45 && NCCI.get(Calendar.MINUTE) <= 59){
-                    double minSec = NCCI.get(Calendar.MINUTE) + (NCCI.get(Calendar.SECOND) /60);
-                    if(minSec < 52.5){
-                        NCCI.set(Calendar.MINUTE, 45);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                    else{
-                        NCCI.set(Calendar.HOUR_OF_DAY, (NCCI.get(Calendar.HOUR_OF_DAY) + 1));
-                        NCCI.set(Calendar.MINUTE, 0);
-                        NCCI.set(Calendar.SECOND, 0);
-                        ats = NCCI.getTimeInMillis();
-                        adjustData = "Interval Round";
-                    }
-                }
-            }
+       }
        
     }
 
@@ -648,6 +642,19 @@ public class Punch{
 
     public void setGreg(GregorianCalendar greg) {
         this.greg = greg;
+    }
+    
+    public String toSrting(){
+        
+        StringBuilder output = new StringBuilder();
+        output.append("Type : " + this.punchType);
+        output.append(" ID: " + this.punchID);
+        output.append(" Badge: " + this.Badge);
+        output.append(" OTS: " + this.ots);
+        output.append(" ATS " + this.ats);
+        output.append("  adjustData: " + this.adjustData);
+        
+        return output.toString();
     }
     
         
