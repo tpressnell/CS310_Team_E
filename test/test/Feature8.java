@@ -232,6 +232,7 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p4, s);
         Absenteeism a4 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        System.out.println("testTemporaryOverrideIndividualEmployee 09-16-2018");
         s.printWorkSchedule();
         assertEquals("#0FFA272B (Pay Period Starting 09-16-2018): 55.00%", a4.toString());
     }
