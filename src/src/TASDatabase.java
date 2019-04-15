@@ -285,14 +285,24 @@ public class TASDatabase {
             Timestamp garryTS = new Timestamp(garry.getTimeInMillis());
             
             // QUERY 4
-            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND start <= ? <= end";
+            
+            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND start <= ?";
             pstSelect = conn.prepareStatement(query);
-            pstSelect.setString(1, b.getId());
-            pstSelect.setTimestamp(2, garryTS);
+            pstSelect.setTimestamp(1, garryTS);
             selects.add(pstSelect);
+           
             
             
             // QUERY 5
+            
+            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND start <= ? <= end";
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.setTimestamp(1, garryTS);
+            selects.add(pstSelect);
+            
+            
+            
+            //QUERY 6
             
             query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND start <= ?";
             pstSelect = conn.prepareStatement(query);
@@ -301,18 +311,12 @@ public class TASDatabase {
             selects.add(pstSelect);
             
             
-            //QUERY 6
-            
-            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND start <= ? <= end";
-            pstSelect = conn.prepareStatement(query);
-            pstSelect.setTimestamp(1, garryTS);
-            selects.add(pstSelect);
-            
             // QUERY 7
             
-            query = "SELECT * FROM scheduleoverride WHERE badgeid is null AND start <= ?";
+            query = "SELECT * FROM scheduleoverride WHERE badgeid = ? AND start <= ? <= end";
             pstSelect = conn.prepareStatement(query);
-            pstSelect.setTimestamp(1, garryTS);
+            pstSelect.setString(1, b.getId());
+            pstSelect.setTimestamp(2, garryTS);
             selects.add(pstSelect);
             
             
