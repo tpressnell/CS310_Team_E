@@ -53,6 +53,7 @@ public class Feature8 {
         double percentage = TASLogic.calculateAbsenteeism(p1, s);
         Absenteeism a1 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#D2CC71D4 (Pay Period Starting 08-26-2018): -17.50%", a1.toString());
         
         /* PART TWO */
@@ -79,8 +80,8 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p2, s);
         Absenteeism a2 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#D2CC71D4 (Pay Period Starting 09-02-2018): -29.69%", a2.toString());
-        
         /* PART THREE */
         
         /* Get Shift Object for Pay Period Starting 09-09-2018 (regular Shift 1 schedule) */
@@ -105,8 +106,8 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p3, s);
         Absenteeism a3 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#D2CC71D4 (Pay Period Starting 09-09-2018): -4.38%", a3.toString());
-        
     }
     
     @Test
@@ -145,8 +146,8 @@ public class Feature8 {
         double percentage = TASLogic.calculateAbsenteeism(p1, s);
         Absenteeism a1 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#0FFA272B (Pay Period Starting 09-02-2018): 28.12%", a1.toString());
-        
         /* PART TWO */
         
         /* Get Shift Object for Pay Period Starting 09-09-2018 (should include temporary "Wednesday Off" override) */
@@ -171,8 +172,8 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p2, s);
         Absenteeism a2 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#0FFA272B (Pay Period Starting 09-09-2018): -0.78%", a2.toString());
-        
         /* PART THREE */
         
         /* Get Shift Object for Pay Period Starting 09-09-2018 (should NOT include temporary "Wednesday Off" override) */
@@ -199,8 +200,8 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p3, s);
         Absenteeism a3 = new Absenteeism(b2.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#76B87761 (Pay Period Starting 09-09-2018): 15.00%", a3.toString());
-        
         /* PART FOUR */
         
         /* Get Shift Object for Pay Period Starting 09-16-2018 (regular Shift 1 schedule) */
@@ -225,8 +226,8 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p4, s);
         Absenteeism a4 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#0FFA272B (Pay Period Starting 09-16-2018): 55.00%", a4.toString());
-        
     }
     
     @Test
@@ -265,6 +266,7 @@ public class Feature8 {
         double percentage = TASLogic.calculateAbsenteeism(p1, s);
         Absenteeism a1 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#3282F212 (Pay Period Starting 09-09-2018): -23.75%", a1.toString());
         
         /* PART TWO */
@@ -291,6 +293,7 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p2, s);
         Absenteeism a2 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#3282F212 (Pay Period Starting 09-16-2018): -42.31%", a2.toString());
         
         /* PART THREE */
@@ -317,6 +320,7 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p3, s);
         Absenteeism a3 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        s.printWorkSchedule();
         assertEquals("#3282F212 (Pay Period Starting 09-23-2018): -39.74%", a3.toString());
         
     }
