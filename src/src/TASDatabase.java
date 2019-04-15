@@ -221,6 +221,8 @@ public class TASDatabase {
     public Shift getShift( Badge b, long ts) {
         
         GregorianCalendar garry = TASLogic.makeCal(ts);
+        GregorianCalendar startTimeCal = new GregorianCalendar();
+        GregorianCalendar endTimeCal = new GregorianCalendar();
         ArrayList<PreparedStatement> selects = new ArrayList<>();
         
         try {
@@ -321,11 +323,19 @@ public class TASDatabase {
                 
                 while(resultset.next()) {
                     String originalTimestamp = new SimpleDateFormat("yyyy-MM-dd").format(garry.getTimeInMillis());
-     
+                    
+                    Timestamp tsStart = resultset.getTimestamp(2);
+                    Timestamp tsEnd = resultset.getTimestamp(3);
+                    long startTime = tsStart.getTime();
+                    long endTime = tsEnd.getTime();
+                    startTimeCal.setTimeInMillis(startTime);
+                    endTimeCal.setTimeInMillis(endTime);
                     int day = resultset.getInt(5);
                     int newDailyScheduleId = resultset.getInt(6);
 
-                    if(resultset.getString(2).contains(originalTimestamp)){
+                    if(resultset.getString(2).contains(originalTimestamp) || 
+                            (resultset.getString(4).equals(b.getId()) && ((garry.equals(startTimeCal))
+                            || (garry.after(startTimeCal) && garry.before(endTimeCal))))){
                     
                         query = "SELECT * FROM dailyschedule WHERE id = ?";
                         pstSelect = conn.prepareStatement(query);
