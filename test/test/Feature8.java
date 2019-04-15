@@ -53,6 +53,7 @@ public class Feature8 {
         double percentage = TASLogic.calculateAbsenteeism(p1, s);
         Absenteeism a1 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        System.out.println("testTemporaryOverrideAllEmployees 08-26-2018");
         s.printWorkSchedule();
         assertEquals("#D2CC71D4 (Pay Period Starting 08-26-2018): -17.50%", a1.toString());
         
@@ -80,6 +81,7 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p2, s);
         Absenteeism a2 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        System.out.println("testTemporaryOverrideAllEmployees 09-02-2018");
         s.printWorkSchedule();
         assertEquals("#D2CC71D4 (Pay Period Starting 09-02-2018): -29.69%", a2.toString());
         /* PART THREE */
@@ -106,6 +108,7 @@ public class Feature8 {
         percentage = TASLogic.calculateAbsenteeism(p3, s);
         Absenteeism a3 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
+        System.out.println("testTemporaryOverrideAllEmployees 09-09-2018");
         s.printWorkSchedule();
         assertEquals("#D2CC71D4 (Pay Period Starting 09-09-2018): -4.38%", a3.toString());
     }
@@ -146,8 +149,8 @@ public class Feature8 {
         double percentage = TASLogic.calculateAbsenteeism(p1, s);
         Absenteeism a1 = new Absenteeism(b.getId(), gc.getTimeInMillis(), percentage);
         
-        s.printWorkSchedule();
         System.out.println("testTemporaryOverrideIndividualEmployee 09-02-2018");
+        s.printWorkSchedule();
         assertEquals("#0FFA272B (Pay Period Starting 09-02-2018): 28.12%", a1.toString());
         /* PART TWO */
         
