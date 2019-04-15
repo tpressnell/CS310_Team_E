@@ -11,8 +11,7 @@ import org.json.simple.JSONValue;
 public class TASLogic {
     
     public static int calculateTotalMinutes(ArrayList<Punch> dailyPunchList, Shift shift){
-        System.out.println(dailyPunchList.get(0).toSrting());
-        System.out.println(dailyPunchList.get(1).toSrting());
+
         int minutes  = -1;
         final int LUNCH_DEDUCT = 360;
         final int CONVERT_TO_MINUTES = 60000;
@@ -170,7 +169,7 @@ public class TASLogic {
            }
            if(!dayOfPunches.isEmpty())
                 dailyPunchLists.add(dayOfPunches);
-            System.out.println(dayOfPunches.toString());
+            
        }
        
        for(int i = 0; i < dailyPunchLists.size(); i++){ //Loop through Complete dailyPunchLists and Calc total AccuredTime and totalShiftTime
