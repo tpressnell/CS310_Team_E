@@ -230,7 +230,7 @@ public class TASDatabase {
         try{
         ArrayList<Punch> punches = new ArrayList<>();
         String originalTimeStamp = new SimpleDateFormat("yyyy-MM-dd").format(ts);
-        query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "'" ;
+        query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "' ORDER BY originaltimestamp"  ;
         pstSelect = conn.prepareStatement(query);
         pstSelect.execute();
         resultset = pstSelect.getResultSet();
@@ -287,7 +287,7 @@ public class TASDatabase {
                 String day = new SimpleDateFormat("yyyy-MM-dd").format(g.getTimeInMillis());
                 
 
-                query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "'" ;
+                query = "SELECT * FROM punch WHERE badgeid = '" + b.getId() + "' ORDER BY originaltimestamp" ;
                 pstSelect = conn.prepareStatement(query);
                 pstSelect.execute();
                 resultset = pstSelect.getResultSet();
