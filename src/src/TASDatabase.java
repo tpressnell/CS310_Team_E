@@ -23,8 +23,8 @@ public class TASDatabase {
 
 
         String server = ("jdbc:mysql://localhost/tas");
-        String username = "root";
-        String password = "CS310";
+        String username = "TeamE";
+        String password = "TeamE123!";
         System.out.println("Connecting to " + server + "...");
 
         Class.forName("com.mysql.jdbc.Driver").newInstance();
