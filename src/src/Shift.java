@@ -21,19 +21,27 @@ public class Shift {
         this.defaultSchedule = defaultSchedule;    
         this.numOfDaysInShift = 5;
         this.workSchedule = new HashMap<>();
-        for(int i = 1; i < 8; i++){
-            //if(i != 1 || i != 7){
+        for(int i = Calendar.MONDAY; i < Calendar.SATURDAY; i++){
+            
                 workSchedule.put(i, defaultSchedule);
-            //}
+            
         }
     }
     
-    public void setOverride(DailySchedule override, int dayOfWeek){
-        workSchedule.put(dayOfWeek, override);
+    public boolean setOverride(DailySchedule override, int dayOfWeek){
+        if(dayOfWeek > Calendar.SUNDAY && dayOfWeek < Calendar.SATURDAY){
+            workSchedule.replace(dayOfWeek, override);
+            return true;
+        }
+ 
+        return false;
     }
     
     public DailySchedule getDailySchdedule(int dayOfWeek){
-        return workSchedule.get(dayOfWeek);
+        if(dayOfWeek > 1 && dayOfWeek < 7){
+            return workSchedule.get(dayOfWeek);
+        }
+        return defaultSchedule;
     }
     
     public int getShiftStartHour(){
@@ -43,10 +51,17 @@ public class Shift {
     }
     
     public int getShiftStartHour(int day){
-        DailySchedule DS = workSchedule.get(day);
-        GregorianCalendar g = new GregorianCalendar();
-        g.setTimeInMillis(DS.getStart());
-        return g.get(Calendar.HOUR_OF_DAY);
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            GregorianCalendar g = new GregorianCalendar();
+            g.setTimeInMillis(DS.getStart());
+            return g.get(Calendar.HOUR_OF_DAY);
+        }
+       
+            GregorianCalendar g = new GregorianCalendar();
+            g.setTimeInMillis(defaultSchedule.getStart());
+            return g.get(Calendar.HOUR_OF_DAY);
+        
     }
     
     public int getShiftLength() {
@@ -61,15 +76,19 @@ public class Shift {
     }
     
     public int getShiftLength(int day){
-        DailySchedule DS = workSchedule.get(day);
-        long shiftLengthInMillis = 0;
-        int shiftLengthInMinutes = 0;
-        final int CONVERSION_TO_MINUTES = 60000;
-        
-        shiftLengthInMillis = (DS.getStop() - DS.getStart());
-        shiftLengthInMinutes = (int) shiftLengthInMillis / CONVERSION_TO_MINUTES;
-        
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            long shiftLengthInMillis = 0;
+            int shiftLengthInMinutes = 0;
+            final int CONVERSION_TO_MINUTES = 60000;
+
+            shiftLengthInMillis = (DS.getStop() - DS.getStart());
+            shiftLengthInMinutes = (int) shiftLengthInMillis / CONVERSION_TO_MINUTES;
+
        return shiftLengthInMinutes; 
+       }
+       return this.getShiftLength();
+        
         
     }
     
@@ -94,15 +113,18 @@ public class Shift {
     }
     
     public int getLunchLength(int day){
-        DailySchedule DS = workSchedule.get(day);
-        long lunchLengthInMillis = 0;
-        int lunchLengthInMinutes = 0;
-        final int CONVERSION_TO_MINUTES = 60000;
-        
-        lunchLengthInMillis = (DS.getLunch_stop() - DS.getLunch_start());
-        lunchLengthInMinutes = (int) lunchLengthInMillis / CONVERSION_TO_MINUTES;
-        
-        return lunchLengthInMinutes;
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            long lunchLengthInMillis = 0;
+            int lunchLengthInMinutes = 0;
+            final int CONVERSION_TO_MINUTES = 60000;
+
+            lunchLengthInMillis = (DS.getLunch_stop() - DS.getLunch_start());
+            lunchLengthInMinutes = (int) lunchLengthInMillis / CONVERSION_TO_MINUTES;
+
+            return lunchLengthInMinutes;
+        }
+        return this.getLunchLength();
     }
 
     public long getStart_Time() {
@@ -110,17 +132,25 @@ public class Shift {
     }
     
     public long getStart_Time(int day){
-        DailySchedule DS = workSchedule.get(day);
-        return DS.getStart();
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            return DS.getStart();
+        }
+        return this.getStart_Time();
     }
 
     public void setStart_Time(long start_time) {
         this.defaultSchedule.setStart(start_time);
     }
+    
     public void setStart_Time(long start_time, int day){
-        DailySchedule DS = workSchedule.get(day);
-        DS.setStart(start_time);
-        workSchedule.put(day, DS);
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            DS.setStart(start_time);
+            workSchedule.put(day, DS);
+        }
+        this.setStart_Time(start_time);
+        
     }
 
     public long getStop_Time() {
@@ -128,8 +158,11 @@ public class Shift {
     }
     
     public long getStop_Time(int day){
-        DailySchedule DS = workSchedule.get(day);
-        return DS.getStop();    
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            return DS.getStop();  
+        }
+        return this.getStop_Time();
     }
 
     public void setStop_Time(long Stop_time) {
@@ -138,9 +171,13 @@ public class Shift {
     }
     
     public void setStop_Time(long stop_time, int day){
-        DailySchedule DS = workSchedule.get(day);
-        DS.setStop(stop_time);
-        workSchedule.put(day, DS);
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            DS.setStop(stop_time);
+            workSchedule.put(day, DS);
+        }
+        this.setStop_Time(stop_time);
+        
     }
     
     public int getID(){
@@ -156,8 +193,11 @@ public class Shift {
     }
     
     public long getLunch_Start(int day){
-        DailySchedule DS = workSchedule.get(day);
-        return DS.getLunch_start();
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            return DS.getLunch_start();
+        }
+        return this.getLunch_Start();
     }
     
     public void setLunch_Start(long newLunch_start){
@@ -165,9 +205,12 @@ public class Shift {
     }
     
     public void setLunch_Start(long lunch_start, int day){
-        DailySchedule DS = workSchedule.get(day);
-        DS.setLunch_start(lunch_start);
-        workSchedule.put(day, DS);
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            DS.setLunch_start(lunch_start);
+            workSchedule.put(day, DS);
+        }
+        this.setLunch_Start(lunch_start);
     }
     
     public long getLunch_Stop(){
@@ -175,8 +218,11 @@ public class Shift {
     }
     
     public long getLunch_Stop(int day){
-        DailySchedule DS = workSchedule.get(day);
-        return DS.getLunch_stop();
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            return DS.getLunch_stop();
+        }
+        return this.getLunch_Stop();
     }
     
     public void setLunch_Stop(long newLunch_stop){
@@ -184,9 +230,12 @@ public class Shift {
     }
     
     public void setLunch_Stop(long lunch_stop, int day){
-        DailySchedule DS = workSchedule.get(day);
-        DS.setLunch_stop(lunch_stop);
-        workSchedule.put(day, DS);
+        if(day > Calendar.SUNDAY && day < Calendar.SATURDAY){
+            DailySchedule DS = workSchedule.get(day);
+            DS.setLunch_stop(lunch_stop);
+            workSchedule.put(day, DS);
+        }
+        this.setLunch_Stop(lunch_stop);
     }
     
     public int getNumOfDaysInShift(){
@@ -197,9 +246,8 @@ public class Shift {
     }
     
     public void printWorkSchedule(){
-        for(int i = 1 ; i < 8; i++){
-            System.out.println(workSchedule.get(i).getStart());
-        }
+        for(int i = Calendar.MONDAY ; i < Calendar.SATURDAY; i++)
+            System.out.println("Start: " + workSchedule.get(i).getStart() + " Stop: " + workSchedule.get(i).getStop());
     }
     
     

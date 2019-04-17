@@ -32,6 +32,7 @@ public class TASLogic {
                 if(p.getPunchType() == CLOCK_OUT){
                     minutes += (int)(p.getATS() - previousPunch.getATS());
                     minutes = minutes / CONVERT_TO_MINUTES;
+                    
                 }
             }
         }
@@ -83,10 +84,13 @@ public class TASLogic {
            for(int j = 0 ; j < punchlist.size(); j++){
                if(punchlist.get(j).getDayOfWeek() == i)
                    dayOfPunches.add(punchlist.get(j));
-               
            }
+           System.out.println(dayOfPunches);
            if(!dayOfPunches.isEmpty())
                 dailyPunchLists.add(dayOfPunches);
+            for(int k = 0; k < dayOfPunches.size(); k ++){
+                System.out.println(dayOfPunches.get(k).toSrting());
+            }    
             
        }
        
