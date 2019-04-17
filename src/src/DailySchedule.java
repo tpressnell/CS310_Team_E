@@ -97,5 +97,12 @@ public class DailySchedule {
         this.lunchDeduct = lunchDeduct;
     }
     
+    @Override
+    public String toString(){
+        StringBuilder output = new StringBuilder();
+        output.append("Start: " + this.getStart());
+        return output.toString();
+    }
+    
     
 }

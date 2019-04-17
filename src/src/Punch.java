@@ -170,6 +170,7 @@ public class Punch{
         LocalTime ShiftStop = LocalTime.parse(parsedStopTime,formatter);
         
         
+        
         long lunchStartinMilis = s.getLunch_Start(dayOfWeek);
         String parsedLunchStartTime = new SimpleDateFormat("HH:mm:ss").format(lunchStartinMilis);
         LocalTime ShiftLunchStart = LocalTime.parse(parsedLunchStartTime,formatter);
@@ -247,72 +248,87 @@ public class Punch{
                 }
 
                 else{
+                    
                     LocalTime Interval0 = LocalTime.of(OTS.getHour(),0,0);
-           LocalTime Interval7_5 = LocalTime.of(OTS.getHour(), 7, 30);
-           LocalTime Interval22_5 = LocalTime.of(OTS.getHour(), 22,30);
-           LocalTime Interval37_5 = LocalTime.of(OTS.getHour(), 37,30);
-           LocalTime Interval52_5 = LocalTime.of(OTS.getHour(), 52,30);
-           LocalTime Interval60_0 = LocalTime.of(OTS.getHour() + 1,0,0);
-           
-           if(OTS.isAfter(Interval0) && OTS.isBefore(Interval7_5)){
-               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
-               OTSGC.set(Calendar.MINUTE, 0);
-               OTSGC.set(Calendar.SECOND, 0);
-               ats = OTSGC.getTimeInMillis();
-               adjustData = "Interval Round";   
-           }
-           else if(OTS.isAfter(Interval7_5) && OTS.isBefore(Interval22_5)){
-               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
-               OTSGC.set(Calendar.MINUTE, 15);
-               OTSGC.set(Calendar.SECOND, 0);
-               ats = OTSGC.getTimeInMillis();
-               adjustData = "Interval Round";   
-               
-           }
-           else if(OTS.isAfter(Interval22_5) && OTS.isBefore(Interval37_5)){
-               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
-               OTSGC.set(Calendar.MINUTE, 30);
-               OTSGC.set(Calendar.SECOND, 0);
-               ats = OTSGC.getTimeInMillis();
-               adjustData = "Interval Round";   
-               
-           }
-           else if(OTS.isAfter(Interval37_5) && OTS.isBefore(Interval52_5)){
-               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
-               OTSGC.set(Calendar.MINUTE, 45);
-               OTSGC.set(Calendar.SECOND, 0);
-               ats = OTSGC.getTimeInMillis();
-               adjustData = "Interval Round";   
-               
-           }
-           else if(OTS.isAfter(Interval52_5) && OTS.isBefore(Interval60_0)){
-               OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour() + 1);
-               OTSGC.set(Calendar.MINUTE, 0);
-               OTSGC.set(Calendar.SECOND, 0);
-               ats = OTSGC.getTimeInMillis();
-               adjustData = "Interval Round";   
-               
-           }
-                      else if(OTS.equals(Interval7_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval22_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval37_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval52_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval60_0)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
+                    LocalTime Interval7_5 = LocalTime.of(OTS.getHour(), 7, 30);
+                    LocalTime Interval22_5 = LocalTime.of(OTS.getHour(), 22,30);
+                    LocalTime Interval37_5 = LocalTime.of(OTS.getHour(), 37,30);
+                    LocalTime Interval52_5 = LocalTime.of(OTS.getHour(), 52,30);
+                    LocalTime Interval60_0 = LocalTime.of(OTS.getHour() + 1,0,0);
+
+                    if(OTS.isAfter(Interval0) && OTS.isBefore(Interval7_5)){
+                        OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                        OTSGC.set(Calendar.MINUTE, 0);
+                        OTSGC.set(Calendar.SECOND, 0);
+                        ats = OTSGC.getTimeInMillis();
+                        adjustData = "Interval Round";   
+                    }
+                    else if(OTS.isAfter(Interval7_5) && OTS.isBefore(Interval22_5)){
+                        OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                        OTSGC.set(Calendar.MINUTE, 15);
+                        OTSGC.set(Calendar.SECOND, 0);
+                        ats = OTSGC.getTimeInMillis();
+                        adjustData = "Interval Round";   
+
+                    }
+                    else if(OTS.isAfter(Interval22_5) && OTS.isBefore(Interval37_5)){
+                        OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                        OTSGC.set(Calendar.MINUTE, 30);
+                        OTSGC.set(Calendar.SECOND, 0);
+                        ats = OTSGC.getTimeInMillis();
+                        adjustData = "Interval Round";   
+
+                    }
+                    else if(OTS.isAfter(Interval37_5) && OTS.isBefore(Interval52_5)){
+                        OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                        OTSGC.set(Calendar.MINUTE, 45);
+                        OTSGC.set(Calendar.SECOND, 0);
+                        ats = OTSGC.getTimeInMillis();
+                        adjustData = "Interval Round";   
+
+                    }
+                    else if(OTS.isAfter(Interval52_5) && OTS.isBefore(Interval60_0)){
+                        OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour() + 1);
+                        OTSGC.set(Calendar.MINUTE, 0);
+                        OTSGC.set(Calendar.SECOND, 0);
+                        ats = OTSGC.getTimeInMillis();
+                        adjustData = "Interval Round";   
+
+                    }
+                    
+                    else if(OTS.equals(Interval7_5)){
+                       OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                       OTSGC.set(Calendar.MINUTE, 15);
+                       OTSGC.set(Calendar.SECOND, 0);
+                       ats = OTSGC.getTimeInMillis();
+                       adjustData = "Interval Round";
+                   }
+                    else if(OTS.equals(Interval22_5)){
+                       OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                       OTSGC.set(Calendar.MINUTE, 30);
+                       OTSGC.set(Calendar.SECOND, 0);
+                       ats = OTSGC.getTimeInMillis();
+                       adjustData = "Interval Round";
+                   }
+                    else if(OTS.equals(Interval37_5)){
+                       OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                       OTSGC.set(Calendar.MINUTE, 45);
+                       OTSGC.set(Calendar.SECOND, 0);
+                       ats = OTSGC.getTimeInMillis();
+                       adjustData = "Interval Round";
+                   }
+                    else if(OTS.equals(Interval52_5)){
+                       OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour() + 1);
+                       OTSGC.set(Calendar.MINUTE, 0);
+                       OTSGC.set(Calendar.SECOND, 0);
+                       ats = OTSGC.getTimeInMillis();
+                       adjustData = "Interval Round";
+                   }
+                    else if(OTS.equals(Interval60_0)){
+                       ats = ots;
+                       adjustData = "Interval Round";
+                   }
+
                 }
 
             }
@@ -408,25 +424,37 @@ public class Punch{
                
            }
            else if(OTS.equals(Interval7_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval22_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval37_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval52_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval60_0)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
+                OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                OTSGC.set(Calendar.MINUTE, 15);
+                OTSGC.set(Calendar.SECOND, 0);
+                ats = OTSGC.getTimeInMillis();
+                adjustData = "Interval Round";
+            }
+             else if(OTS.equals(Interval22_5)){
+                OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                OTSGC.set(Calendar.MINUTE, 30);
+                OTSGC.set(Calendar.SECOND, 0);
+                ats = OTSGC.getTimeInMillis();
+                adjustData = "Interval Round";
+            }
+             else if(OTS.equals(Interval37_5)){
+                OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                OTSGC.set(Calendar.MINUTE, 45);
+                OTSGC.set(Calendar.SECOND, 0);
+                ats = OTSGC.getTimeInMillis();
+                adjustData = "Interval Round";
+            }
+             else if(OTS.equals(Interval52_5)){
+                OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour() + 1);
+                OTSGC.set(Calendar.MINUTE, 0);
+                OTSGC.set(Calendar.SECOND, 0);
+                ats = OTSGC.getTimeInMillis();
+                adjustData = "Interval Round";
+            }
+             else if(OTS.equals(Interval60_0)){
+                ats = ots;
+                adjustData = "Interval Round";
+            }
                
             }
  
@@ -486,26 +514,38 @@ public class Punch{
                adjustData = "Interval Round";   
                
            }
-                      else if(OTS.equals(Interval7_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval22_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval37_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval52_5)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
-           else if(OTS.equals(Interval60_0)){
-               ats = ots;
-               adjustData = "Interval Round";
-           }
+            else if(OTS.equals(Interval7_5)){
+                OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                OTSGC.set(Calendar.MINUTE, 15);
+                OTSGC.set(Calendar.SECOND, 0);
+                ats = OTSGC.getTimeInMillis();
+                adjustData = "Interval Round";
+            }
+             else if(OTS.equals(Interval22_5)){
+                OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                OTSGC.set(Calendar.MINUTE, 30);
+                OTSGC.set(Calendar.SECOND, 0);
+                ats = OTSGC.getTimeInMillis();
+                adjustData = "Interval Round";
+            }
+             else if(OTS.equals(Interval37_5)){
+                OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour());
+                OTSGC.set(Calendar.MINUTE, 45);
+                OTSGC.set(Calendar.SECOND, 0);
+                ats = OTSGC.getTimeInMillis();
+                adjustData = "Interval Round";
+            }
+             else if(OTS.equals(Interval52_5)){
+                OTSGC.set(Calendar.HOUR_OF_DAY, OTS.getHour() + 1);
+                OTSGC.set(Calendar.MINUTE, 0);
+                OTSGC.set(Calendar.SECOND, 0);
+                ats = OTSGC.getTimeInMillis();
+                adjustData = "Interval Round";
+            }
+             else if(OTS.equals(Interval60_0)){
+                ats = ots;
+                adjustData = "Interval Round";
+            }
                 
        }
        
@@ -646,12 +686,17 @@ public class Punch{
     
     public String toSrting(){
         
+        
+        
+        String OTS = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(ots);
+        String ATS = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(ats);
+        
         StringBuilder output = new StringBuilder();
         output.append("Type : " + this.punchType);
         output.append(" ID: " + this.punchID);
         output.append(" Badge: " + this.Badge);
-        output.append(" OTS: " + this.ots);
-        output.append(" ATS " + this.ats);
+        output.append(" OTS: " + OTS);
+        output.append(" ATS " + ATS);
         output.append("  adjustData: " + this.adjustData);
         
         return output.toString();
